@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project;
+package edu.gatech.cs2340.cs2340project.controller;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.gatech.cs2340.cs2340project.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
