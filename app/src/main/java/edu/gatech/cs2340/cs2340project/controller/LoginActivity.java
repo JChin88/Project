@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 }
 
-boolean ihatejave = true;
+
 //
 //    /**
 //     * Id to identity READ_CONTACTS permission request.
