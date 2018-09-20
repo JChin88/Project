@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-
+//TODO update to scan a list of user data for correct information
     private boolean loginMatch(User currentUser) {
         if (currentUser.getID().equals("user") && currentUser.getPassword().equals("password")) {
             return true;
@@ -103,7 +103,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 }
 
-boolean ihatejave = true;
 //
 //    /**
 //     * Id to identity READ_CONTACTS permission request.
