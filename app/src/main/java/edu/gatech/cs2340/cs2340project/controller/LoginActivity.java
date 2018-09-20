@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.gatech.cs2340.cs2340project.R;
+import edu.gatech.cs2340.cs2340project.Welcome;
 import edu.gatech.cs2340.cs2340project.model.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -40,7 +42,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity{
+//public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -66,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-       // populateAutoComplete();
+        // populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -93,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-//TODO update to scan a list of user data for correct information
+    //TODO update to scan a list of user data for correct information
     private boolean loginMatch(User currentUser) {
         if (currentUser.getID().equals("user") && currentUser.getPassword().equals("password")) {
             return true;
@@ -101,8 +104,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return false;
     }
 
+    /**
+     * Button for cancel - go back to the welcome screen
+     *
+     * @param view
+     */
+    public void onCancelPress(View view) {
+        Intent moveBackToWelcome = new Intent(LoginActivity.this, Welcome.class);
+        LoginActivity.this.startActivity(moveBackToWelcome);
+    }
 }
-
 //
 //    /**
 //     * Id to identity READ_CONTACTS permission request.
