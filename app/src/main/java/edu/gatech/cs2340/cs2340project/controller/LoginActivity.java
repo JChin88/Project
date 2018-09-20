@@ -92,6 +92,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
+
+
+    private boolean loginMatch(User currentUser) {
+        if (currentUser.getID().equals("user") && currentUser.getPassword().equals("password")) {
+            return true;
+        }
+        return false;
+    }
+
 }
 //
 //    /**
