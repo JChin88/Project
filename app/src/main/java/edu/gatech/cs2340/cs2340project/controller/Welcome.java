@@ -1,11 +1,11 @@
-package edu.gatech.cs2340.cs2340project;
+package edu.gatech.cs2340.cs2340project.controller;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import edu.gatech.cs2340.cs2340project.controller.LoginActivity;
+import edu.gatech.cs2340.cs2340project.R;
 
 public class Welcome extends AppCompatActivity {
 
