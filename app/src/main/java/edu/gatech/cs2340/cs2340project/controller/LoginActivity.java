@@ -65,7 +65,13 @@ public class LoginActivity extends AppCompatActivity{
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                attemptLogin();
+                String id = mEmailView.getText().toString();
+                String password = mPasswordView.getText().toString();
+                User login = new User(id, password);
+                if(loginMatch(login)) {
+                    Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
+                    LoginActivity.this.startActivity(moveToApplication);
+                }
             }
         });
 
@@ -92,17 +98,17 @@ public class LoginActivity extends AppCompatActivity{
         LoginActivity.this.startActivity(moveBackToWelcome);
     }
 
-    public void onSignInPress(View view) {
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        String id = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        User login = new User(id, password);
-        if(loginMatch(login)) {
-            Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
-            LoginActivity.this.startActivity(moveToApplication);
-        }
-    }
+//    public void onSignInPress(View view) {
+////        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+////        mPasswordView = (EditText) findViewById(R.id.password);
+//        String id = mEmailView.getText().toString();
+//        String password = mPasswordView.getText().toString();
+//        User login = new User(id, password);
+//        if(loginMatch(login)) {
+//            Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
+//            LoginActivity.this.startActivity(moveToApplication);
+//        }
+//    }
 }
 //
 //    /**
