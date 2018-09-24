@@ -14,4 +14,9 @@ public class ApplicationActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
     }
+
+    public void onLogoutPress(View view) {
+        Intent moveToLogout = new Intent(ApplicationActivity.this, Welcome.class);
+        ApplicationActivity.this.startActivity(moveToLogout);
+    }
 }
