@@ -10,6 +10,7 @@ public class User {
     protected String _password;
     protected String _email;
     protected AccountType _userType;
+    protected boolean _isUserLock = false;
 
 
     public User(String id, String password, String email, AccountType userType) {
@@ -41,6 +42,13 @@ public class User {
     public AccountType getUserType() { return _userType;}
     protected void setUserType(AccountType userTyle) {
         _userType = userTyle;
+    }
+
+    public boolean isUserLock() {
+        return _isUserLock;
+    }
+    protected boolean setUserState(boolean state) {
+        _isUserLock = state;
     }
 
 }
