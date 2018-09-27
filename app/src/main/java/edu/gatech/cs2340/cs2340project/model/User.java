@@ -1,20 +1,46 @@
 package edu.gatech.cs2340.cs2340project.model;
 
 public class User {
-    private String id;
-    private String password;
 
-    public User(String id, String password) {
-        this.id = id;
-        this.password = password;
+    enum AccountType {
+        User, Admin, Manager
+    }
+
+    protected String _id;
+    protected String _password;
+    protected String _email;
+    protected AccountType _userType;
+
+
+    public User(String id, String password, String email, AccountType userType) {
+        _id = id;
+        _password = password;
+        _email = email;
+        _userType = userType;
     }
 
     public User() {
-        this("user", "password");
+        this("user", "password", "user@gatech.edu", AccountType.User);
     }
 
-    public String getID() {return this.id;}
-    public String getPassword() {return this.password;}
+    public String getID() {return _id;}
 
+    //
+    public String getPassword() {return _password;}
+    protected void setPassword(String password) {
+        _password = password;
+    }
+
+    //User Email
+    public String getEmail() { return _email;}
+    protected void setEmail(String email) {
+        _email = email;
+    }
+
+    //
+    public AccountType getUserType() { return _userType;}
+    protected void setUserType(AccountType userTyle) {
+        _userType = userTyle;
+    }
 
 }
