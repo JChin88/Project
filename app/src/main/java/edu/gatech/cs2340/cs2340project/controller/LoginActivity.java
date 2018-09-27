@@ -68,14 +68,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String id = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                User login = new User(id, password);
-                if (loginMatch(login)) {
-                    Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
-                    LoginActivity.this.startActivity(moveToApplication);
-                } else {
-                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 3);
-                    invalidLogin.show();
-                }
+//                User login = new User(id, password);
+//                if (loginMatch(login)) {
+//                    Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
+//                    LoginActivity.this.startActivity(moveToApplication);
+//                } else {
+//                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 3);
+//                    invalidLogin.show();
+//                }
             }
         });
 

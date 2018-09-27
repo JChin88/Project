@@ -29,7 +29,7 @@ public class Welcome extends AppCompatActivity {
      * @param view
      */
     public void onRegisterPress(View view) {
-        Intent moveToRegister = new Intent(Welcome.this, Welcome.class);
+        Intent moveToRegister = new Intent(Welcome.this, Registration.class);
         Welcome.this.startActivity(moveToRegister);
     }
 }

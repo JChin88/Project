@@ -47,7 +47,7 @@ public class User {
     public boolean isUserLock() {
         return _isUserLock;
     }
-    protected boolean setUserState(boolean state) {
+    protected void setUserState(boolean state) {
         _isUserLock = state;
     }
 
