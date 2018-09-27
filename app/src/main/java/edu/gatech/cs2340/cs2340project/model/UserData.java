@@ -13,12 +13,17 @@ public class UserData {
     /**
      * Adds a new user to the database
      * @param newUser the user to be added
+     * @return if the user was successfully added
      */
-    public void addUser(User newUser) {
+    public boolean addUser(User newUser){
         String id = newUser.getID();
         Integer passHash = Integer.valueOf(newUser.getID().hashCode());
-        loginData.put(id, passHash);
-        userList.put(id, newUser);
+        if (loginData.containsKey(id)) {
+            loginData.put(id, passHash);
+            userList.put(id, newUser);
+            return true;
+        }
+        return false;
     }
 
     /**
