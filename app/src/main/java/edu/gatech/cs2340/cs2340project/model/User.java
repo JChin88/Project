@@ -12,16 +12,20 @@ public class User {
     protected AccountType _userType;
     protected boolean _isUserLock = false;
 
+    public User() {
+        this("user", "password", "user@gatech.edu", AccountType.User);
+    }
+
+
+    public User(String id, String _password) {
+        this(id, _password, "user@gatech.edu", AccountType.User);
+    }
 
     public User(String id, String password, String email, AccountType userType) {
         _id = id;
         _password = password;
         _email = email;
         _userType = userType;
-    }
-
-    public User() {
-        this("user", "password", "user@gatech.edu", AccountType.User);
     }
 
     public String getID() {return _id;}
