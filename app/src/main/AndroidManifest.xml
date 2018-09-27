@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.LoginActivity"></activity>
+        <activity android:name=".controller.ApplicationActivity"></activity>
 
     </application>
 
