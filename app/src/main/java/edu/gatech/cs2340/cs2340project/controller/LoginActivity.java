@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.model.User;
+import edu.gatech.cs2340.cs2340project.model.UserData;
 
 /**
  * A login screen that offers login via email/password.
