@@ -39,7 +39,7 @@ public class Registration extends AppCompatActivity {
         /*
             Set up the adapter class standing to display the allowable class standings in the spinner
          */
-        ArrayAdapter<User.AccountType> adapterUserType = new ArrayAdapter(this,
+        ArrayAdapter<User.AccountType> adapterUserType = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, User.AccountType.values());
         adapterUserType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userTypeSpinner.setAdapter(adapterUserType);
