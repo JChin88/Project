@@ -7,8 +7,8 @@ import java.util.List;
 public class Admin extends User {
     private List<String> lockUnlockHistory;
 
-    private Admin(String id, String password, String email, AccountType userType) {
-        super(id, password, email, userType);
+    private Admin(String name, String id, String password, String email, AccountType userType) {
+        super(name, id, password, email, userType);
         this.lockUnlockHistory = new ArrayList<>();
     }
 
