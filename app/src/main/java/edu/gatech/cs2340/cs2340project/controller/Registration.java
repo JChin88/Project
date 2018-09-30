@@ -31,4 +31,12 @@ public class Registration extends AppCompatActivity {
         Intent moveBackWelcome = new Intent(Registration.this, Welcome.class);
         Registration.this.startActivity(moveBackWelcome);
     }
+
+    /**
+     * takes user from registration screen to ApplicationActivity screen
+     */
+    public void goToApplication() {
+        Intent moveToApplication = new Intent(this, ApplicationActivity.class);
+        startActivity(moveToApplication);
+    }
 }
