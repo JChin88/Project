@@ -9,7 +9,9 @@ public class Manager extends User {
         _modHis = new LinkedList();
     }
 
-    public donation() {
+    public void donation() {}
+    public void tags() {}
+    public void value() {}
+    public void loacation() {}
 
-    }
 }
