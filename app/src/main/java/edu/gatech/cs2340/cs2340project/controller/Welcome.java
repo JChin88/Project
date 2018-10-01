@@ -32,4 +32,5 @@ public class Welcome extends AppCompatActivity {
         Intent moveToRegister = new Intent(Welcome.this, Registration.class);
         Welcome.this.startActivity(moveToRegister);
     }
+
 }
