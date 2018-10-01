@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.model.User;
+import edu.gatech.cs2340.cs2340project.model.UserData;
 
 /**
  * A login screen that offers login via email/password.
@@ -67,14 +68,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String id = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                User login = new User(id, password);
-                if (loginMatch(login)) {
-                    Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
-                    LoginActivity.this.startActivity(moveToApplication);
-                } else {
-                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 3);
-                    invalidLogin.show();
-                }
+//                User login = new User(id, password);
+//                if (loginMatch(login)) {
+//                    Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
+//                    LoginActivity.this.startActivity(moveToApplication);
+//                } else {
+//                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 3);
+//                    invalidLogin.show();
+//                }
             }
         });
 
