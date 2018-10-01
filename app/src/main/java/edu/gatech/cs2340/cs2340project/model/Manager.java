@@ -12,6 +12,6 @@ public class Manager extends User {
     public void donation() {}
     public void tags() {}
     public void value() {}
-    public void loacation() {}
+    public void location() {}
 
 }
