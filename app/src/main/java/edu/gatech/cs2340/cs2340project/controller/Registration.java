@@ -22,9 +22,10 @@ public class Registration extends AppCompatActivity {
     EditText userPasswordView;
     EditText userConfirmPasswordView;
     Spinner userTypeSpinner;
+    View registrationProgress;
 
     private User _user;
-    private UserData data;
+    private UserData _userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class Registration extends AppCompatActivity {
         userPasswordView = findViewById(R.id.UserPassword);
         userConfirmPasswordView = findViewById(R.id.confirmPassword);
         userTypeSpinner = findViewById(R.id.userType);
+        registrationProgress = findViewById(R.id.registration_progress);
+
         /*
             Set up the adapter class standing to display the allowable class standings in the spinner
          */
@@ -57,16 +60,11 @@ public class Registration extends AppCompatActivity {
         String confirmPassword = userConfirmPasswordView.getText().toString();
 
         if (!password.equals(confirmPassword)) {
-            try {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this);
-                builder.setMessage("The password and confirm password doesn't match.")
-                        .setNegativeButton("Retry", null)
-                        .create()
-                        .show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this);
+            builder.setMessage("The password and confirm password doesn't match.")
+                    .setNegativeButton("Retry", null)
+                    .create()
+                    .show();
         }
 
         _user = new User(userNameView.getText().toString(),
@@ -74,6 +72,14 @@ public class Registration extends AppCompatActivity {
                             userPasswordView.getText().toString(),
                             userEmailView.getText().toString(),
                             (User.AccountType) userTypeSpinner.getSelectedItem());
+
+        /*
+        if (_userData.addUser(_user)) {
+            Intent moveToLogin = new Intent(Registration.this, LoginActivity.class);
+            Registration.this.startActivity(moveToLogin);
+        }
+        */
+
     }
 
     /**

@@ -12,6 +12,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".controller.Registration">
 
+    <ProgressBar
+        android:id="@+id/registration_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
     <ScrollView
         android:id="@+id/registration_form"
         android:layout_width="match_parent"

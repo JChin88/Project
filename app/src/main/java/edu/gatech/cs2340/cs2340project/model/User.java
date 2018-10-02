@@ -71,4 +71,8 @@ public class User {
         _isUserLock = state;
     }
 
+    public String toString() {
+        return _name + " " + _id + " " + _password;
+    }
+
 }

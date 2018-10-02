@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
                     LoginActivity.this.startActivity(moveToApplication);
                 } else {
-                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 3);
+                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 100);
                     invalidLogin.show();
                 }
             }
