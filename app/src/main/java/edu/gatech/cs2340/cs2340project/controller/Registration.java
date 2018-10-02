@@ -25,7 +25,7 @@ public class Registration extends AppCompatActivity {
     View registrationProgress;
 
     private User _user;
-    private UserData _userData;
+//    private UserData _userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +73,10 @@ public class Registration extends AppCompatActivity {
                 userEmailView.getText().toString(),
                 (User.AccountType) userTypeSpinner.getSelectedItem());
 
-        /*
-        if (_userData.addUser(_user)) {
+        if (UserData.addUser(_user)) {
             Intent moveToLogin = new Intent(Registration.this, LoginActivity.class);
             Registration.this.startActivity(moveToLogin);
         }
-        */
 
     }
 
