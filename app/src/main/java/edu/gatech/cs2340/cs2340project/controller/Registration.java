@@ -76,6 +76,12 @@ public class Registration extends AppCompatActivity {
         if (UserData.addUser(_user)) {
             Intent moveToLogin = new Intent(Registration.this, LoginActivity.class);
             Registration.this.startActivity(moveToLogin);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this);
+            builder.setMessage("The username already exist.")
+                    .setNegativeButton("Retry", null)
+                    .create()
+                    .show();
         }
 
     }
