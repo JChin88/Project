@@ -73,10 +73,12 @@ public class Registration extends AppCompatActivity {
                             userEmailView.getText().toString(),
                             (User.AccountType) userTypeSpinner.getSelectedItem());
 
+        /*
         if (_userData.addUser(_user)) {
             Intent moveToLogin = new Intent(Registration.this, LoginActivity.class);
             Registration.this.startActivity(moveToLogin);
         }
+        */
 
     }
 
