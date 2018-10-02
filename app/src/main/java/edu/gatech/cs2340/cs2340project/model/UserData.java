@@ -17,7 +17,7 @@ public class UserData {
      */
     public static boolean addUser(User newUser){
         String id = newUser.getID();
-        Integer passHash = Integer.valueOf(newUser.getID().hashCode());
+        Integer passHash = Integer.valueOf(newUser.getPassword().hashCode());
         if (!loginData.containsKey(id)) {
             loginData.put(id, passHash);
             userList.put(id, newUser);

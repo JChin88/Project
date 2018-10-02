@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean loginMatch(User currentUser) {
         HashMap<String, Integer> loginData = UserData.getLoginData();
         if (loginData.containsKey(currentUser.getID())) {
-            Integer passHash = loginData.get(currentUser.getID());
+            Integer passHash = loginData.get(currentUser.getID()).hashCode();
             if (passHash.equals(currentUser.getPassword().hashCode())) {
                 return true;
             }
