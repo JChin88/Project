@@ -31,7 +31,7 @@ public class UserData {
      * @param id the user's ID
      * @return the user associated with the id
      */
-    public static User getUserList(String id) {
+    public static User getUser(String id) {
         return userList.get(id);
     }
 }

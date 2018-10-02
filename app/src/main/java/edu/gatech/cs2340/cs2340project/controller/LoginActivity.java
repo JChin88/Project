@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.model.User;
 import edu.gatech.cs2340.cs2340project.model.UserData;
@@ -86,8 +88,12 @@ public class LoginActivity extends AppCompatActivity {
 
     //TODO update to scan a list of user data for correct information
     private boolean loginMatch(User currentUser) {
-        if (currentUser.getID().equals("user") && currentUser.getPassword().equals("password")) {
-            return true;
+        HashMap<String, Integer> loginData = UserData.getLoginData();
+        if (loginData.containsKey(currentUser.getID())) {
+            Integer passHash = loginData.get(currentUser.getID());
+            if (passHash.equals(currentUser.getPassword().hashCode())) {
+                return true;
+            }
         }
         return false;
     }
