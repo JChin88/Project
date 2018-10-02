@@ -3,10 +3,10 @@ package edu.gatech.cs2340.cs2340project.model;
 import java.util.HashMap;
 
 public class UserData {
-    private HashMap<String, Integer> loginData = new HashMap<>();
-    private HashMap<String, User> userList = new HashMap<>();
+    private static HashMap<String, Integer> loginData = new HashMap<>();
+    private static HashMap<String, User> userList = new HashMap<>();
 
-    public HashMap<String, Integer> getLoginData() {
+    public static HashMap<String, Integer> getLoginData() {
         return loginData;
     }
 
@@ -31,7 +31,7 @@ public class UserData {
      * @param id the user's ID
      * @return the user associated with the id
      */
-    public User getUserData(String id) {
+    public User getUserList(String id) {
         return userList.get(id);
     }
 }

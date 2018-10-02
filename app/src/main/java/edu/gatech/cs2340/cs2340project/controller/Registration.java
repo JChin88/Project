@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.model.User;
+import edu.gatech.cs2340.cs2340project.model.UserData;
 
 public class Registration extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class Registration extends AppCompatActivity {
     Spinner userTypeSpinner;
 
     private User _user;
+    private UserData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
