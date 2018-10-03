@@ -5,27 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".controller.ApplicationActivity">
+    tools:context=".controller.LocationInfo">
 
     <TextView
-        android:id="@+id/welcomeMessage"
+        android:id="@+id/location_Welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The First Location Data:"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/location_Data1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textColor="@android:color/black"
         android:textSize="18sp" />
-
-    <Button
-        android:id="@+id/location_Data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onLocationData"
-        android:text="Location Data" />
-
-    <Button
-        android:id="@+id/Logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onLogoutPress"
-        android:text="Logout" />
 </LinearLayout>
