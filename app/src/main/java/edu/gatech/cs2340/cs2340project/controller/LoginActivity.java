@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        UserData.addUser(new User());
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
