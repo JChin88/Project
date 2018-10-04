@@ -9,6 +9,7 @@ public class UserData {
     public static HashMap<String, Integer> getLoginData() {
         return loginData;
     }
+    public static HashMap<String, User> getUserList() { return userList;}
 
     /**
      * Adds a new user to the database

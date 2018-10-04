@@ -64,18 +64,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        UserData.addUser(new User());
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                User login = new User(id, password);
-                if (loginMatch(login)) {
+                if (loginMatch(id, password)) {
                     Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
+
+                    //Pass user data into the application activity
+                    HashMap<String, User> tempUser = UserData.getUserList();
+                    moveToApplication.putExtra("name", tempUser.get(id).getName());
+
                     LoginActivity.this.startActivity(moveToApplication);
                 } else {
-                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 100);
+                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 800);
                     invalidLogin.show();
                 }
             }
@@ -87,11 +93,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
     //TODO update to scan a list of user data for correct information
-    private boolean loginMatch(User currentUser) {
+    private boolean loginMatch(String id, String password) {
         HashMap<String, Integer> loginData = UserData.getLoginData();
-        if (loginData.containsKey(currentUser.getID())) {
-            Integer passHash = loginData.get(currentUser.getID()).hashCode();
-            if (passHash.equals(currentUser.getPassword().hashCode())) {
+        if (loginData.containsKey(id)) {
+            Integer passHash = loginData.get(id).hashCode();
+            if (passHash.equals(password.hashCode())) {
                 return true;
             }
         }
