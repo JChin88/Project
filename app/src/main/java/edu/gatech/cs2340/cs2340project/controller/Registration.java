@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.cs2340project.controller;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -65,25 +66,24 @@ public class Registration extends AppCompatActivity {
                     .setNegativeButton("Retry", null)
                     .create()
                     .show();
-        }
-
-        _user = new User(userNameView.getText().toString(),
-                userIDView.getText().toString(),
-                userPasswordView.getText().toString(),
-                userEmailView.getText().toString(),
-                (User.AccountType) userTypeSpinner.getSelectedItem());
-
-        if (UserData.addUser(_user)) {
-            Intent moveToLogin = new Intent(Registration.this, LoginActivity.class);
-            Registration.this.startActivity(moveToLogin);
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this);
-            builder.setMessage("The username already exist.")
-                    .setNegativeButton("Retry", null)
-                    .create()
-                    .show();
-        }
+            _user = new User(userNameView.getText().toString(),
+                    userIDView.getText().toString(),
+                    userPasswordView.getText().toString(),
+                    userEmailView.getText().toString(),
+                    (User.AccountType) userTypeSpinner.getSelectedItem());
 
+            if (UserData.addUser(_user)) {
+                Intent moveToLogin = new Intent(Registration.this, LoginActivity.class);
+                Registration.this.startActivity(moveToLogin);
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this);
+                builder.setMessage("The username already exist.")
+                        .setNegativeButton("Retry", null)
+                        .create()
+                        .show();
+            }
+        }
     }
 
     /**
