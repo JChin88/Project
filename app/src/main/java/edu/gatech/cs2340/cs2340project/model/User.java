@@ -18,11 +18,6 @@ public class User {
                 "user@gatech.edu", AccountType.User);
     }
 
-
-    public User(String id, String _password) {
-        this("Dummy", id, _password, "user@gatech.edu", AccountType.User);
-    }
-
     public User(String name, String id, String password, String email, AccountType userType) {
         _name = name;
         _id = id;
