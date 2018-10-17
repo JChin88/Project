@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.controller;
+package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +18,8 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.model.User;
-import edu.gatech.cs2340.cs2340project.model.UserData;
+import edu.gatech.cs2340.cs2340project.mvc.model.User;
+import edu.gatech.cs2340.cs2340project.mvc.model.UserData;
 
 /**
  * A login screen that offers login via email/password.
@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         UserData.addUser(new User());
+        UserData.addUser(new User("abc", "123"));
+        UserData.addUser(new User("abc123", "123"));
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -78,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                     //Pass user data into the application activity
                     HashMap<String, User> tempUser = UserData.getUserList();
                     moveToApplication.putExtra("name", tempUser.get(id).getName());
+                    moveToApplication.putExtra("userID", tempUser.get(id).getID());
 
                     LoginActivity.this.startActivity(moveToApplication);
                 } else {

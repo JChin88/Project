@@ -1,6 +1,8 @@
-package edu.gatech.cs2340.cs2340project.model;
+package edu.gatech.cs2340.cs2340project.mvc.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LocationData {
     private static HashMap<Integer, Location> locationData = new HashMap<>();
@@ -26,5 +28,10 @@ public class LocationData {
      */
     public static Location getLocation(Integer key) {
         return locationData.get(key);
+    }
+
+    public static List<Location> getLocationList() {
+        List<Location> locationList = new ArrayList<>(locationData.values());
+        return locationList;
     }
 }

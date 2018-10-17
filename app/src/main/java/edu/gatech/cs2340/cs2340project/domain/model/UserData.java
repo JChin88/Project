@@ -1,6 +1,8 @@
-package edu.gatech.cs2340.cs2340project.model;
+package edu.gatech.cs2340.cs2340project.domain.model;
 
 import java.util.HashMap;
+
+import edu.gatech.cs2340.cs2340project.domain.model.User;
 
 public class UserData {
     private static HashMap<String, Integer> loginData = new HashMap<>();
