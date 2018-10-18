@@ -1,26 +1,23 @@
-package edu.gatech.cs2340.cs2340project.prensentation.presenters.impl;
+package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
-import edu.gatech.cs2340.cs2340project.domain.interactor.UserInfoInteractor;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.UserInfoInteractorImpl;
+import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfo;
+import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetUserInfoImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.prensentation.presenters.MainPresenter;
-import edu.gatech.cs2340.cs2340project.prensentation.presenters.base.AbstractPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfo;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
-/**
- * Created by dmilicic on 12/13/15.
- */
-public class MainPresenterImpl extends AbstractPresenter implements MainPresenter,
-        UserInfoInteractor.Callback {
+public class UserInfoImpl extends AbstractPresenter implements UserInfo,
+        GetUserInfo.CallBack {
 
-    private MainPresenter.View mView;
+    private UserInfo.View mView;
     private UserRepository mUserRepository;
     private String _id;
 
-    public MainPresenterImpl(String id, Executor executor, MainThread mainThread,
-                             View view, UserRepository userRepository) {
+    public UserInfoImpl(String id, Executor executor, MainThread mainThread,
+                        View view, UserRepository userRepository) {
         super(executor, mainThread);
         _id = id;
         mView = view;
@@ -33,7 +30,7 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
         mView.showProgress();
 
         // initialize the interactor
-        UserInfoInteractor interactor = new UserInfoInteractorImpl(
+        GetUserInfo interactor = new GetUserInfoImpl(
                 _id,
                 mExecutor,
                 mMainThread,

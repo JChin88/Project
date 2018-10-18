@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.prensentation.ui.activities.UserInfo;
+import edu.gatech.cs2340.cs2340project.presentation.view.activities.UserInfoActivities;
 
 public class ApplicationActivity extends AppCompatActivity{
 
@@ -30,7 +30,7 @@ public class ApplicationActivity extends AppCompatActivity{
     }
 
     public void onUserInfoPress(View view) {
-        Intent moveToInfo = new Intent(ApplicationActivity.this, UserInfo.class);
+        Intent moveToInfo = new Intent(ApplicationActivity.this, UserInfoActivities.class);
         moveToInfo.putExtra("userID", userID);
         ApplicationActivity.this.startActivity(moveToInfo);
     }

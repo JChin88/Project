@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.prensentation.presenters.base;
+package edu.gatech.cs2340.cs2340project.presentation.presenters.base;
 
 public interface BasePresenter {
     /**

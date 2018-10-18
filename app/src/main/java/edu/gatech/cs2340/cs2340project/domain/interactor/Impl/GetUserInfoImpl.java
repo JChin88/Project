@@ -2,19 +2,19 @@ package edu.gatech.cs2340.cs2340project.domain.interactor.Impl;
 
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
-import edu.gatech.cs2340.cs2340project.domain.interactor.UserInfoInteractor;
+import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfo;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 
-public class UserInfoInteractorImpl extends AbstractInteractor implements UserInfoInteractor {
+public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
 
-    UserInfoInteractor.Callback mCallBack;
+    GetUserInfo.CallBack mCallBack;
     UserRepository mUserRepository;
     String _id;
 
-    public UserInfoInteractorImpl (String id, Executor threadExecutor, MainThread mainThread
-                                    , Callback callback, UserRepository userRepository) {
+    public GetUserInfoImpl(String id, Executor threadExecutor, MainThread mainThread
+                                    , CallBack callback, UserRepository userRepository) {
         super(threadExecutor, mainThread);
         _id = id;
         mCallBack = callback;

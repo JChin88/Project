@@ -27,7 +27,7 @@
         <activity android:name=".mvc.controller.ApplicationActivity" />
         <activity android:name=".mvc.controller.Registration" />
         <activity android:name=".mvc.controller.LocationList" />
-        <activity android:name=".prensentation.ui.activities.UserInfo" />
+        <activity android:name=".presentation.view.activities.UserInfoActivities" />
         <activity android:name=".mvc.controller.LocationInfo"></activity>
     </application>
 

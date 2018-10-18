@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.prensentation.presenters.base;
+package edu.gatech.cs2340.cs2340project.presentation.presenters.base;
 
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;

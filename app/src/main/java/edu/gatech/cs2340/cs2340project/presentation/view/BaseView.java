@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.prensentation.ui;
+package edu.gatech.cs2340.cs2340project.presentation.view;
 
 /**
  * <p>

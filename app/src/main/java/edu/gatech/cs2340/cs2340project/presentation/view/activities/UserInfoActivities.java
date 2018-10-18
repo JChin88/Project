@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.prensentation.ui.activities;
+package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,17 +11,16 @@ import edu.gatech.cs2340.cs2340project.data.UserInfoRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.model.UserData;
-import edu.gatech.cs2340.cs2340project.prensentation.presenters.MainPresenter;
-import edu.gatech.cs2340.cs2340project.prensentation.presenters.MainPresenter.View;
-import edu.gatech.cs2340.cs2340project.prensentation.presenters.impl.MainPresenterImpl;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfo.View;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.UserInfoImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
-public class UserInfo extends AppCompatActivity implements View {
+public class UserInfoActivities extends AppCompatActivity implements View {
 
     private TextView mMessage;
     private TextView mUserID;
     private TextView mUserName;
-    private MainPresenter mPresenter;
+    private edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfo mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class UserInfo extends AppCompatActivity implements View {
         Intent tempIntent = getIntent();
 
         // create a presenter for this view
-        mPresenter = new MainPresenterImpl(
+        mPresenter = new UserInfoImpl(
                 tempIntent.getStringExtra("userID"),
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),

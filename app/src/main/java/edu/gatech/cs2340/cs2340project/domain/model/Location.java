@@ -1,6 +1,6 @@
-package edu.gatech.cs2340.cs2340project.mvc.model;
+package edu.gatech.cs2340.cs2340project.domain.model;
 
-public class Location extends edu.gatech.cs2340.cs2340project.domain.model.Location {
+public class Location {
 
     //K key;;
     String _name;
