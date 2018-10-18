@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.controller;
+package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

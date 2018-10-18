@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.controller;
+package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +18,8 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.model.User;
-import edu.gatech.cs2340.cs2340project.model.UserData;
+import edu.gatech.cs2340.cs2340project.mvc.model.User;
+import edu.gatech.cs2340.cs2340project.mvc.model.UserData;
 
 /**
  * A login screen that offers login via email/password.
@@ -64,18 +64,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        UserData.addUser(new User());
+        UserData.addUser(new User("abc", "123"));
+        UserData.addUser(new User("abc123", "123"));
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                User login = new User(id, password);
-                if (loginMatch(login)) {
+                if (loginMatch(id, password)) {
                     Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
+
+                    //Pass user data into the application activity
+                    HashMap<String, User> tempUser = UserData.getUserList();
+                    moveToApplication.putExtra("name", tempUser.get(id).getName());
+                    moveToApplication.putExtra("userID", tempUser.get(id).getID());
+
                     LoginActivity.this.startActivity(moveToApplication);
                 } else {
-                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 100);
+                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 800);
                     invalidLogin.show();
                 }
             }
@@ -87,11 +96,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
     //TODO update to scan a list of user data for correct information
-    private boolean loginMatch(User currentUser) {
+    private boolean loginMatch(String id, String password) {
         HashMap<String, Integer> loginData = UserData.getLoginData();
-        if (loginData.containsKey(currentUser.getID())) {
-            Integer passHash = loginData.get(currentUser.getID()).hashCode();
-            if (passHash.equals(currentUser.getPassword().hashCode())) {
+        if (loginData.containsKey(id)) {
+            Integer passHash = loginData.get(id).hashCode();
+            if (passHash.equals(password.hashCode())) {
                 return true;
             }
         }

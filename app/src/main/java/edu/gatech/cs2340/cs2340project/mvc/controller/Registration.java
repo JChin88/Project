@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.controller;
+package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.model.User;
-import edu.gatech.cs2340.cs2340project.model.UserData;
+import edu.gatech.cs2340.cs2340project.mvc.model.User;
+import edu.gatech.cs2340.cs2340project.mvc.model.UserData;
 
 public class Registration extends AppCompatActivity {
 

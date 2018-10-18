@@ -1,7 +1,6 @@
-package edu.gatech.cs2340.cs2340project.model;
+package edu.gatech.cs2340.cs2340project.mvc.model;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Admin extends User {

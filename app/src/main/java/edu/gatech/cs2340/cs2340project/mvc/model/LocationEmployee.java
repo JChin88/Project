@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.model;
+package edu.gatech.cs2340.cs2340project.mvc.model;
 
 public class LocationEmployee extends User {
 

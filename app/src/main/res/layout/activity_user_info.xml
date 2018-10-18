@@ -5,34 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".mvc.controller.ApplicationActivity">
+    tools:context=".presentation.view.activities.UserInfoActivities"
+    tools:layout_editor_absoluteY="81dp">
 
     <TextView
-        android:id="@+id/welcomeMessage"
+        android:id="@+id/info_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textColor="@android:color/black"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/info_userID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/test_userInfo"
+    <TextView
+        android:id="@+id/info_userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onUserInfoPress"
-        android:text="User Information" />
-
-    <Button
-        android:id="@+id/location_Data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onLocationData"
-        android:text="Location Data" />
-
-    <Button
-        android:id="@+id/Logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onLogoutPress"
-        android:text="Logout" />
+        android:textSize="18sp" />
 </LinearLayout>

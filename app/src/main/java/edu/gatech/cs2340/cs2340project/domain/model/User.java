@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.model;
+package edu.gatech.cs2340.cs2340project.domain.model;
 
 public class User {
 
@@ -18,9 +18,9 @@ public class User {
                 "user@gatech.edu", AccountType.User);
     }
 
-
-    public User(String id, String _password) {
-        this("Dummy", id, _password, "user@gatech.edu", AccountType.User);
+    public User(String id, String password) {
+        this("Dummy", id, password,
+                "user@gatech.edu", AccountType.User);
     }
 
     public User(String name, String id, String password, String email, AccountType userType) {
