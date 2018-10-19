@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.cs2340project.domain.model;
 
+import java.util.List;
+
 public class Location {
 
     //K key;;
@@ -10,6 +12,7 @@ public class Location {
     String _address;
     String _phoneNumber;
     String _website;
+    List<DonationItem> _donationItemList;
 
     public Location() {
 

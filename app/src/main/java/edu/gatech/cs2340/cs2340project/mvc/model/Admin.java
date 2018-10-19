@@ -3,10 +3,12 @@ package edu.gatech.cs2340.cs2340project.mvc.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.gatech.cs2340.cs2340project.domain.model.User;
+
 public class Admin extends User {
     private List<String> lockUnlockHistory;
 
-    private Admin(String name, String id, String password, String email, AccountType userType) {
+    private Admin(String name, String id, String password, String email, User.AccountType userType) {
         super(name, id, password, email, userType);
         this.lockUnlockHistory = new ArrayList<>();
     }

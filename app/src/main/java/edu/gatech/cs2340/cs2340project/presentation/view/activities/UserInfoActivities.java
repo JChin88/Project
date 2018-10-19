@@ -7,10 +7,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.gatech.cs2340.cs2340project.R;
+import edu.gatech.cs2340.cs2340project.data.UserData;
 import edu.gatech.cs2340.cs2340project.data.UserInfoRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.domain.model.UserData;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfo.View;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.UserInfoImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;

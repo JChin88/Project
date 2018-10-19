@@ -1,6 +1,8 @@
 package edu.gatech.cs2340.cs2340project.mvc.model;
 import java.util.LinkedList;
 
+import edu.gatech.cs2340.cs2340project.domain.model.User;
+
 public class Manager extends User {
     protected LinkedList _modHis;
 

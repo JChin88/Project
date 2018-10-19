@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.mvc.model.Location;
-import edu.gatech.cs2340.cs2340project.mvc.model.LocationData;
+import edu.gatech.cs2340.cs2340project.data.LocationData;
+import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
 public class LocationList extends AppCompatActivity {
 

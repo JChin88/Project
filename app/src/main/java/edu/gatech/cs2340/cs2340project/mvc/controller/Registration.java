@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.mvc.model.User;
-import edu.gatech.cs2340.cs2340project.mvc.model.UserData;
+import edu.gatech.cs2340.cs2340project.data.UserData;
+import edu.gatech.cs2340.cs2340project.domain.model.User;
 
 public class Registration extends AppCompatActivity {
 
