@@ -18,8 +18,8 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.mvc.model.User;
-import edu.gatech.cs2340.cs2340project.mvc.model.UserData;
+import edu.gatech.cs2340.cs2340project.data.UserData;
+import edu.gatech.cs2340.cs2340project.domain.model.User;
 
 /**
  * A login screen that offers login via email/password.

@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.domain.model;
+package edu.gatech.cs2340.cs2340project.data;
 
 import java.util.HashMap;
 
