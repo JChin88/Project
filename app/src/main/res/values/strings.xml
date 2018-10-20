@@ -14,4 +14,15 @@
         completions."
     </string>
     <string name="title_activity_welcome">Welcome</string>
+
+    <!--String Array related to categories for donation item -->
+    <string-array name="categories">
+        <item>Clothes</item>
+        <item>Hat</item>
+        <item>Kitchen</item>
+        <item>Electronics</item>
+        <item>Household</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>
