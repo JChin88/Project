@@ -25,7 +25,6 @@ public class ThreadExecutor implements Executor {
     private static final int                     KEEP_ALIVE_TIME = 120;
     private static final TimeUnit                TIME_UNIT       = TimeUnit.SECONDS;
     private static final BlockingQueue<Runnable> WORK_QUEUE      = new LinkedBlockingQueue<Runnable>();
-    private static final JobThreadFactory        JOB_THREAD_FACTORY = new JobThreadFactory();
 
     private ThreadPoolExecutor mThreadPoolExecutor;
 
@@ -36,8 +35,7 @@ public class ThreadExecutor implements Executor {
                 MAX_POOL_SIZE,
                 keepAlive,
                 TIME_UNIT,
-                WORK_QUEUE,
-                JOB_THREAD_FACTORY);
+                WORK_QUEUE);
     }
 
     @Override
@@ -64,14 +62,5 @@ public class ThreadExecutor implements Executor {
         }
 
         return sThreadExecutor;
-    }
-
-    private static class JobThreadFactory implements ThreadFactory {
-        private int counter = 0;
-
-        @Override
-        public Thread newThread(@NonNull Runnable runnable) {
-            return new Thread(runnable, "android_" + counter++);
-        }
     }
 }

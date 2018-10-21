@@ -54,11 +54,6 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
         User user1;
         if (loginMessage == null) {
             loginMessage = "Login message is null";
-            String currentUID = mUserRepository.getCurrentUID();
-            user1 = mUserRepository.getUser(currentUID);
-            if (user1 != null) {
-                loginMessage = LOGIN_SUCCESS;
-            }
         }
 
         if (!(loginMessage.equals(LOGIN_SUCCESS))) {
