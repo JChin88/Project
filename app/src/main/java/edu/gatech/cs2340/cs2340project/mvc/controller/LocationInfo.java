@@ -3,11 +3,16 @@ package edu.gatech.cs2340.cs2340project.mvc.controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.mvc.model.Location;
 import edu.gatech.cs2340.cs2340project.mvc.model.LocationData;
+import edu.gatech.cs2340.cs2340project.mvc.model.LocationEmployee;
+import edu.gatech.cs2340.cs2340project.mvc.model.User;
+import edu.gatech.cs2340.cs2340project.mvc.model.UserData;
 
 public class LocationInfo extends AppCompatActivity {
 
@@ -21,6 +26,7 @@ public class LocationInfo extends AppCompatActivity {
     private TextView locationType;
     private TextView locationPhone;
     private TextView locationWebsite;
+    private Button getInventory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +40,16 @@ public class LocationInfo extends AppCompatActivity {
         locationType = findViewById(R.id._locationType);
         locationPhone = findViewById(R.id._locationPhone);
         locationWebsite = findViewById(R.id._locationWebsite);
+        getInventory = findViewById(R.id.getInventory);
 
         Intent tempIntent = getIntent();
+        String userID = tempIntent.getStringExtra("userID");
+        User currUser = UserData.getUser(userID);
+        if(currUser instanceof LocationEmployee) {
+            getInventory.setVisibility(View.VISIBLE);
+        } else {
+            getInventory.setVisibility(View.GONE);
+        }
         Integer location = Integer.parseInt(tempIntent.getStringExtra("key"));
         setTextWithKey(location);
 
