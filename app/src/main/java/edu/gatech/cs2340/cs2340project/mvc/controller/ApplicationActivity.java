@@ -42,6 +42,7 @@ public class ApplicationActivity extends AppCompatActivity{
 
     public void onLocationData(View view) {
         Intent moveToLoginData = new Intent(ApplicationActivity.this, LocationList.class);
+        moveToLoginData.putExtra("userID", userID);
         ApplicationActivity.this.startActivity(moveToLoginData);
     }
 }

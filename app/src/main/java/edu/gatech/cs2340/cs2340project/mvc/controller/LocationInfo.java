@@ -45,6 +45,7 @@ public class LocationInfo extends AppCompatActivity {
         Intent tempIntent = getIntent();
         String userID = tempIntent.getStringExtra("userID");
         User currUser = UserData.getUser(userID);
+
         if(currUser instanceof LocationEmployee) {
             getInventory.setVisibility(View.VISIBLE);
         } else {
@@ -53,6 +54,11 @@ public class LocationInfo extends AppCompatActivity {
         Integer location = Integer.parseInt(tempIntent.getStringExtra("key"));
         setTextWithKey(location);
 
+    }
+
+    public void onInventoryPress(View view) {
+        Intent movetoInventory = new Intent(LocationInfo.this, null /*Inventory.class*/);
+        LocationInfo.this.startActivity(movetoInventory);
     }
 
     public void setTextWithKey(Integer key) {
