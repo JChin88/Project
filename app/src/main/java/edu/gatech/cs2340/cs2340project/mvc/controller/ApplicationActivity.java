@@ -5,8 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.gatech.cs2340.cs2340project.R;
+import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
+import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.presentation.view.activities.UserInfoActivities;
 
 public class ApplicationActivity extends AppCompatActivity{
@@ -14,6 +22,7 @@ public class ApplicationActivity extends AppCompatActivity{
     private TextView welcomeM;
 
     private String userID;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +31,8 @@ public class ApplicationActivity extends AppCompatActivity{
 
         welcomeM = findViewById(R.id.welcomeMessage);
         Intent tempIntent = getIntent();
-        String userName = tempIntent.getStringExtra("name");
         userID = tempIntent.getStringExtra("userID");
+        userName = tempIntent.getStringExtra("userName");
 
         String welcomeMessage = userName + " welcome to your application activity screen!";
         welcomeM.setText(welcomeMessage);

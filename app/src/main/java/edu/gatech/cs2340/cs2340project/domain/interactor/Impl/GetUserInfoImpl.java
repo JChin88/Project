@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.cs2340project.domain.interactor.Impl;
 
+import javax.inject.Inject;
+
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfo;
@@ -13,6 +15,7 @@ public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
     UserRepository mUserRepository;
     String _id;
 
+    @Inject
     public GetUserInfoImpl(String id, Executor threadExecutor, MainThread mainThread
                                     , CallBack callback, UserRepository userRepository) {
         super(threadExecutor, mainThread);

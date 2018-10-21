@@ -2,36 +2,38 @@ package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
-import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfo;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetUserInfoImpl;
+import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.LoginInteractorImpl;
+import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfo;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
-public class UserInfoImpl extends AbstractPresenter implements UserInfo,
-        GetUserInfo.CallBack {
+public class LoginPresenterImpl extends AbstractPresenter implements LoginPresenter,
+        LoginInteractor.Callback {
 
-    private UserInfo.View mView;
+    private LoginPresenter.View mView;
     private UserRepository mUserRepository;
-    private String _id;
+    private String mUserId;
+    private String mUserPassword;
 
-    public UserInfoImpl(String id, Executor executor, MainThread mainThread,
-                        View view, UserRepository userRepository) {
+    public LoginPresenterImpl(String id, String password, Executor executor, MainThread mainThread,
+                                 View view, UserRepository userRepository) {
         super(executor, mainThread);
-        _id = id;
+        mUserId = id;
+        mUserPassword = password;
         mView = view;
         mUserRepository = userRepository;
     }
 
     @Override
     public void resume() {
-
         mView.showProgress();
 
         // initialize the interactor
-        GetUserInfo interactor = new GetUserInfoImpl(
-                _id,
+        LoginInteractor interactor = new LoginInteractorImpl(
+                mUserId,
+                mUserPassword,
                 mExecutor,
                 mMainThread,
                 this,
@@ -58,19 +60,19 @@ public class UserInfoImpl extends AbstractPresenter implements UserInfo,
     }
 
     @Override
-    public void onError(String message) {
-        mView.showError(message);
+    public void onError(String errorMessage) {
+        mView.showError(errorMessage);
     }
 
     @Override
-    public void onUserRetrieved(User user) {
+    public void onLoginSuccess(User user) {
         mView.hideProgress();
-        mView.displayUserInfo(user);
+        mView.moveToUserHomeActivity(user);
     }
 
     @Override
-    public void onRetrievalFailed(String error) {
+    public void onLoginFailed(String errorMessage) {
         mView.hideProgress();
-        onError(error);
+        onError(errorMessage);
     }
 }

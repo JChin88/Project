@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import edu.gatech.cs2340.cs2340project.R;
+import edu.gatech.cs2340.cs2340project.presentation.view.activities.LoginActivity;
 
 public class Welcome extends AppCompatActivity {
 

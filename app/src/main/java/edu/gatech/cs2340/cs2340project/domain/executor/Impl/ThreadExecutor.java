@@ -1,10 +1,13 @@
 package edu.gatech.cs2340.cs2340project.domain.executor.Impl;
 
+import android.support.annotation.NonNull;
+
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -22,17 +25,19 @@ public class ThreadExecutor implements Executor {
     private static final int                     KEEP_ALIVE_TIME = 120;
     private static final TimeUnit                TIME_UNIT       = TimeUnit.SECONDS;
     private static final BlockingQueue<Runnable> WORK_QUEUE      = new LinkedBlockingQueue<Runnable>();
+    private static final JobThreadFactory        JOB_THREAD_FACTORY = new JobThreadFactory();
 
     private ThreadPoolExecutor mThreadPoolExecutor;
 
-    private ThreadExecutor() {
+    public ThreadExecutor() {
         long keepAlive = KEEP_ALIVE_TIME;
         mThreadPoolExecutor = new ThreadPoolExecutor(
                 CORE_POOL_SIZE,
                 MAX_POOL_SIZE,
                 keepAlive,
                 TIME_UNIT,
-                WORK_QUEUE);
+                WORK_QUEUE,
+                JOB_THREAD_FACTORY);
     }
 
     @Override
@@ -59,5 +64,14 @@ public class ThreadExecutor implements Executor {
         }
 
         return sThreadExecutor;
+    }
+
+    private static class JobThreadFactory implements ThreadFactory {
+        private int counter = 0;
+
+        @Override
+        public Thread newThread(@NonNull Runnable runnable) {
+            return new Thread(runnable, "android_" + counter++);
+        }
     }
 }

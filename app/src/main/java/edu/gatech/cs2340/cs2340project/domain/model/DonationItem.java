@@ -26,19 +26,19 @@ public class DonationItem {
         this.timeStampLocation = timeStampLocation;
     }
 
-    public String get_locationName() {
+    public String getLocationName() {
         return _locationName;
     }
 
-    public void set_locationName(String _locationName) {
+    public void setLocationName(String _locationName) {
         this._locationName = _locationName;
     }
 
-    public Location get_location() {
+    public Location getLocation() {
         return _location;
     }
 
-    public void set_location(Location _location) {
+    public void setLocation(Location _location) {
         this._location = _location;
     }
 
