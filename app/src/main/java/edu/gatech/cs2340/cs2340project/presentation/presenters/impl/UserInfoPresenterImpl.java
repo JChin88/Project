@@ -1,27 +1,37 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
+import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfo;
 import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetUserInfoImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfo;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
-public class UserInfoImpl extends AbstractPresenter implements UserInfo,
+public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfoPresenter,
         GetUserInfo.CallBack {
 
-    private UserInfo.View mView;
+    private GetUserInfo mInteractor;
+    private UserInfoPresenter.View mView;
     private UserRepository mUserRepository;
     private String _id;
 
-    public UserInfoImpl(String id, Executor executor, MainThread mainThread,
-                        View view, UserRepository userRepository) {
-        super(executor, mainThread);
+    public UserInfoPresenterImpl(String id, Executor threadExecutor, MainThread mainThread,
+                                 View view, UserRepository userRepository) {
+        super(threadExecutor, mainThread);
         _id = id;
         mView = view;
         mUserRepository = userRepository;
+        mInteractor = new GetUserInfoImpl(
+                _id,
+                mExecutor,
+                mMainThread,
+                this,
+                mUserRepository
+        );
+        mUserRepository.setInteractor(mInteractor);
     }
 
     @Override
@@ -29,17 +39,8 @@ public class UserInfoImpl extends AbstractPresenter implements UserInfo,
 
         mView.showProgress();
 
-        // initialize the interactor
-        GetUserInfo interactor = new GetUserInfoImpl(
-                _id,
-                mExecutor,
-                mMainThread,
-                this,
-                mUserRepository
-        );
-
         // run the interactor
-        interactor.execute();
+        mInteractor.execute();
     }
 
     @Override
@@ -58,8 +59,8 @@ public class UserInfoImpl extends AbstractPresenter implements UserInfo,
     }
 
     @Override
-    public void onError(String message) {
-        mView.showError(message);
+    public void onError(String errorMessage) {
+        mView.showError(errorMessage);
     }
 
     @Override

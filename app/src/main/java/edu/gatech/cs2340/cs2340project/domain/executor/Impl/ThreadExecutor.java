@@ -1,10 +1,13 @@
 package edu.gatech.cs2340.cs2340project.domain.executor.Impl;
 
+import android.support.annotation.NonNull;
+
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -25,7 +28,7 @@ public class ThreadExecutor implements Executor {
 
     private ThreadPoolExecutor mThreadPoolExecutor;
 
-    private ThreadExecutor() {
+    public ThreadExecutor() {
         long keepAlive = KEEP_ALIVE_TIME;
         mThreadPoolExecutor = new ThreadPoolExecutor(
                 CORE_POOL_SIZE,

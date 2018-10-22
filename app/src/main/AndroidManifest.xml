@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvc.controller.LoginActivity" />
+        <activity android:name=".presentation.view.activities.LoginActivity" />
         <activity android:name=".mvc.controller.ApplicationActivity" />
         <activity android:name=".mvc.controller.Registration" />
         <activity android:name=".mvc.controller.LocationList" />
