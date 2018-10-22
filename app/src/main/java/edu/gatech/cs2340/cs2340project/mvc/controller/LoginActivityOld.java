@@ -64,24 +64,27 @@ public class LoginActivityOld extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mPasswordView = (EditText) findViewById(R.id.password);
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
         // populateAutoComplete();
 
         mAuth = FirebaseAuth.getInstance();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-//                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+
+//        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+//                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+////                    attemptLogin();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
 //        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
 //        mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -90,14 +93,14 @@ public class LoginActivityOld extends AppCompatActivity {
 //                String id = mEmailView.getText().toString();
 //                String password = mPasswordView.getText().toString();
 //                if (loginMatch(id, password)) {
-//                    Intent moveToApplication = new Intent(LoginActivity.this, ApplicationActivity.class);
+//                    Intent moveToApplication = new Intent(LoginActivityOld.this, ApplicationActivity.class);
 //
 //                    //Pass user data into the application activity
 //                    HashMap<String, User> tempUser = UserData.getUserList();
 //                    moveToApplication.putExtra("name", tempUser.get(id).getName());
 //                    moveToApplication.putExtra("userID", tempUser.get(id).getID());
 //
-//                    LoginActivity.this.startActivity(moveToApplication);
+//                    LoginActivityOld.this.startActivity(moveToApplication);
 //                } else {
 //                    Snackbar invalidLogin = Snackbar.make(mProgressView, "User Login Information Invalid", 800);
 //                    invalidLogin.show();
@@ -105,8 +108,7 @@ public class LoginActivityOld extends AppCompatActivity {
 //            }
 //        });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+
     }
 
     @Override
@@ -198,7 +200,7 @@ public class LoginActivityOld extends AppCompatActivity {
         return true;
     }
 
-    public void onLoginPress(View view) {
+    public void onLoginPressOld(View view) {
         login();
     }
 
@@ -207,7 +209,7 @@ public class LoginActivityOld extends AppCompatActivity {
      *
      * @param view
      */
-    public void onCancelPress(View view) {
+    public void onCancelPressOld(View view) {
         try {
             mAuth.signOut();
             Intent moveBackToWelcome = new Intent(LoginActivityOld.this, Welcome.class);

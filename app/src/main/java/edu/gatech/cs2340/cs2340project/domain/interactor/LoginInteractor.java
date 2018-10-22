@@ -7,7 +7,7 @@ public interface LoginInteractor extends Interactor {
 
     interface Callback {
 
-        void onLoginSuccess(User user);
+        void onLoginSuccess(String userID);
 
         void onLoginFailed(String errorMessage);
     }

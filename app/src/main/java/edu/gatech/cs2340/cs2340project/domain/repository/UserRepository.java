@@ -12,7 +12,9 @@ public interface UserRepository {
 
     String getCurrentUID();
 
-    String login(String email, String password);
+    String getMessage();
+
+    void login(String email, String password);
 
     //void addUser(User user);
 

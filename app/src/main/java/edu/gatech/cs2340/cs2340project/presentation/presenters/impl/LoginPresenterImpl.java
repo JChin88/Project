@@ -29,7 +29,6 @@ public class LoginPresenterImpl extends AbstractPresenter implements LoginPresen
     @Override
     public void resume() {
         mView.showProgress();
-
         // initialize the interactor
         LoginInteractor interactor = new LoginInteractorImpl(
                 mUserId,
@@ -39,7 +38,6 @@ public class LoginPresenterImpl extends AbstractPresenter implements LoginPresen
                 this,
                 mUserRepository
         );
-
         // run the interactor
         interactor.execute();
     }
@@ -65,9 +63,9 @@ public class LoginPresenterImpl extends AbstractPresenter implements LoginPresen
     }
 
     @Override
-    public void onLoginSuccess(User user) {
+    public void onLoginSuccess(String userID) {
         mView.hideProgress();
-        mView.moveToUserHomeActivity(user);
+        mView.moveToUserHomeActivity(userID);
     }
 
     @Override

@@ -97,11 +97,14 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public String login(final String email, final String password) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public String getMessage() {
+        return LOGIN_MESSAGE;
+    }
+
+    @Override
+    public void login(final String email, final String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -114,11 +117,11 @@ public class UserDataRepository implements UserRepository {
                                 LOGIN_MESSAGE = task.getException().getMessage();
                             }
                         }
+                        // mian
                     }
                 });
-            }
-        });
-        return LOGIN_MESSAGE;
+        //new loginTask().execute(email,password);
+//        return LOGIN_MESSAGE;
     }
 
 
@@ -141,27 +144,45 @@ public class UserDataRepository implements UserRepository {
         return users;
     }
 
-//    public static class GetUserAsyncTask extends AsyncTask<String, Void, User> {
+//    public class loginTask extends AsyncTask<String, Void, String> {
 //
-//        private FirebaseFirestore dbFS;
-//        private User userTask
+//        private String tempLoginMessage;
+////        private String userID;
+////        private String userPassword;
+////
+////        public loginTask(String userID, String userPassword) {
+////            this.userID = userID;
+////            this.userPassword = userPassword;
+////        }
+////
 //
-//        public GetUserAsyncTask(FirebaseFirestore dbFS) {
-//            this.dbFS = dbFS;
+//        @Override
+//        protected String doInBackground(String... strings) {
+//            String userID = strings[0];
+//            String userPassword = strings[1];
+//            mAuth.signInWithEmailAndPassword(userID, userPassword)
+//                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if (task.isSuccessful()) {
+//                                tempLoginMessage = LOGIN_SUCCESS;
+//                            } else {
+//                                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
+//                                        || task.getException() instanceof FirebaseAuthInvalidUserException) {
+//                                    tempLoginMessage = LOGIN_INVALID_UIDPS;
+//                                } else {
+//                                    tempLoginMessage = task.getException().getMessage();
+//                                }
+//                            }
+//                        }
+//                    });
+//            return tempLoginMessage;
 //        }
 //
 //        @Override
-//        protected User doInBackground(String... strings) {
-//            DocumentReference userRef =  dbFS.collection("users").document(strings[0]);
-//            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                @Override
-//                public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                    if (documentSnapshot.exists()) {
-//                        userTask =  documentSnapshot.toObject(User.class);
-//                    }
-//                }
-//            });
-//            return userTask;
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            LOGIN_MESSAGE = s;
 //        }
 //    }
 

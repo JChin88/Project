@@ -8,7 +8,7 @@ public interface LoginPresenter extends BasePresenter {
 
     interface View extends BaseView {
 
-        void moveToUserHomeActivity(User user);
+        void moveToUserHomeActivity(String userID);
 
         boolean isInputValid(String email, String password);
     }

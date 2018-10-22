@@ -37,11 +37,11 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
         });
     }
 
-    private void moveToUserInfo(final User user) {
+    private void moveToUserInfo(final String userID) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLoginSuccess(user);
+                mCallback.onLoginSuccess(userID);
             }
         });
     }
@@ -49,7 +49,8 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
     @Override
     public void run() {
         //String loginMessage;
-        loginMessage = mUserRepository.login(userId, userPassword);
+        mUserRepository.login(userId, userPassword);
+        loginMessage = mUserRepository.getMessage();
 
         User user1;
         if (loginMessage == null) {
@@ -61,9 +62,9 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
             return;
         }
         String currentUID = mUserRepository.getCurrentUID();
-        User user = mUserRepository.getUser(currentUID);
+ //       User user = mUserRepository.getUser(currentUID);
 
-        moveToUserInfo(user);
+        moveToUserInfo(currentUID);
     }
 
 }
