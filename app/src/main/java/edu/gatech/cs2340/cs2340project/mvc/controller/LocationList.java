@@ -51,6 +51,7 @@ public class LocationList extends AppCompatActivity {
                         int locationClickparent = position + 1 ;
                         Intent moveToLocationInfo = new Intent(LocationList.this, LocationInfo.class);
                         moveToLocationInfo.putExtra("key", locationClickparent + "");
+                        moveToLocationInfo.putExtra("userID", getIntent().getStringExtra("userID"));
                         LocationList.this.startActivity(moveToLocationInfo);
                     }
                 }
