@@ -24,20 +24,22 @@ public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
         mUserRepository = userRepository;
     }
 
-    private void notifyError() {
+    @Override
+    public void notifyError(final String errorMessage) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallBack.onRetrievalFailed("No user to display :(");
+                mCallBack.onRetrievalFailed(errorMessage);
             }
         });
     }
 
-    private void postUserInfo(final User user) {
+    @Override
+    public void goBackMainThread(final Object params) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallBack.onUserRetrieved(user);
+                mCallBack.onUserRetrieved((User) params);
             }
         });
     }
@@ -52,13 +54,13 @@ public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
         if (user == null) {
 
             // notify the failure on the main thread
-            notifyError();
+            notifyError("No user to display :(");
 
             return;
         }
 
         // we have retrieved our user, notify the UI on the main thread
-        postUserInfo(user);
+        goBackMainThread(user);
 
     }
 }

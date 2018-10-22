@@ -32,8 +32,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
+import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
+import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
 public class UserDataRepository implements UserRepository {
 
@@ -45,14 +50,18 @@ public class UserDataRepository implements UserRepository {
 
     User user;
     List<User> users;
-    String email;
-    String password;
 
     private String LOGIN_MESSAGE;
+    private Interactor interactor;
 
     public UserDataRepository() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        //mMainThread = mainThread;
+    }
+
+    public void setInteractor(Interactor interactor) {
+        this.interactor = interactor;
     }
 
     @Override
@@ -75,20 +84,8 @@ public class UserDataRepository implements UserRepository {
                     }
                 }
             });
-//            user = new GetUserAsyncTask(db).execute(uid);
         }
         return user;
-//        HashMap<String, Integer> loginData = UserData.getLoginData();
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if (loginData.containsKey(id)) {
-//            return UserData.getUser(id);
-//        }
-//        return null;
     }
 
     @Override
@@ -109,6 +106,7 @@ public class UserDataRepository implements UserRepository {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             LOGIN_MESSAGE = LOGIN_SUCCESS;
+                            interactor.goBackMainThread(mAuth.getCurrentUser().getUid());
                         } else {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
                                     || task.getException() instanceof FirebaseAuthInvalidUserException) {
@@ -116,15 +114,11 @@ public class UserDataRepository implements UserRepository {
                             } else {
                                 LOGIN_MESSAGE = task.getException().getMessage();
                             }
+                            interactor.notifyError(LOGIN_MESSAGE);
                         }
-                        // mian
                     }
                 });
-        //new loginTask().execute(email,password);
-//        return LOGIN_MESSAGE;
     }
-
-
 
     @Override
     public List<User> getUsers() {
@@ -143,47 +137,5 @@ public class UserDataRepository implements UserRepository {
         }
         return users;
     }
-
-//    public class loginTask extends AsyncTask<String, Void, String> {
-//
-//        private String tempLoginMessage;
-////        private String userID;
-////        private String userPassword;
-////
-////        public loginTask(String userID, String userPassword) {
-////            this.userID = userID;
-////            this.userPassword = userPassword;
-////        }
-////
-//
-//        @Override
-//        protected String doInBackground(String... strings) {
-//            String userID = strings[0];
-//            String userPassword = strings[1];
-//            mAuth.signInWithEmailAndPassword(userID, userPassword)
-//                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                            if (task.isSuccessful()) {
-//                                tempLoginMessage = LOGIN_SUCCESS;
-//                            } else {
-//                                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
-//                                        || task.getException() instanceof FirebaseAuthInvalidUserException) {
-//                                    tempLoginMessage = LOGIN_INVALID_UIDPS;
-//                                } else {
-//                                    tempLoginMessage = task.getException().getMessage();
-//                                }
-//                            }
-//                        }
-//                    });
-//            return tempLoginMessage;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            super.onPostExecute(s);
-//            LOGIN_MESSAGE = s;
-//        }
-//    }
 
 }

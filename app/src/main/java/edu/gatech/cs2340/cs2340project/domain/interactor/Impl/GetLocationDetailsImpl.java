@@ -21,20 +21,22 @@ public class GetLocationDetailsImpl extends AbstractInteractor implements GetLoc
         mLocationRepository = locationRepository;
     }
 
-    private void notifyError() {
+    @Override
+    public void notifyError(final String string) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallBack.onRetrievalFailed("No location to display :(");
+                mCallBack.onRetrievalFailed(string);
             }
         });
     }
 
-    private void postLocationInfo(final Location location) {
+    @Override
+    public void goBackMainThread(final Object location) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallBack.onLocationRetrieved(location);
+                mCallBack.onLocationRetrieved((Location) location);
             }
         });
     }
@@ -49,12 +51,12 @@ public class GetLocationDetailsImpl extends AbstractInteractor implements GetLoc
         if (location == null) {
 
             // notify the failure on the main thread
-            notifyError();
+            notifyError("No location to display :(");
             return;
         }
 
         // we have retrieved our user, notify the UI on the main thread
-        postLocationInfo(location);
+        goBackMainThread(location);
 
     }
 }

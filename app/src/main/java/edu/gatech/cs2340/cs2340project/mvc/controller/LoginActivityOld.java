@@ -200,22 +200,22 @@ public class LoginActivityOld extends AppCompatActivity {
         return true;
     }
 
-    public void onLoginPressOld(View view) {
-        login();
-    }
-
-    /**
-     * Button for cancel - go back to the welcome screen
-     *
-     * @param view
-     */
-    public void onCancelPressOld(View view) {
-        try {
-            mAuth.signOut();
-            Intent moveBackToWelcome = new Intent(LoginActivityOld.this, Welcome.class);
-            LoginActivityOld.this.startActivity(moveBackToWelcome);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void onLoginPressOld(View view) {
+//        login();
+//    }
+//
+//    /**
+//     * Button for cancel - go back to the welcome screen
+//     *
+//     * @param view
+//     */
+//    public void onCancelPressOld(View view) {
+//        try {
+//            mAuth.signOut();
+//            Intent moveBackToWelcome = new Intent(LoginActivityOld.this, Welcome.class);
+//            LoginActivityOld.this.startActivity(moveBackToWelcome);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -28,7 +28,8 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
         mUserRepository = userRepository;
     }
 
-    private void notifyError(final String errorMessage) {
+    @Override
+    public void notifyError(final String errorMessage) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -37,34 +38,36 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
         });
     }
 
-    private void moveToUserInfo(final String userID) {
+    @Override
+    public void goBackMainThread(final Object params) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLoginSuccess(userID);
+                mCallback.onLoginSuccess((String) params);
             }
         });
+
     }
 
     @Override
     public void run() {
         //String loginMessage;
         mUserRepository.login(userId, userPassword);
-        loginMessage = mUserRepository.getMessage();
-
-        User user1;
-        if (loginMessage == null) {
-            loginMessage = "Login message is null";
-        }
-
-        if (!(loginMessage.equals(LOGIN_SUCCESS))) {
-            notifyError(loginMessage);
-            return;
-        }
-        String currentUID = mUserRepository.getCurrentUID();
- //       User user = mUserRepository.getUser(currentUID);
-
-        moveToUserInfo(currentUID);
+//        loginMessage = mUserRepository.getMessage();
+//
+//        User user1;
+//        if (loginMessage == null) {
+//            loginMessage = "Login message is null";
+//        }
+//
+//        if (!(loginMessage.equals(LOGIN_SUCCESS))) {
+//            notifyError(loginMessage);
+//            return;
+//        }
+//        String currentUID = mUserRepository.getCurrentUID();
+// //       User user = mUserRepository.getUser(currentUID);
+//
+//        moveToUserInfo(currentUID);
     }
 
 }

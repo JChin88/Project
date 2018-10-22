@@ -1,5 +1,6 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
+import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfo;
@@ -12,6 +13,7 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPres
 public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfoPresenter,
         GetUserInfo.CallBack {
 
+    private GetUserInfo mInteractor;
     private UserInfoPresenter.View mView;
     private UserRepository mUserRepository;
     private String _id;
@@ -22,6 +24,14 @@ public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfo
         _id = id;
         mView = view;
         mUserRepository = userRepository;
+        mInteractor = new GetUserInfoImpl(
+                _id,
+                mExecutor,
+                mMainThread,
+                this,
+                mUserRepository
+        );
+        mUserRepository.setInteractor(mInteractor);
     }
 
     @Override
@@ -29,17 +39,8 @@ public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfo
 
         mView.showProgress();
 
-        // initialize the interactor
-        GetUserInfo interactor = new GetUserInfoImpl(
-                _id,
-                mExecutor,
-                mMainThread,
-                this,
-                mUserRepository
-        );
-
         // run the interactor
-        interactor.execute();
+        mInteractor.execute();
     }
 
     @Override

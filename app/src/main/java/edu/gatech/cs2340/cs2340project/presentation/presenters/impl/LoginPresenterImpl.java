@@ -1,5 +1,6 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
+import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.LoginInteractorImpl;
@@ -12,25 +13,20 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPres
 public class LoginPresenterImpl extends AbstractPresenter implements LoginPresenter,
         LoginInteractor.Callback {
 
-    private LoginPresenter.View mView;
+    private LoginInteractor mInteractor;
+    private LoginPresenter.LoginView mView;
     private UserRepository mUserRepository;
     private String mUserId;
     private String mUserPassword;
 
     public LoginPresenterImpl(String id, String password, Executor executor, MainThread mainThread,
-                                 View view, UserRepository userRepository) {
+                                 LoginView view, UserRepository userRepository) {
         super(executor, mainThread);
         mUserId = id;
         mUserPassword = password;
         mView = view;
         mUserRepository = userRepository;
-    }
-
-    @Override
-    public void resume() {
-        mView.showProgress();
-        // initialize the interactor
-        LoginInteractor interactor = new LoginInteractorImpl(
+        mInteractor = new LoginInteractorImpl(
                 mUserId,
                 mUserPassword,
                 mExecutor,
@@ -38,8 +34,14 @@ public class LoginPresenterImpl extends AbstractPresenter implements LoginPresen
                 this,
                 mUserRepository
         );
+        mUserRepository.setInteractor(mInteractor);
+    }
+
+    @Override
+    public void resume() {
+        mView.showProgress();
         // run the interactor
-        interactor.execute();
+        mInteractor.execute();
     }
 
     @Override

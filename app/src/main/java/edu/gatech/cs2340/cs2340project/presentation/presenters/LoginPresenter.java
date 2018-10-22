@@ -6,7 +6,7 @@ import edu.gatech.cs2340.cs2340project.presentation.view.BaseView;
 
 public interface LoginPresenter extends BasePresenter {
 
-    interface View extends BaseView {
+    interface LoginView extends BaseView {
 
         void moveToUserHomeActivity(String userID);
 
