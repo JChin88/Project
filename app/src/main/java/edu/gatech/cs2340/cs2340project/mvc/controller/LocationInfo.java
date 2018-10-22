@@ -9,7 +9,7 @@ import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.mvc.model.Location;
 import edu.gatech.cs2340.cs2340project.mvc.model.LocationData;
 
-public class LocationInfo extends AppCompatActivity {
+public class fdgLocationInfo extends AppCompatActivity {
 
     //Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
     // 0    1   2       3           4               5   6   7   8       9   10
