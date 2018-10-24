@@ -28,8 +28,14 @@
         <activity android:name=".mvc.controller.Registration" />
         <activity android:name=".mvc.controller.LocationList" />
         <activity android:name=".presentation.view.activities.UserInfoActivities" />
-        <activity android:name=".mvc.controller.LocationInfo" />
-        <activity android:name=".presentation.view.activities.DonationItemListActivities"></activity>
+        <activity android:name=".mvc.controller.LocationInfo"
+            android:launchMode="singleTop"/>
+        <activity android:name=".presentation.view.activities.DonationItemListActivities"
+            android:launchMode="singleTop"
+            android:parentActivityName=".mvc.controller.LocationInfo"
+            />
+        <activity android:name=".presentation.view.activities.AddDonationItem"
+            android:parentActivityName=".presentation.view.activities.DonationItemListActivities"></activity>
     </application>
 
 </manifest>

@@ -26,6 +26,8 @@ public class LocationInfo extends AppCompatActivity {
     private TextView locationWebsite;
     private Button mInventoryBtn;
 
+    private String mLocationName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,7 @@ public class LocationInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LocationInfo.this, DonationItemListActivities.class);
+                intent.putExtra("Location Name", mLocationName);
                 LocationInfo.this.startActivity(intent);
             }
         });
@@ -62,6 +65,7 @@ public class LocationInfo extends AppCompatActivity {
 
     public void setTextWithKey(Integer key) {
         Location tempLocation = LocationData.getLocation(key);
+        mLocationName = tempLocation.getName();
         locationName.setText("Location Name: \t" + tempLocation.getName());
         locationLatitude.setText("Location Latitude: \t" + Double.toString(tempLocation.getLatitude()));
         locationLongtitude.setText("Location Longtitude: \t" + Double.toString(tempLocation.getLongtitude()));

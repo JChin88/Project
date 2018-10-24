@@ -9,11 +9,14 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
 public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem, DonationItemsAdapter.DonationItemHolder> {
+
+    private OnItemClickListener listener;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -48,7 +51,24 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
             super(itemView);
             textViewDonationItemTitle = itemView.findViewById(R.id.donation_item_name);
             textViewDonationItemShortDescription = itemView.findViewById(R.id.donation_item_short_description);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.OnItemClick(getSnapshots().getSnapshot(position), position);
+                    }
+                }
+            });
         }
     }
 
+    public interface OnItemClickListener {
+        void OnItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 }
