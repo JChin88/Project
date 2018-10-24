@@ -3,11 +3,14 @@ package edu.gatech.cs2340.cs2340project.mvc.controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationData;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
+import edu.gatech.cs2340.cs2340project.presentation.view.activities.DonationItemListActivities;
 
 public class LocationInfo extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class LocationInfo extends AppCompatActivity {
     private TextView locationType;
     private TextView locationPhone;
     private TextView locationWebsite;
+    private Button mInventoryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,21 @@ public class LocationInfo extends AppCompatActivity {
         locationType = findViewById(R.id._locationType);
         locationPhone = findViewById(R.id._locationPhone);
         locationWebsite = findViewById(R.id._locationWebsite);
+
+        mInventoryBtn = findViewById(R.id.inventory_btn);
+
+        boolean isUser = false;
+        if (isUser) {
+            mInventoryBtn.setVisibility(View.GONE);
+        }
+
+        mInventoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LocationInfo.this, DonationItemListActivities.class);
+                LocationInfo.this.startActivity(intent);
+            }
+        });
 
         Intent tempIntent = getIntent();
         Integer location = Integer.parseInt(tempIntent.getStringExtra("key"));
