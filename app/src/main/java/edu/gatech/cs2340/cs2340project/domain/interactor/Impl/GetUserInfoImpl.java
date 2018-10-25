@@ -25,7 +25,7 @@ public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
     }
 
     @Override
-    public void notifyError(final String errorMessage) {
+    public void onError(final String errorMessage) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -35,7 +35,7 @@ public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
     }
 
     @Override
-    public void goBackMainThread(final Object params) {
+    public void onNext(final Object params) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -54,7 +54,7 @@ public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
         if (user == null) {
 
             // notify the failure on the main thread
-            notifyError("No user to display :(");
+            onError("No user to display :(");
 
             return;
         }

@@ -8,6 +8,6 @@ public interface AddUserInteractor extends Interactor {
     interface Callback {
         void onAddUser(User user);
 
-        void onAddUserFailed(String error);
+        void onAddUserFailed(String errorMessage);
     }
 }

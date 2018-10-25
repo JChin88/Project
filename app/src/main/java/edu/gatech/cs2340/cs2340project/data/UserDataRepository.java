@@ -106,7 +106,7 @@ public class UserDataRepository implements UserRepository {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             LOGIN_MESSAGE = LOGIN_SUCCESS;
-                            interactor.goBackMainThread(mAuth.getCurrentUser().getUid());
+                            interactor.onNext(mAuth.getCurrentUser().getUid());
                         } else {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
                                     || task.getException() instanceof FirebaseAuthInvalidUserException) {
@@ -114,7 +114,7 @@ public class UserDataRepository implements UserRepository {
                             } else {
                                 LOGIN_MESSAGE = task.getException().getMessage();
                             }
-                            interactor.notifyError(LOGIN_MESSAGE);
+                            interactor.onError(LOGIN_MESSAGE);
                         }
                     }
                 });
