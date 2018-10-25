@@ -18,6 +18,10 @@ public interface BaseView {
      */
     void hideProgress();
 
+    void showRetry();
+
+    void hideRetry();
+
     /**
      * This method is used for showing error messages on the UI.
      *

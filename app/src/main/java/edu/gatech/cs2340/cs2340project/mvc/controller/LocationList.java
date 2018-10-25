@@ -10,6 +10,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +28,8 @@ import edu.gatech.cs2340.cs2340project.domain.model.Location;
 public class LocationList extends AppCompatActivity {
 
     TextView locationInfo;
+    FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,14 @@ public class LocationList extends AppCompatActivity {
         for (Location location: LocationData.getLocationList()) {
             locationNameList.add(location.getName());
         }
+
+//        db = FirebaseFirestore.getInstance();
+
+
+//        for (Location location: LocationData.getLocationList()) {
+//            CollectionReference donationItemsRef = FirebaseFirestore.getInstance().collection("Donation Locations");
+//            donationItemsRef.add(location);
+//        }
 
 
         ListAdapter locationAdapter = new ArrayAdapter<String>(this,

@@ -84,12 +84,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        showViewRetry();
-    }
-
-    @Override
     public void showProgress() {
         mProgressBar.setVisibility(android.view.View.VISIBLE);
     }
@@ -97,6 +91,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void hideProgress() {
         mProgressBar.setVisibility(android.view.View.GONE);
+    }
+
+    @Override
+    public void showRetry() {
+        linearLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideRetry() {
+        linearLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -141,16 +145,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return true;
     }
 
-    public void showViewRetry() {
-        linearLayout.setVisibility(View.VISIBLE);
-    }
-
-    public void hideVieWRetry() {
-        linearLayout.setVisibility(View.GONE);
-    }
-
     public void onLoginPress(View view) {
-        hideVieWRetry();
+        hideRetry();
         showProgress();
         String userEmail = mEmailView.getText().toString().trim();
         String userPassword = mPasswordView.getText().toString().trim();

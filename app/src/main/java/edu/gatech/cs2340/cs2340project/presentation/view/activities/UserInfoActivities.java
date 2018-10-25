@@ -66,6 +66,16 @@ public class UserInfoActivities extends AppCompatActivity implements View {
     }
 
     @Override
+    public void showRetry() {
+
+    }
+
+    @Override
+    public void hideRetry() {
+
+    }
+
+    @Override
     public void showError(String errorMessage) {
         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
     }

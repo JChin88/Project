@@ -78,6 +78,16 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
     }
 
     @Override
+    public void showRetry() {
+
+    }
+
+    @Override
+    public void hideRetry() {
+
+    }
+
+    @Override
     public void showError(String message) {
         mMessage.setText(message);
     }

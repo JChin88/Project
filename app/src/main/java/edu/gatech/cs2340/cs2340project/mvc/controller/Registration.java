@@ -59,7 +59,7 @@ public class Registration extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         /*
-            Set up the adapter class standing to display the allowable class standings in the spinner
+            Set up the adapter user types to display the allowable user types in the spinner
          */
         ArrayAdapter<User.AccountType> adapterUserType = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, User.AccountType.values());

@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 import edu.gatech.cs2340.cs2340project.presentation.adapter.DonationItemsAdapter;
 
 public class DonationItemListActivities extends AppCompatActivity {
+    public static final int ADD_DONATION_ITEM_REQUEST = 1;
+    public static final int EDIT_DONATION_ITEM_REQUEST = 2;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference donationItemRef = db.collection("Donation Items");
@@ -41,7 +44,9 @@ public class DonationItemListActivities extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DonationItemListActivities.this, AddDonationItem.class);
                 intent.putExtra("Location Name", locationName);
+                intent.putExtra("Request", ADD_DONATION_ITEM_REQUEST);
                 DonationItemListActivities.this.startActivity(intent);
+                //DonationItemListActivities.this.startActivityForResult(intent, ADD_DONATION_ITEM_REQUEST);
             }
         });
 
@@ -71,6 +76,13 @@ public class DonationItemListActivities extends AppCompatActivity {
                 String message =  "Position: " + position + "ID: " + id;
                 //Pass the id into the next info
                 Toast.makeText(DonationItemListActivities.this, message, Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(DonationItemListActivities.this, AddDonationItem.class);
+                intent.putExtra(AddDonationItem.EXTRA_ID, id);
+                intent.putExtra("Request", EDIT_DONATION_ITEM_REQUEST);
+                DonationItemListActivities.this.startActivity(intent);
+
+
             }
         });
 
@@ -87,4 +99,13 @@ public class DonationItemListActivities extends AppCompatActivity {
         super.onStop();
         adapter.startListening();
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == ADD_DONATION_ITEM_REQUEST && resultCode == RESULT_OK) {
+//
+//        }
+//    }
 }

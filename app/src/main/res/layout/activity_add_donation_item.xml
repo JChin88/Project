@@ -8,11 +8,63 @@
     android:padding="16dp"
     tools:context=".presentation.view.activities.AddDonationItem">
 
+    <TextView
+        android:id="@+id/text_view_donation_item_time_stamp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Time Stamp"
+        android:textSize="18dp"/>
+
     <EditText
         android:id="@+id/edit_text_donation_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Donation Item Name"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/text_view_donation_item_location_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location Name"
+        android:textSize="18dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_donation_item_short_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Short Description"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/edit_text_donation_item_full_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Full Description"
         android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edit_text_donation_item_values"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Value"
+        android:inputType="number"
+        android:maxLines="1"/>
+
+    <Spinner
+        android:id="@+id/spinner_donation_item_catogory"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <EditText
+        android:id="@+id/edit_text_donation_item_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Comments"
+        android:inputType="text" />
+
+
+
+
 
 </LinearLayout>
