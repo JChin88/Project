@@ -53,4 +53,9 @@ public class ApplicationActivity extends AppCompatActivity{
         Intent moveToLoginData = new Intent(ApplicationActivity.this, LocationList.class);
         ApplicationActivity.this.startActivity(moveToLoginData);
     }
+
+    public void onSearchPress(View view) {
+        Intent moveToSearch = new Intent(ApplicationActivity.this, SearchActivity.class);
+        ApplicationActivity.this.startActivity(moveToSearch);
+    }
 }

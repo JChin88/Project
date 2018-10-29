@@ -36,6 +36,7 @@
             />
         <activity android:name=".presentation.view.activities.AddDonationItem"
             android:parentActivityName=".presentation.view.activities.DonationItemListActivities"></activity>
+        <activity android:name=".mvc.controller.SearchActivity" />
     </application>
 
 </manifest>
