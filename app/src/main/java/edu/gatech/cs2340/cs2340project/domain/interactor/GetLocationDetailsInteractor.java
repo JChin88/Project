@@ -3,9 +3,9 @@ package edu.gatech.cs2340.cs2340project.domain.interactor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
-public interface GetLocationDetails extends Interactor {
+public interface GetLocationDetailsInteractor extends Interactor {
 
-    interface CallBack {
+    interface Callback {
 
         void onLocationRetrieved(Location location);
 

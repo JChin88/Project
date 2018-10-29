@@ -1,9 +1,12 @@
 package edu.gatech.cs2340.cs2340project.domain.model;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
+@IgnoreExtraProperties
 public class DonationItem {
 
     public enum DonationItemCategory{
@@ -21,11 +24,9 @@ public class DonationItem {
         }
     }
 
-//    private Timestamp timeStamp;
-    private String timeStamp;
+    private @ServerTimestamp Date timeStamp;
     private String donationItemName;
     private String locationName;
-//    private Location location;
     private String shortDescription;
     private String fullDescription;
     private double value;
@@ -39,7 +40,7 @@ public class DonationItem {
         //empty constructor needed for firestore
     }
 
-    public DonationItem(String timeStamp, String donationItemName, String locationName,
+    public DonationItem(Date timeStamp, String donationItemName, String locationName,
                         String shortDescription, String fullDescription, double value,
                         DonationItemCategory category, String comments) {
         this.timeStamp = timeStamp;
@@ -52,37 +53,11 @@ public class DonationItem {
         this.comments = comments;
     }
 
-//    public DonationItem (int timeStampLocation, String donationItemName, String locationName,
-//                         String shortDescription, String fullDescription,
-//                         double value, DonationItemCategory category, String comments) {
-//        this.timeStampLocation = timeStampLocation;
-//        this.donationItemName = donationItemName;
-//        this.locationName = locationName;
-////        this.location = location;
-//        this.shortDescription = shortDescription;
-//        this.fullDescription = fullDescription;
-//        this.value = value;
-//        this.category = category;
-//        this.comments = comments;
-//    }
-
-
-//    public Timestamp getTimeStamp() {
-//        return timeStamp;
-//    }
-
-//    public void setTimeStamp(String timeStamp) {
-//        long time = Long.parseLong(timeStamp);
-//        Timestamp newTimestamp = new Timestamp(new Date(time));
-//        this.timeStamp = newTimestamp;
-//    }
-
-
-    public String getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -101,14 +76,6 @@ public class DonationItem {
     public void setLocationName(String _locationName) {
         this.locationName = _locationName;
     }
-
-//    public Location getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(Location _location) {
-//        this.location = _location;
-//    }
 
     public String getShortDescription() {
         return shortDescription;

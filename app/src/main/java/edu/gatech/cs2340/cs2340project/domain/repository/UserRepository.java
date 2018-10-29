@@ -10,11 +10,9 @@ import edu.gatech.cs2340.cs2340project.domain.model.User;
 
 public interface UserRepository {
 
-    User getUser(String id);
+    void addUser(String userName, String userEmail, String userPassword, User.AccountType userType);
 
-    String getCurrentUID();
-
-    String getMessage();
+    void getUser(String id);
 
     void login(String email, String password);
 

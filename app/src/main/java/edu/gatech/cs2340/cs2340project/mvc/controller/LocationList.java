@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedReader;
@@ -35,6 +40,7 @@ public class LocationList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_list);
+        db = FirebaseFirestore.getInstance();
         readLocationData();
 
         //
@@ -43,14 +49,23 @@ public class LocationList extends AppCompatActivity {
             locationNameList.add(location.getName());
         }
 
-//        db = FirebaseFirestore.getInstance();
-
-
+//
 //        for (Location location: LocationData.getLocationList()) {
-//            CollectionReference donationItemsRef = FirebaseFirestore.getInstance().collection("Donation Locations");
-//            donationItemsRef.add(location);
+//            db.collection("Donation Locations").add(location)
+//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                        @Override
+//                        public void onSuccess(DocumentReference documentReference) {
+////                            Toast.makeText(LocationList.this,
+////                                    "Add a list of location success!!", Toast.LENGTH_LONG).show();
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Toast.makeText(LocationList.this,
+//                            "Add a list of location failed!!", Toast.LENGTH_LONG).show();
+//                }
+//            });
 //        }
-
 
         ListAdapter locationAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, locationNameList);
@@ -95,6 +110,20 @@ public class LocationList extends AppCompatActivity {
                 tempLocation.setPhoneNumber(part[9]);
                 tempLocation.setWebsite(part[10]);
                 LocationData.addLocation(Integer.parseInt(part[0]),tempLocation);
+//                db.collection("Donation Locations").add(tempLocation)
+//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                            @Override
+//                            public void onSuccess(DocumentReference documentReference) {
+////                            Toast.makeText(LocationList.this,
+////                                    "Add a list of location success!!", Toast.LENGTH_LONG).show();
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(LocationList.this,
+//                                "Add a list of location failed!!", Toast.LENGTH_LONG).show();
+//                    }
+//                });
             }
         } catch (IOException e) {
             e.printStackTrace();

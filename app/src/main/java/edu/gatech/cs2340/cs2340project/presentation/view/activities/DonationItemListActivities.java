@@ -81,8 +81,6 @@ public class DonationItemListActivities extends AppCompatActivity {
                 intent.putExtra(AddDonationItem.EXTRA_ID, id);
                 intent.putExtra("Request", EDIT_DONATION_ITEM_REQUEST);
                 DonationItemListActivities.this.startActivity(intent);
-
-
             }
         });
 

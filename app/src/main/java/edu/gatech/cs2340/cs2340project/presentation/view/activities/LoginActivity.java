@@ -94,12 +94,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void showRetry() {
+    public void showViewRetry() {
         linearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideRetry() {
+    public void hideViewRetry() {
         linearLayout.setVisibility(View.GONE);
     }
 
@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     public void onLoginPress(View view) {
-        hideRetry();
+        hideViewRetry();
         showProgress();
         String userEmail = mEmailView.getText().toString().trim();
         String userPassword = mPasswordView.getText().toString().trim();
@@ -160,6 +160,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             mPresenter.resume();
         } else {
             hideProgress();
+            showViewRetry();
         }
 
     }

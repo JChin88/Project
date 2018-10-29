@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.presentation.view.activities.LoginActivity;
+import edu.gatech.cs2340.cs2340project.presentation.view.activities.RegisterUserActivity;
 
 public class Welcome extends AppCompatActivity {
 
@@ -31,7 +32,7 @@ public class Welcome extends AppCompatActivity {
      * @param view
      */
     public void onRegisterPress(View view) {
-        Intent moveToRegister = new Intent(Welcome.this, Registration.class);
+        Intent moveToRegister = new Intent(Welcome.this, RegisterUserActivity.class);
         Welcome.this.startActivity(moveToRegister);
     }
 

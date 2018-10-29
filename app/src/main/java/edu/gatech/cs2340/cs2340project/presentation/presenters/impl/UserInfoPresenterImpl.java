@@ -1,19 +1,18 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
-import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfo;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetUserInfoImpl;
+import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfoInteractor;
+import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetUserInfoInteractorImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
 public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfoPresenter,
-        GetUserInfo.CallBack {
+        GetUserInfoInteractor.Callback {
 
-    private GetUserInfo mInteractor;
+    private GetUserInfoInteractor mInteractor;
     private UserInfoPresenter.View mView;
     private UserRepository mUserRepository;
     private String _id;
@@ -24,7 +23,7 @@ public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfo
         _id = id;
         mView = view;
         mUserRepository = userRepository;
-        mInteractor = new GetUserInfoImpl(
+        mInteractor = new GetUserInfoInteractorImpl(
                 _id,
                 mExecutor,
                 mMainThread,
@@ -59,19 +58,14 @@ public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfo
     }
 
     @Override
-    public void onError(String errorMessage) {
-        mView.showError(errorMessage);
-    }
-
-    @Override
     public void onUserRetrieved(User user) {
         mView.hideProgress();
         mView.displayUserInfo(user);
     }
 
     @Override
-    public void onRetrievalFailed(String error) {
+    public void onRetrievalFailed(String errorMessage) {
         mView.hideProgress();
-        onError(error);
+        mView.showError(errorMessage);
     }
 }

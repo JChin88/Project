@@ -91,9 +91,9 @@ public class AddDonationItem extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     DonationItem tempDI = documentSnapshot.toObject(DonationItem.class);
-                    textViewTimeStamp.setText(tempDI.getTimeStamp());
+                    textViewTimeStamp.setText(tempDI.getTimeStamp().toString());
                     textViewTimeStamp.setVisibility(View.VISIBLE);
-                    textViewTimeStamp.setText(tempDI.getTimeStamp());
+                    textViewTimeStamp.setText(tempDI.getTimeStamp().toString());
                     editTextDonationItemName.setText(tempDI.getDonationItemName());
                     textViewLocationName.setText(tempDI.getLocationName());
                     editTextShortDescription.setText(tempDI.getShortDescription());
@@ -153,8 +153,6 @@ public class AddDonationItem extends AppCompatActivity {
     private void saveDonationItem() {
         //Timestamp timestamp = new Timestamp(new Date(System.currentTimeMillis()));
         //String currentTime = timestamp.toString();
-        String currentTime = getDate(System.currentTimeMillis());
-        textViewTimeStamp.setText("Time Stamp: " + currentTime);
         String title = editTextDonationItemName.getText().toString();
         String locationName = textViewLocationName.getText().toString();
         String shortDescription = editTextShortDescription.getText().toString();
@@ -164,7 +162,8 @@ public class AddDonationItem extends AppCompatActivity {
                 .valueOf(spinnerCategory.getSelectedItem().toString());
         String comments = editTextComments.getText().toString();
 
-        DonationItem tempDI = new DonationItem(currentTime, title, locationName, shortDescription, fullDescription, values, category, comments);
+        DonationItem tempDI = new DonationItem(null, title, locationName,
+                shortDescription, fullDescription, values, category, comments);
 
         if (title.trim().isEmpty()) {
             Toast.makeText(this, "Please insert a donation item title", Toast.LENGTH_LONG).show();

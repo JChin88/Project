@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -65,7 +66,29 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public User getUser(String uid) {
+    public void addUser(final String name, final String email, final String password, final User.AccountType type) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String userID = mAuth.getCurrentUser().getUid();
+                            user = new User(userID, name, email, type);
+                            db.collection("users").document(userID).set(user);
+                            interactor.onNext("User Registered Successful");
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                interactor.onError("Email already registered!");
+                            } else {
+                                interactor.onError(task.getException().getMessage());
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getUser(String uid) {
 //        FirebaseUser firebaseUser = mAuth.getCurrentUser();
 //        firebaseUser.updateProfile()
 ////        User user = new User(firebaseUser.getUid(),
@@ -74,28 +97,19 @@ public class UserDataRepository implements UserRepository {
 ////                                firebaseUser.getPhoneNumber(),
 ////                                firebaseUser.getProviderData());
 
-        if (user == null) {
-            DocumentReference userRef =  db.collection("users").document(uid);
-            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        DocumentReference userRef =  db.collection("users").document(uid);
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
                         user =  documentSnapshot.toObject(User.class);
+                        interactor.onNext(user);
+                    } else {
+                        interactor.onError("Get User Failed");
                     }
                 }
             });
-        }
-        return user;
-    }
 
-    @Override
-    public String getCurrentUID() {
-        return mAuth.getCurrentUser().getUid();
-    }
-
-    @Override
-    public String getMessage() {
-        return LOGIN_MESSAGE;
     }
 
     @Override

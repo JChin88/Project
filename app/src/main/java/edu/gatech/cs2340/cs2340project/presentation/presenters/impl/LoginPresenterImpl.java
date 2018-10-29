@@ -40,7 +40,7 @@ public class LoginPresenterImpl extends AbstractPresenter implements LoginPresen
     @Override
     public void resume() {
         mView.showProgress();
-        mView.hideRetry();
+        mView.hideViewRetry();
         // run the interactor
         mInteractor.execute();
     }
@@ -63,14 +63,14 @@ public class LoginPresenterImpl extends AbstractPresenter implements LoginPresen
     @Override
     public void onLoginSuccess(String userID) {
         mView.hideProgress();
-        mView.showRetry();
+        mView.showViewRetry();
         mView.moveToUserHomeActivity(userID);
     }
 
     @Override
     public void onLoginFailed(String errorMessage) {
         mView.hideProgress();
-        mView.showRetry();
+        mView.showViewRetry();
         mView.showError(errorMessage);
     }
 }

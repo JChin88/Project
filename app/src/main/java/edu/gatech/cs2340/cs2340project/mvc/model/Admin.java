@@ -8,8 +8,8 @@ import edu.gatech.cs2340.cs2340project.domain.model.User;
 public class Admin extends User {
     private List<String> lockUnlockHistory;
 
-    private Admin(String name, String id, String password, String email, User.AccountType userType) {
-        super(name, id, password, email, userType);
+    private Admin(String userID, String name, String email, User.AccountType userType) {
+        super(userID, name, email, userType);
         this.lockUnlockHistory = new ArrayList<>();
     }
 

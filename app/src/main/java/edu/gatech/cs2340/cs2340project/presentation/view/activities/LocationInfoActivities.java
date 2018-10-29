@@ -9,9 +9,7 @@ import android.widget.Toast;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetLocationDetailsImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
-import edu.gatech.cs2340.cs2340project.data.LocationData;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter.View;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LocationInfoPresenterImpl;
@@ -46,11 +44,11 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
         locationWebsite = findViewById(R.id._locationWebsite);
         mMessage = findViewById(R.id.message_LocationInfo);
         Intent tempIntent = getIntent();
-        Integer location = Integer.parseInt(tempIntent.getStringExtra("key"));
+        String key = tempIntent.getStringExtra("key");
 
         // create a presenter for this view
         mPresenter = new LocationInfoPresenterImpl(
-                location,
+                key,
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
@@ -78,12 +76,12 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
     }
 
     @Override
-    public void showRetry() {
+    public void showViewRetry() {
 
     }
 
     @Override
-    public void hideRetry() {
+    public void hideViewRetry() {
 
     }
 

@@ -4,22 +4,22 @@ import javax.inject.Inject;
 
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
-import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfo;
+import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfoInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 
-public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
+public class GetUserInfoInteractorImpl extends AbstractInteractor implements GetUserInfoInteractor {
 
-    GetUserInfo.CallBack mCallBack;
+    GetUserInfoInteractor.Callback mCallBack;
     UserRepository mUserRepository;
-    String _id;
+    String userID;
 
     @Inject
-    public GetUserInfoImpl(String id, Executor threadExecutor, MainThread mainThread
-                                    , CallBack callback, UserRepository userRepository) {
+    public GetUserInfoInteractorImpl(String id, Executor threadExecutor, MainThread mainThread
+                                    , Callback callback, UserRepository userRepository) {
         super(threadExecutor, mainThread);
-        _id = id;
+        userID = id;
         mCallBack = callback;
         mUserRepository = userRepository;
     }
@@ -46,21 +46,20 @@ public class GetUserInfoImpl extends AbstractInteractor implements GetUserInfo {
 
     @Override
     public void run() {
-
-        // retrieve the user
-        final User user = mUserRepository.getUser(_id);
-
-        // check if we have failed to retrieve our user
-        if (user == null) {
-
-            // notify the failure on the main thread
-            onError("No user to display :(");
-
-            return;
-        }
-
-        // we have retrieved our user, notify the UI on the main thread
-        goBackMainThread(user);
-
+        mUserRepository.getUser(userID);
+//        // retrieve the user
+//        final User user = mUserRepository.getUser(_id);
+//
+//        // check if we have failed to retrieve our user
+//        if (user == null) {
+//
+//            // notify the failure on the main thread
+//            onError("No user to display :(");
+//
+//            return;
+//        }
+//
+//        // we have retrieved our user, notify the UI on the main thread
+//        goBackMainThread(user);
     }
 }

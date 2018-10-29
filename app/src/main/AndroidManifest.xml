@@ -25,17 +25,20 @@
         </activity>
         <activity android:name=".presentation.view.activities.LoginActivity" />
         <activity android:name=".mvc.controller.ApplicationActivity" />
-        <activity android:name=".mvc.controller.Registration" />
+        <activity android:name=".presentation.view.activities.RegisterUserActivity" />
         <activity android:name=".mvc.controller.LocationList" />
         <activity android:name=".presentation.view.activities.UserInfoActivities" />
-        <activity android:name=".mvc.controller.LocationInfo"
-            android:launchMode="singleTop"/>
-        <activity android:name=".presentation.view.activities.DonationItemListActivities"
+        <activity
+            android:name=".mvc.controller.LocationInfo"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".presentation.view.activities.DonationItemListActivities"
             android:launchMode="singleTop"
-            android:parentActivityName=".mvc.controller.LocationInfo"
-            />
-        <activity android:name=".presentation.view.activities.AddDonationItem"
-            android:parentActivityName=".presentation.view.activities.DonationItemListActivities"></activity>
+            android:parentActivityName=".mvc.controller.LocationInfo" />
+        <activity
+            android:name=".presentation.view.activities.AddDonationItem"
+            android:parentActivityName=".presentation.view.activities.DonationItemListActivities" />
+        <activity android:name=".presentation.view.activities.DonationItemDetailsActivity"></activity>
     </application>
 
 </manifest>

@@ -1,39 +1,19 @@
 package edu.gatech.cs2340.cs2340project.mvc.controller;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
-import android.content.Intent;
-
 import android.os.Bundle;
-import android.util.Patterns;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.data.UserData;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
 
 /**
  * A login screen that offers login via email/password.
@@ -121,84 +101,84 @@ public class LoginActivityOld extends AppCompatActivity {
 
     }
 
-    //TODO update to scan a list of user data for correct information
-    private boolean loginMatch(String id, String password) {
-        HashMap<String, Integer> loginData = UserData.getLoginData();
-        if (loginData.containsKey(id)) {
-            Integer passHash = loginData.get(id).hashCode();
-            if (passHash.equals(password.hashCode())) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    //TODO update to scan a list of user data for correct information
+//    private boolean loginMatch(String id, String password) {
+//        HashMap<String, Integer> loginData = UserData.getLoginData();
+//        if (loginData.containsKey(id)) {
+//            Integer passHash = loginData.get(id).hashCode();
+//            if (passHash.equals(password.hashCode())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
-    private void login() {
-        String email = mEmailView.getText().toString().trim();
-        String password = mPasswordView.getText().toString().trim();
-
-        if (!isInputValid(email, password)) {
-            return;
-        }
-        mProgressView.setVisibility(View.VISIBLE);
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        mProgressView.setVisibility(View.GONE);
-                        if (task.isSuccessful()) {
-                            finish();
-                            Intent moveToApplication = new Intent(LoginActivityOld.this, ApplicationActivity.class);
-                            User user = mUserData.getUser(mAuth.getCurrentUser().getUid());
-                            String name;
-                            name = user.getName();
-                            //Pass user data into the application activity
-                            //HashMap<String, User> tempUser = UserData.getUserList();
-                            //moveToApplication.putExtra("name", tempUser.get(id).getName());
-                            //moveToApplication.putExtra("userID", tempUser.get(id).getID());
-                            moveToApplication.putExtra("userID", user.getID());
-
-                            LoginActivityOld.this.startActivity(moveToApplication);
-                        } else {
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
-                                    || task.getException() instanceof FirebaseAuthInvalidUserException) {
-                                Toast.makeText(getApplicationContext(), "Invalid email or password", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                    }
-                });
-    }
-
-    private boolean isInputValid(String email, String password) {
-        if (email.isEmpty()) {
-            mEmailView.setError("Email is empty. Please insert an email");
-            mEmailView.requestFocus();
-            return false;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            mEmailView.setError("Please enter a valid email");
-            mEmailView.requestFocus();
-            return false;
-        }
-
-        if (password.isEmpty()) {
-            mPasswordView.setError("Password is empty. Please insert a password");
-            mPasswordView.requestFocus();
-            return false;
-        }
-
-        if (password.length() < 6) {
-            mPasswordView.setError("Minimum length of password should be 6");
-            mPasswordView.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
+//    private void login() {
+//        String email = mEmailView.getText().toString().trim();
+//        String password = mPasswordView.getText().toString().trim();
+//
+//        if (!isInputValid(email, password)) {
+//            return;
+//        }
+//        mProgressView.setVisibility(View.VISIBLE);
+//        mAuth.signInWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        mProgressView.setVisibility(View.GONE);
+//                        if (task.isSuccessful()) {
+//                            finish();
+//                            Intent moveToApplication = new Intent(LoginActivityOld.this, ApplicationActivity.class);
+//                            User user = mUserData.getUser(mAuth.getCurrentUser().getUid());
+//                            String name;
+//                            name = user.getName();
+//                            //Pass user data into the application activity
+//                            //HashMap<String, User> tempUser = UserData.getUserList();
+//                            //moveToApplication.putExtra("name", tempUser.get(id).getName());
+//                            //moveToApplication.putExtra("userID", tempUser.get(id).getID());
+//                            moveToApplication.putExtra("userID", user.getID());
+//
+//                            LoginActivityOld.this.startActivity(moveToApplication);
+//                        } else {
+//                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
+//                                    || task.getException() instanceof FirebaseAuthInvalidUserException) {
+//                                Toast.makeText(getApplicationContext(), "Invalid email or password", Toast.LENGTH_LONG).show();
+//                            } else {
+//                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+//                            }
+//                        }
+//
+//                    }
+//                });
+//    }
+//
+//    private boolean isInputValid(String email, String password) {
+//        if (email.isEmpty()) {
+//            mEmailView.setError("Email is empty. Please insert an email");
+//            mEmailView.requestFocus();
+//            return false;
+//        }
+//
+//        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+//            mEmailView.setError("Please enter a valid email");
+//            mEmailView.requestFocus();
+//            return false;
+//        }
+//
+//        if (password.isEmpty()) {
+//            mPasswordView.setError("Password is empty. Please insert a password");
+//            mPasswordView.requestFocus();
+//            return false;
+//        }
+//
+//        if (password.length() < 6) {
+//            mPasswordView.setError("Minimum length of password should be 6");
+//            mPasswordView.requestFocus();
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
 //    public void onLoginPressOld(View view) {
 //        login();

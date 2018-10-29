@@ -20,12 +20,12 @@ public interface BaseView {
     /**
      * Show a retry view in case of an error when retrieving data.
      */
-    void showRetry();
+    void showViewRetry();
 
     /**
      * Hide a retry view shown if there was an error when retrieving data.
      */
-    void hideRetry();
+    void hideViewRetry();
 
     /**
      * This method is used for showing error messages on the UI.
