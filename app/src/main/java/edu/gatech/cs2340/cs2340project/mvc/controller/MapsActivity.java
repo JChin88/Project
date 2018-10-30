@@ -10,6 +10,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import edu.gatech.cs2340.cs2340project.R;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -46,7 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng dAndD = new LatLng(33.71747, -84.2521);
         LatLng keepNorthFultonBeautiful = new LatLng(33.96921, -84.3688);
         mMap.addMarker(new MarkerOptions().position(AFDStation4).title("AFD Station 4").snippet("(404) 555 - 3456"));
-        mMap.addMarker(new MarkerOptions().position(boysAndGirls).title("Boys and Girls Club")).snippet("(404) 555 - 1234");
+        mMap.addMarker(new MarkerOptions().position(boysAndGirls).title("Boys and Girls Club").snippet("(404) 555 - 1234"));
         mMap.addMarker(new MarkerOptions().position(pathwayUpper).title("Pathway Upper").snippet("(404) 555 - 5432"));
         mMap.addMarker(new MarkerOptions().position(pavilionOfHope).title("Pavilion of Hope").snippet("(404) 555 - 8765"));
         mMap.addMarker(new MarkerOptions().position(dAndD).title("D&D").snippet("(404) 555 - 9876"));
