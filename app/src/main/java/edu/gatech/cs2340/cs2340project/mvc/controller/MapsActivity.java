@@ -38,8 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        // Add a markers and move the camera
         LatLng AFDStation4 = new LatLng(33.75416, -84.37742);
         LatLng boysAndGirls = new LatLng(33.73182, -84.43971);
         LatLng pathwayUpper = new LatLng(33.70866, -84.41853);
@@ -52,6 +51,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(pavilionOfHope).title("Pavilion of Hope").snippet("(404) 555 - 8765"));
         mMap.addMarker(new MarkerOptions().position(dAndD).title("D&D").snippet("(404) 555 - 9876"));
         mMap.addMarker(new MarkerOptions().position(keepNorthFultonBeautiful).title("Keep North Fulton Beautiful").snippet("(770) 555 - 7321"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(AFDStation4));
     }
 }
