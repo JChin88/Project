@@ -25,7 +25,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
+/**
+ * Implement kth select.
+ *
+ * Use the provided random object to select your pivots.
+ * For example if you need a pivot between a (inclusive)
+ * and b (exclusive) where b > a, use the following code:
+ *
+ * int pivotIndex = r.nextInt(b - a) + a;
+ *
+ * It should be:
+ *  in-place
+ *
+ * Have a worst case running time of:
+ *  O(n^2)
+ *
+ * And a best case running time of:
+ *  O(n)
+ *
+ * You may assume that the array doesn't contain any null elements.
+ *
+ * Make sure you code the algorithm as you have been taught it in class.
+ * There are several versions of this algorithm and you may not get full
+ * credit if you do not implement the one we have taught you!
+ *
+ * @throws IllegalArgumentException if the array or comparator or rand is
+ * null or k is not in the range of 1 to arr.length
+ * @param <T> data type to sort
+ * @param k the index to retrieve data from + 1 (due to 0-indexing) if
+ *          the array was sorted; the 'k' in "kth select"; e.g. if k ==
+ *          1, return the smallest element in the array
+ * @param arr the array that should be modified after the method
+ * is finished executing as needed
+ * @param comparator the Comparator used to compare the data in arr
+ * @param rand the Random object used to select pivots
+ * @return the kth smallest element
+ */
 
     /**
      * Manipulates the map once available.
