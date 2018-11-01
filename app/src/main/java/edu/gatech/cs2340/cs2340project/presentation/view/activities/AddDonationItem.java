@@ -131,28 +131,7 @@ public class AddDonationItem extends AppCompatActivity {
         }
     }
 
-    private String getDate(long time) {
-        Calendar cal = Calendar.getInstance();
-        TimeZone tz = cal.getTimeZone();//get your local time zone.
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
-        sdf.setTimeZone(tz);//set time zone.
-        String localTime = sdf.format(time * 1000);
-        Date date = new Date();
-        try {
-            date = sdf.parse(localTime);//get local date
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date.toString();
-    }
-
-//    private DonationItem setDonationItem() {
-//
-//    }
-
     private void saveDonationItem() {
-        //Timestamp timestamp = new Timestamp(new Date(System.currentTimeMillis()));
-        //String currentTime = timestamp.toString();
         String title = editTextDonationItemName.getText().toString();
         String locationName = textViewLocationName.getText().toString();
         String shortDescription = editTextShortDescription.getText().toString();
@@ -162,6 +141,8 @@ public class AddDonationItem extends AppCompatActivity {
                 .valueOf(spinnerCategory.getSelectedItem().toString());
         String comments = editTextComments.getText().toString();
 
+        //By Firestore default, null timeStamp will make the firestore trigger the default method
+        //With take the time stamp of the server and add it into the object timestamp
         DonationItem tempDI = new DonationItem(null, title, locationName,
                 shortDescription, fullDescription, values, category, comments);
 

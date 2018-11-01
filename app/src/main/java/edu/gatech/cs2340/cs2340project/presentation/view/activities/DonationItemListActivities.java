@@ -47,7 +47,6 @@ public class DonationItemListActivities extends AppCompatActivity {
                 //DonationItemListActivities.this.startActivityForResult(intent, ADD_DONATION_ITEM_REQUEST);
             }
         });
-
         setTitle("Donation Items");
         setUpRecyclerView();
     }
@@ -80,7 +79,7 @@ public class DonationItemListActivities extends AppCompatActivity {
             public void OnItemClick(DocumentSnapshot documentSnapshot, int position) {
                 DonationItem donationItem = documentSnapshot.toObject(DonationItem.class);
                 String id = documentSnapshot.getId();
-                String message =  "Position: " + position + "ID: " + id;
+                String message = "Position: " + position + "ID: " + id;
                 //Pass the id into the next info
                 Toast.makeText(DonationItemListActivities.this, message, Toast.LENGTH_LONG).show();
 
