@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -88,6 +89,28 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
+    public void getCurrentUser() {
+        final FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String currentUserID = firebaseUser.getProviderId();
+//        firebaseUser.updateProfile()
+        DocumentReference userRef = db.collection("users").document(currentUserID);
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User.AccountType accountType = User.AccountType.valueOf(documentSnapshot.get("userType").toString());
+                User user = new User(firebaseUser.getProviderId(), firebaseUser.getDisplayName(),
+                        firebaseUser.getEmail(), accountType);
+                interactor.onNext(user);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                interactor.onError("Error on retrieve current user info");
+            }
+        });
+    }
+
+    @Override
     public void getUser(String uid) {
 //        FirebaseUser firebaseUser = mAuth.getCurrentUser();
 //        firebaseUser.updateProfile()
@@ -135,7 +158,7 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public List<User> getUsers() {
+    public void getUsers() {
         if (users == null) {
             users = new ArrayList<>();
             CollectionReference usersRef = db.collection("users");
@@ -143,13 +166,15 @@ public class UserDataRepository implements UserRepository {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     for (QueryDocumentSnapshot documentSnapshots : queryDocumentSnapshots) {
-                        User user = documentSnapshots.toObject(User.class);
-                        users.add(user);
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            User user = documentSnapshots.toObject(User.class);
+                            users.add(user);
+                        }
                     }
+                    interactor.onNext(users);
                 }
             });
         }
-        return users;
     }
 
 }

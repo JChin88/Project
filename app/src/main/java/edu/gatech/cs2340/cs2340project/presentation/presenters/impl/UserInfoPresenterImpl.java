@@ -15,16 +15,16 @@ public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfo
     private GetUserInfoInteractor mInteractor;
     private UserInfoPresenter.View mView;
     private UserRepository mUserRepository;
-    private String _id;
+    private String id;
 
     public UserInfoPresenterImpl(String id, Executor threadExecutor, MainThread mainThread,
                                  View view, UserRepository userRepository) {
         super(threadExecutor, mainThread);
-        _id = id;
+        this.id = id;
         mView = view;
         mUserRepository = userRepository;
         mInteractor = new GetUserInfoInteractorImpl(
-                _id,
+                id,
                 mExecutor,
                 mMainThread,
                 this,

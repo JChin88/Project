@@ -4,8 +4,12 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,16 +20,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 
 
 public class LocationDataRepository implements LocationRepository {
 
-    FirebaseFirestore db;
+    private FirebaseFirestore db;
+    private Interactor interactor;
 
     public LocationDataRepository() {
         db = FirebaseFirestore.getInstance();
+    }
+
+    public void setInteractor(Interactor interactor) {
+        this.interactor = interactor;
     }
 
     @Override
@@ -56,18 +66,7 @@ public class LocationDataRepository implements LocationRepository {
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));
                 tempLocation.setPhoneNumber(part[9]);
                 tempLocation.setWebsite(part[10]);
-                db.collection("Donation Locations").add(tempLocation)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
+                db.collection("Donation Locations").document().set(tempLocation, SetOptions.merge());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,8 +75,23 @@ public class LocationDataRepository implements LocationRepository {
     }
 
     @Override
-    public List<Location> getLocationList() {
-        return null;
+    public void getLocationList() {
+        final List<Location> listLocation = new ArrayList<>();
+        CollectionReference locationListRef = db.collection("Donation Locations");
+        locationListRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
+                        Location location = documentSnapshot.toObject(Location.class);
+                        listLocation.add(location);
+                    }
+                    interactor.onNext(listLocation);
+                } else {
+                    interactor.onError("Retrived list of locations failed");
+                }
+            }
+        });
     }
 
 

@@ -12,13 +12,15 @@ public interface UserRepository {
 
     void addUser(String userName, String userEmail, String userPassword, User.AccountType userType);
 
+    void getCurrentUser();
+
     void getUser(String id);
 
     void login(String email, String password);
 
     //void addUser(User user);
 
-    List<User> getUsers();
+    void getUsers();
 
     void setInteractor(Interactor interactor);
 }

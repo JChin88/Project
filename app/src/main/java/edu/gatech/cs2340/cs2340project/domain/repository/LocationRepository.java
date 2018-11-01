@@ -11,5 +11,5 @@ public interface LocationRepository {
 
     void addLocations(InputStream locationDataFile);
 
-    List<Location> getLocationList();
+    void getLocationList();
 }

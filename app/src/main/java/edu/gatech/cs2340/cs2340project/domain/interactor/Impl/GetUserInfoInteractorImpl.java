@@ -47,6 +47,7 @@ public class GetUserInfoInteractorImpl extends AbstractInteractor implements Get
     @Override
     public void run() {
         mUserRepository.getUser(userID);
+        //mUserRepository.getCurrentUser();
 //        // retrieve the user
 //        final User user = mUserRepository.getUser(_id);
 //

@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.view.activities.LoginActivity" />
-        <activity android:name=".mvc.controller.ApplicationActivity" />
+        <activity android:name=".mvc.controller.ApplicationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".presentation.view.activities.RegisterUserActivity" />
         <activity android:name=".mvc.controller.LocationList" />
         <activity android:name=".presentation.view.activities.UserInfoActivities" />

@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -19,7 +17,7 @@ import com.google.firebase.firestore.Query;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
-import edu.gatech.cs2340.cs2340project.presentation.adapter.DonationItemsAdapter;
+import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationItemsAdapter;
 
 public class DonationItemListActivities extends AppCompatActivity {
     public static final int ADD_DONATION_ITEM_REQUEST = 1;
@@ -54,8 +52,17 @@ public class DonationItemListActivities extends AppCompatActivity {
         setUpRecyclerView();
     }
 
+    public Query searchByCategory(DonationItem.DonationItemCategory category) {
+        String stringCategory = category.toString();
+        Query query = donationItemRef.whereEqualTo("category", stringCategory)
+                .orderBy("donationItemName", Query.Direction.ASCENDING);
+        return query;
+    }
+
     public void setUpRecyclerView() {
         Query query = donationItemRef.orderBy(("donationItemName"), Query.Direction.ASCENDING);
+//        DonationItem.DonationItemCategory category = DonationItem.DonationItemCategory.valueOf("CLOTHES");
+//        query = searchByCategory(category);
 
         FirestoreRecyclerOptions<DonationItem> options = new FirestoreRecyclerOptions.Builder<DonationItem>()
                 .setQuery(query, DonationItem.class)

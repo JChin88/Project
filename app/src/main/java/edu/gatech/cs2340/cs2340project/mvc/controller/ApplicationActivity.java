@@ -1,8 +1,13 @@
 package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.content.Intent;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +24,7 @@ import edu.gatech.cs2340.cs2340project.presentation.view.activities.UserInfoActi
 
 public class ApplicationActivity extends AppCompatActivity{
 
+    private DrawerLayout userHomeDrawerLayout;
     private TextView welcomeM;
 
     private String userID;
@@ -29,6 +35,16 @@ public class ApplicationActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
 
+        Toolbar toolbar = findViewById(R.id.user_tool_bar);
+        setSupportActionBar(toolbar);
+
+        userHomeDrawerLayout = findViewById(R.id.user_drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, userHomeDrawerLayout,
+                toolbar, R.string.user_navigation_drawer_open, R.string.user_navigation_drawer_close);
+        userHomeDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         welcomeM = findViewById(R.id.welcomeMessage);
         Intent tempIntent = getIntent();
         userID = tempIntent.getStringExtra("userID");
@@ -36,6 +52,15 @@ public class ApplicationActivity extends AppCompatActivity{
 
         String welcomeMessage = userName + " welcome to your application activity screen!";
         welcomeM.setText(welcomeMessage);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (userHomeDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            userHomeDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void onUserInfoPress(View view) {

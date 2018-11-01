@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.presentation.adapter;
+package edu.gatech.cs2340.cs2340project.presentation.view.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
