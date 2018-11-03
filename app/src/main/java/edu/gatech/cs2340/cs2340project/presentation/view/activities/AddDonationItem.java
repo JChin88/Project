@@ -55,8 +55,6 @@ public class AddDonationItem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_donation_item);
 
-
-
         textViewTimeStamp = findViewById(R.id.text_view_donation_item_time_stamp);
         editTextDonationItemName = findViewById(R.id.edit_text_donation_item_name);
         textViewLocationName = findViewById(R.id.text_view_donation_item_location_name);
@@ -65,8 +63,8 @@ public class AddDonationItem extends AppCompatActivity {
         editTextValue = findViewById(R.id.edit_text_donation_item_values);
         spinnerCategory = findViewById(R.id.spinner_donation_item_catogory);
         editTextComments = findViewById(R.id.edit_text_donation_item_comments);
-
-        textViewLocationName.setText("Location Name: " + getIntent().getStringExtra("Location Name"));
+        locationName = getIntent().getStringExtra("Location Name");
+        textViewLocationName.setText(getIntent().getStringExtra("Location Name"));
 
 
 

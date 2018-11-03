@@ -110,20 +110,6 @@ public class LocationList extends AppCompatActivity {
                 tempLocation.setPhoneNumber(part[9]);
                 tempLocation.setWebsite(part[10]);
                 LocationData.addLocation(Integer.parseInt(part[0]),tempLocation);
-//                db.collection("Donation Locations").add(tempLocation)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-////                            Toast.makeText(LocationList.this,
-////                                    "Add a list of location success!!", Toast.LENGTH_LONG).show();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(LocationList.this,
-//                                "Add a list of location failed!!", Toast.LENGTH_LONG).show();
-//                    }
-//                });
             }
         } catch (IOException e) {
             e.printStackTrace();

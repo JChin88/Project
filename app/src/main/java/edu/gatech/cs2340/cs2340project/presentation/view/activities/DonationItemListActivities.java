@@ -2,22 +2,33 @@ package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationItemsAdapter;
+import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationItemsAdapter2;
 
 public class DonationItemListActivities extends AppCompatActivity {
     public static final int ADD_DONATION_ITEM_REQUEST = 1;
@@ -26,7 +37,11 @@ public class DonationItemListActivities extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference donationItemRef = db.collection("Donation Items");
 
+    private RecyclerView recyclerView;
     private DonationItemsAdapter adapter;
+    private DonationItemsAdapter2 adapter2;
+    private List<DonationItem> listDI;
+    FirestoreRecyclerOptions<DonationItem> options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +51,10 @@ public class DonationItemListActivities extends AppCompatActivity {
         FloatingActionButton buttonAddNote = findViewById(R.id.add_donation_item_button);
         Intent tempIntent = getIntent();
         final String locationName = tempIntent.getStringExtra("Location Name");
+
+        recyclerView = findViewById(R.id.donation_item_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         buttonAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,11 +70,13 @@ public class DonationItemListActivities extends AppCompatActivity {
         setUpRecyclerView();
     }
 
-    public Query searchByCategory(DonationItem.DonationItemCategory category) {
+    public void searchByCategory(DonationItem.DonationItemCategory category) {
         String stringCategory = category.toString();
         Query query = donationItemRef.whereEqualTo("category", stringCategory)
                 .orderBy("donationItemName", Query.Direction.ASCENDING);
-        return query;
+        options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+                .setQuery(query, DonationItem.class)
+                .build();
     }
 
     public void setUpRecyclerView() {
@@ -63,15 +84,11 @@ public class DonationItemListActivities extends AppCompatActivity {
 //        DonationItem.DonationItemCategory category = DonationItem.DonationItemCategory.valueOf("CLOTHES");
 //        query = searchByCategory(category);
 
-        FirestoreRecyclerOptions<DonationItem> options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+        options = new FirestoreRecyclerOptions.Builder<DonationItem>()
                 .setQuery(query, DonationItem.class)
                 .build();
-
         adapter = new DonationItemsAdapter(options);
 
-        RecyclerView recyclerView = findViewById(R.id.donation_item_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new DonationItemsAdapter.OnItemClickListener() {
@@ -90,6 +107,47 @@ public class DonationItemListActivities extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void searchItem(String name) {
+        if (name.length() < 1) {
+            setUpRecyclerView();
+            return;
+        }
+        name = name.trim();
+        listDI = new ArrayList<>();
+        Query query = donationItemRef.whereEqualTo("donationItemName", name)
+                .orderBy("donationItemName", Query.Direction.ASCENDING);
+        options = new FirestoreRecyclerOptions.Builder<DonationItem>().setQuery(query, DonationItem.class). build();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search_donation_item, menu);
+        MenuItem searchMI = menu.findItem(R.id.search_donation_item_btn);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMI);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() < 1) {
+                    setUpRecyclerView();
+                    return false;
+                }
+                searchItem(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() < 1) {
+                    setUpRecyclerView();
+                    return false;
+                }
+                searchItem(newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

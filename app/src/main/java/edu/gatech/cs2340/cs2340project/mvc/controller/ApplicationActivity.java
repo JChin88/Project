@@ -6,12 +6,15 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -30,20 +33,21 @@ import edu.gatech.cs2340.cs2340project.presentation.view.activities.UserInfoActi
 import edu.gatech.cs2340.cs2340project.presentation.view.fragments.HomeFragment;
 import edu.gatech.cs2340.cs2340project.presentation.view.fragments.SearchFragment;
 
-public class ApplicationActivity extends AppCompatActivity{
+public class ApplicationActivity extends AppCompatActivity {
 
     private DrawerLayout userHomeDrawerLayout;
     private TextView welcomeM;
 
     private String userID;
     private String userName;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
         setTitle("Home Page");
-        Toolbar toolbar = findViewById(R.id.user_tool_bar);
+        toolbar = findViewById(R.id.user_tool_bar);
         setSupportActionBar(toolbar);
 
         userHomeDrawerLayout = findViewById(R.id.user_drawer_layout);
@@ -109,7 +113,6 @@ public class ApplicationActivity extends AppCompatActivity{
             }
         }
     };
-
 
 
     @Override
