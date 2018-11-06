@@ -17,15 +17,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.mvc.controller.ApplicationActivity;
-import edu.gatech.cs2340.cs2340project.mvc.controller.Welcome;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter.LoginView;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LoginPresenterImpl;
@@ -45,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private FirebaseAuth mAuth;
 
     Button loginButton;
-    Button cancelButton;
+    Button registerButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         //ButterKnife.bind(this);
 
-        linearLayout = findViewById(R.id.email_login_form);
+        //linearLayout = findViewById(R.id.email_login_form);
 
         String userEmail = "henry@gmail.com";
         String userPassword = "password";
@@ -63,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         mAuth = FirebaseAuth.getInstance();
 
         loginButton = findViewById(R.id.email_sign_in_button);
-        cancelButton = findViewById(R.id.cancel_button);
+        registerButton = findViewById(R.id.login_register_btn);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +68,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 onLoginPress(v);
             }
         });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancelPress(v);
+                onRegisterPress(v);
             }
         });
         setTitle("Login");
@@ -95,12 +89,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void showViewRetry() {
-        linearLayout.setVisibility(View.VISIBLE);
+        //linearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideViewRetry() {
-        linearLayout.setVisibility(View.GONE);
+       // linearLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -110,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void moveToUserHomeActivity(String userID) {
-        Intent intent = new Intent(LoginActivity.this, ApplicationActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("userID", userID);
         intent.putExtra("userName", "Henry");
         LoginActivity.this.startActivity(intent);
@@ -169,8 +163,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
      * Button for cancel - go back to the welcome screen
      *
      */
-    public void onCancelPress(View view) {
-            Intent moveBackToWelcome = new Intent(LoginActivity.this, Welcome.class);
-            LoginActivity.this.startActivity(moveBackToWelcome);
+    public void onRegisterPress(View view) {
+            Intent moveToRegistar = new Intent(LoginActivity.this, RegisterUserActivity.class);
+            LoginActivity.this.startActivity(moveToRegistar);
     }
 }

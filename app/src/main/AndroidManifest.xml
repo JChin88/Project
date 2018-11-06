@@ -14,28 +14,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".mvc.controller.Welcome"
-            android:label="@string/app_name">
+        <activity android:name=".presentation.view.activities.LoginActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.view.activities.LoginActivity" />
-        <activity android:name=".mvc.controller.ApplicationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".presentation.view.activities.RegisterUserActivity" />
+
+        <activity
+            android:name=".presentation.view.activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".presentation.view.activities.RegisterUserActivity"
+            android:parentActivityName=".presentation.view.activities.LoginActivity"/>
         <activity android:name=".mvc.controller.LocationList" />
         <activity android:name=".presentation.view.activities.UserInfoActivities" />
         <activity
-            android:name=".mvc.controller.LocationInfo"
+            android:name=".presentation.view.activities.LocationInfoActivities"
             android:launchMode="singleTop" />
         <activity
             android:name=".presentation.view.activities.DonationItemListActivities"
             android:launchMode="singleTop"
-            android:parentActivityName=".mvc.controller.LocationInfo" />
+            android:parentActivityName=".presentation.view.activities.LocationInfoActivities" />
         <activity
             android:name=".presentation.view.activities.AddDonationItem"
             android:parentActivityName=".presentation.view.activities.DonationItemListActivities" />

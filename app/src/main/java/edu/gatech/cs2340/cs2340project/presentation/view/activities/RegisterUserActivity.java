@@ -18,7 +18,6 @@ import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.mvc.controller.Welcome;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.AddUserPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.AddUserPresenterImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
@@ -71,8 +70,8 @@ public class RegisterUserActivity extends AppCompatActivity implements AddUserPr
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent moveBackWelcome = new Intent(RegisterUserActivity.this, Welcome.class);
-                RegisterUserActivity.this.startActivity(moveBackWelcome);
+                Intent moveBackLogin = new Intent(RegisterUserActivity.this, LoginActivity.class);
+                RegisterUserActivity.this.startActivity(moveBackLogin);
             }
         });
 

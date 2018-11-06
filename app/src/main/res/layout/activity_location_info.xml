@@ -1,65 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".presentation.view.activities.LocationInfoActivities">
 
-    <TextView
-        android:id="@+id/message_LocationInfo"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progress_bar_donation_location_details"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp" />
+        android:layout_centerInParent="true"/>
 
-    <TextView
-        android:id="@+id/_locationName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20dp"/>
-    <TextView
-        android:id="@+id/_locationLatitude"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20dp"/>
-    <TextView
-        android:id="@+id/_locationLongtitude"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20dp"/>
-    <TextView
-        android:id="@+id/_locationAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20dp"/>
-    <TextView
-        android:id="@+id/_locationType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20dp"/>
-    <TextView
-        android:id="@+id/_locationPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20dp"/>
-    <TextView
-        android:id="@+id/_locationWebsite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linear_layout_donation_location_details">
 
-    <Button
-        android:id="@+id/inventory_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Inventory" />
+        <TextView
+            android:id="@+id/_locationName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20dp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20dp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationLongtitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20dp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20dp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20dp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20dp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationWebsite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20dp"
+            android:padding="5dp"/>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/inventory_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inventory" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
