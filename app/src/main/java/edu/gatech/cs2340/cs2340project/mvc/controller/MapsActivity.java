@@ -2,6 +2,7 @@ package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,44 +24,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        Log.d("Test", "Test");
         mapFragment.getMapAsync(this);
     }
-/**
- * Implement kth select.
- *
- * Use the provided random object to select your pivots.
- * For example if you need a pivot between a (inclusive)
- * and b (exclusive) where b > a, use the following code:
- *
- * int pivotIndex = r.nextInt(b - a) + a;
- *
- * It should be:
- *  in-place
- *
- * Have a worst case running time of:
- *  O(n^2)
- *
- * And a best case running time of:
- *  O(n)
- *
- * You may assume that the array doesn't contain any null elements.
- *
- * Make sure you code the algorithm as you have been taught it in class.
- * There are several versions of this algorithm and you may not get full
- * credit if you do not implement the one we have taught you!
- *
- * @throws IllegalArgumentException if the array or comparator or rand is
- * null or k is not in the range of 1 to arr.length
- * @param <T> data type to sort
- * @param k the index to retrieve data from + 1 (due to 0-indexing) if
- *          the array was sorted; the 'k' in "kth select"; e.g. if k ==
- *          1, return the smallest element in the array
- * @param arr the array that should be modified after the method
- * is finished executing as needed
- * @param comparator the Comparator used to compare the data in arr
- * @param rand the Random object used to select pivots
- * @return the kth smallest element
- */
 
     /**
      * Manipulates the map once available.
