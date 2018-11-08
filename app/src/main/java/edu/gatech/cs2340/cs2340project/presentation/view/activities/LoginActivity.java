@@ -1,9 +1,12 @@
 package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
@@ -27,31 +30,39 @@ import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
-    private AutoCompleteTextView mEmailView;
+    private ConstraintLayout myLayout;
+    private AnimationDrawable animationDrawable;
+
+    private EditText mEmailView;
     private EditText mPasswordView;
-    private ProgressBar mProgressBar;
-
-    private LinearLayout linearLayout;
-
     private LoginPresenter mPresenter;
     private LoginPresenter.LoginView loginView;
+    ProgressBar mProgressBar;
 
     private FirebaseAuth mAuth;
 
     Button loginButton;
     Button registerButton;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //background animation
+        myLayout = findViewById(R.id.myLayout);
+        animationDrawable = (AnimationDrawable) myLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(4500);
+        animationDrawable.setExitFadeDuration(4500);
+        animationDrawable.start();
+        //end animation code
         //ButterKnife.bind(this);
 
         //linearLayout = findViewById(R.id.email_login_form);
 
         String userEmail = "henry@gmail.com";
         String userPassword = "password";
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mProgressBar = findViewById(R.id.login_progress);
         mAuth = FirebaseAuth.getInstance();
