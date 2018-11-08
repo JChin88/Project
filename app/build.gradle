@@ -29,9 +29,12 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
 =======
 >>>>>>> parent of e15052b... Update bottom navigation view
+=======
+>>>>>>> parent of 5aeafff... Merge branch 'maps' into Henry
 =======
 >>>>>>> parent of 5aeafff... Merge branch 'maps' into Henry
 =======
