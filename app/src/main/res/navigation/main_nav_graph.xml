@@ -26,7 +26,7 @@
         tools:layout="@layout/fragment_inventory" />
     <fragment
         android:id="@+id/locationInfo"
-        android:name="edu.gatech.cs2340.cs2340project.LocationInfo"
+        android:name="edu.gatech.cs2340.cs2340project.presentation.view.fragments.LocationInfoFragment"
         android:label="fragment_location_info"
         tools:layout="@layout/fragment_location_info" >
         <action

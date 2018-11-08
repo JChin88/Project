@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project;
+package edu.gatech.cs2340.cs2340project.presentation.view.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import edu.gatech.cs2340.cs2340project.R;
 
-public class LocationInfo extends Fragment {
+
+public class LocationInfoFragment extends Fragment {
 
 
     @Override
