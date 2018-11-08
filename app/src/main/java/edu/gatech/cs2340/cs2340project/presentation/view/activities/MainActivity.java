@@ -16,15 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.mvc.controller.LocationList;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout userHomeDrawerLayout;
     ActionBarDrawerToggle toggle;
@@ -59,13 +57,15 @@ public class MainActivity extends AppCompatActivity
         //welcomeM.setText(welcomeMessage);
 
         NavigationView user_view = findViewById(R.id.user_nav_view);
-        user_view.setNavigationItemSelectedListener(this);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.user_bottom_navigation);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.my_nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
+
+//        NavigationUI.setupActionBarWithNavController(this,navHostFragment.getNavController(), userHomeDrawerLayout);
+//        NavigationUI.setupWithNavController(user_view, navHostFragment.getNavController());
     }
 
     @Override
@@ -75,6 +75,19 @@ public class MainActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
+    //    private NavigationView.OnNavigationItemSelectedListener sideNav = new NavigationView.OnNavigationItemSelectedListener() {
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//            switch (menuItem.getItemId()) {
+//                case R.id.nav_log_out:
+//                    logout();
+//                    break;
+//            }
+//            userHomeDrawerLayout.closeDrawer(GravityCompat.START);
+//            return true;
+//        }
+//    };
 
     public void logout() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -92,16 +105,19 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int item = menuItem.getItemId();
+    public void onUserInfoPress(View view) {
+        Intent moveToInfo = new Intent(MainActivity.this, UserInfoActivities.class);
+        moveToInfo.putExtra("userID", userID);
+        MainActivity.this.startActivity(moveToInfo);
+    }
 
-        if (item == R.id.nav_log_out) {
-            logout();
-        } else if (item == R.id.nav_profile) {
-            Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-        }
-        userHomeDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+    public void onLogoutPress(View view) {
+        Intent moveToLogout = new Intent(MainActivity.this, LoginActivity.class);
+        MainActivity.this.startActivity(moveToLogout);
+    }
+
+    public void onLocationData(View view) {
+        Intent moveToLoginData = new Intent(MainActivity.this, LocationList.class);
+        MainActivity.this.startActivity(moveToLoginData);
     }
 }

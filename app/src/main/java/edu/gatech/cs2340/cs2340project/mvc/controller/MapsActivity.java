@@ -1,7 +1,12 @@
 package edu.gatech.cs2340.cs2340project.mvc.controller;
 
+<<<<<<< HEAD
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+=======
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+>>>>>>> parent of 5e74854... Update navigation drawer
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;

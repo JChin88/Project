@@ -19,7 +19,4 @@
         android:title="Search"
         />
 
-    <!--<item-->
-        <!--android:id="@+id/nav_profile"-->
-
 </menu>
