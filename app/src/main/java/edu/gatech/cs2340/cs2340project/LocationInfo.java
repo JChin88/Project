@@ -19,5 +19,4 @@ public class LocationInfo extends Fragment {
         return inflater.inflate(R.layout.fragment_location_info, container, false);
     }
 
-
 }
