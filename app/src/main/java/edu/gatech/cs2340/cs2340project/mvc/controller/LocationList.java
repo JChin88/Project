@@ -103,7 +103,7 @@ public class LocationList extends AppCompatActivity {
                 // 0    1   2       3           4               5   6   7   8       9   10
                 tempLocation.setName(part[1]);
                 tempLocation.setLatitude(Double.parseDouble(part[2]));
-                tempLocation.setLongitude(Double.parseDouble(part[3]));
+                tempLocation.setLongtitude(Double.parseDouble(part[3]));
                 tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6] + ", " + part[7]);
                 tempLocation.setType(part[8]);
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));

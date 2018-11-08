@@ -70,15 +70,27 @@ public class DonationItemListActivities extends AppCompatActivity {
         setUpRecyclerView();
     }
 
+    public void searchByCategory(DonationItem.DonationItemCategory category) {
+        String stringCategory = category.toString();
+        Query query = donationItemRef.whereEqualTo("category", stringCategory)
+                .orderBy("donationItemName", Query.Direction.ASCENDING);
+        options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+                .setQuery(query, DonationItem.class)
+                .build();
+    }
 
     public void setUpRecyclerView() {
         Query query = donationItemRef.orderBy(("donationItemName"), Query.Direction.ASCENDING);
+//        DonationItem.DonationItemCategory category = DonationItem.DonationItemCategory.valueOf("CLOTHES");
+//        query = searchByCategory(category);
+
         options = new FirestoreRecyclerOptions.Builder<DonationItem>()
                 .setQuery(query, DonationItem.class)
                 .build();
         adapter = new DonationItemsAdapter(options);
 
         recyclerView.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new DonationItemsAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(DocumentSnapshot documentSnapshot, int position) {
@@ -95,6 +107,47 @@ public class DonationItemListActivities extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void searchItem(String name) {
+        if (name.length() < 1) {
+            setUpRecyclerView();
+            return;
+        }
+        name = name.trim();
+        listDI = new ArrayList<>();
+        Query query = donationItemRef.whereEqualTo("donationItemName", name)
+                .orderBy("donationItemName", Query.Direction.ASCENDING);
+        options = new FirestoreRecyclerOptions.Builder<DonationItem>().setQuery(query, DonationItem.class). build();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search_donation_item, menu);
+        MenuItem searchMI = menu.findItem(R.id.search_donation_item_btn);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMI);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() < 1) {
+                    setUpRecyclerView();
+                    return false;
+                }
+                searchItem(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() < 1) {
+                    setUpRecyclerView();
+                    return false;
+                }
+                searchItem(newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

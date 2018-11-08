@@ -4,93 +4,103 @@ import java.util.List;
 
 public class Location {
 
-    protected String locationKey;
-    protected String name;
-    protected String type;
-    protected double longitude;
-    protected double latitude;
-    protected String address;
-    protected String phoneNumber;
-    protected String website;
-    //List<DonationItem> _donationItemList;
+    //K key;;
+    String _name;
+    String _type;
+    double _longitude;
+    double _latitude;
+    String _address;
+    String _phoneNumber;
+    String _website;
+    List<DonationItem> _donationItemList;
 
     public Location() {
 
     }
 
-    public Location(String locationKey, String name, String type, double longitude, double latitude,
-                    String address, String phoneNumber, String website) {
-        this.locationKey = locationKey;
-        this.name = name;
-        this.type = type;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.website = website;
+    public Location(String name, String type, double longtitue, double latitude, String address, String phoneNumber) {
+        _name = name;
+        _type = type;
+        _longitude = longtitue;
+        _latitude = latitude;
+        _address = address;
+        _phoneNumber = phoneNumber;
     }
 
-    public String getLocationKey() {
-        return locationKey;
-    }
-
-    public void setLocationKey(String locationKey) {
-        this.locationKey = locationKey;
-    }
-
+    // Getter/Setter for name
     public String getName() {
-        return name;
+        return _name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        _name = name;
     }
 
+    // Getter/Setter for type
     public String getType() {
-        return type;
+        return _type;
     }
 
     public void setType(String type) {
-        this.type = type;
+        _type = type;
     }
 
-    public double getLongitude() {
-        return longitude;
+    // Getter/Setter for longtitude
+    public double getLongtitude() {
+        return _longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setLongtitude(double longtitude) {
+        _longitude = longtitude;
     }
 
+    // Getter/Setter for latitude
     public double getLatitude() {
-        return latitude;
+        return _latitude;
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = latitude;
+        _latitude = latitude;
     }
 
+    // Getter/Setter for address
     public String getAddress() {
-        return address;
+        return _address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        _address = address;
     }
 
+    // Getter/Setter for phone number
     public String getPhoneNumber() {
-        return phoneNumber;
+        return _phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        _phoneNumber = phoneNumber;
     }
 
+
+    // Getter/Setter for website
     public String getWebsite() {
-        return website;
+        return _website;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setWebsite(String _website) {
+        this._website = _website;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "\n_name = '" + _name + '\'' +
+                "\n _type = '" + _type + '\'' +
+                "\n _longitude = " + _longitude +
+                "\n _latitude = " + _latitude +
+                "\n _address = '" + _address + '\'' +
+                "\n _phoneNumber = " + _phoneNumber +
+                "\n _website = '" + _website + '\'' +
+                '}';
     }
 }

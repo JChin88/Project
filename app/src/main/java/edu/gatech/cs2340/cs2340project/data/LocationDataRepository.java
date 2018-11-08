@@ -2,13 +2,10 @@ package edu.gatech.cs2340.cs2340project.data;
 
 import android.support.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,31 +34,13 @@ public class LocationDataRepository implements LocationRepository {
         db = FirebaseFirestore.getInstance();
     }
 
-    @Override
     public void setInteractor(Interactor interactor) {
         this.interactor = interactor;
     }
 
     @Override
     public void getLocation(String key) {
-        db.collection("Donation Locations").document(key).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if (documentSnapshot.exists()) {
-                        Location location = documentSnapshot.toObject(Location.class);
-                        interactor.onNext(location);
-                    } else {
-                        interactor.onError("No Such Location");
-                    }
-                } else {
-                    interactor.onError(task.getException().getMessage());
-                }
 
-            }
-        });
     }
 
     @Override
@@ -81,7 +60,7 @@ public class LocationDataRepository implements LocationRepository {
                 // 0    1   2       3           4               5   6   7   8       9   10
                 tempLocation.setName(part[1]);
                 tempLocation.setLatitude(Double.parseDouble(part[2]));
-                tempLocation.setLongitude(Double.parseDouble(part[3]));
+                tempLocation.setLongtitude(Double.parseDouble(part[3]));
                 tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6] + ", " + part[7]);
                 tempLocation.setType(part[8]);
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));

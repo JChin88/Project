@@ -3,11 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/donation_location_recycler_view"
+    <Button
+        android:id="@+id/move_to_location_btn"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:text="Location List"/>
 
-    </android.support.v7.widget.RecyclerView>
+    <Button
+        android:id="@+id/move_to_inventory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inventory"
+        android:layout_below="@id/move_to_location_btn"/>
+
+    <Button
+        android:id="@+id/temp_log_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/move_to_inventory"/>
 
 </RelativeLayout>

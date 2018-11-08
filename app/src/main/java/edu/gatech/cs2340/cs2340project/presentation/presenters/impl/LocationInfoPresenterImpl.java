@@ -37,7 +37,7 @@ public class LocationInfoPresenterImpl extends AbstractPresenter implements Loca
                 this,
                 mLocationRepository
         );
-        mLocationRepository.setInteractor(interactor);
+
         // run the interactor
         interactor.execute();
     }

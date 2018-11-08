@@ -10,7 +10,6 @@
             android:icon="@drawable/ic_profile"
             android:title="Profile" />
 
-
     </group>
 
     <item android:title="Setting">
