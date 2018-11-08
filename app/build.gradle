@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -26,9 +27,12 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 <<<<<<< HEAD
     implementation 'com.android.support:support-v4:28.0.0'
+<<<<<<< HEAD
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
 =======
 >>>>>>> parent of e15052b... Update bottom navigation view
+=======
+>>>>>>> parent of 5aeafff... Merge branch 'maps' into Henry
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -59,10 +63,6 @@ dependencies {
 //    compile 'com.google.dagger:dagger-android:2.8'
 //    compile 'com.google.dagger:dagger-android-support:2.8'
 //    annotationProcessor 'com.google.dagger:dagger-android-processor:2.x'
-
-
-    //maps dependency
-    implementation 'com.google.android.gms:play-services-maps:16.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

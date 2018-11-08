@@ -7,14 +7,6 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
-    -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -43,6 +35,7 @@
         <activity
             android:name=".presentation.view.activities.DonationItemListActivities"
             android:launchMode="singleTop"
+<<<<<<< HEAD
             android:parentActivityName=".mvc.controller.LocationInfo" />
 <<<<<<< HEAD
         <activity
@@ -70,6 +63,8 @@
             android:name=".mvc.controller.MapsActivity"
             android:label="@string/title_activity_maps"
             android:exported="true"></activity>
+=======
+>>>>>>> parent of 5aeafff... Merge branch 'maps' into Henry
             android:parentActivityName=".presentation.view.activities.LocationInfoActivities" />
 =======
 >>>>>>> parent of e15052b... Update bottom navigation view
