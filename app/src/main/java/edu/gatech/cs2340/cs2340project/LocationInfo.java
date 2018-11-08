@@ -19,6 +19,7 @@ public class LocationInfo extends Fragment {
         return inflater.inflate(R.layout.fragment_location_info, container, false);
     }
 
+<<<<<<< HEAD:app/src/main/java/edu/gatech/cs2340/cs2340project/LocationInfo.java
 <<<<<<< HEAD:app/src/main/java/edu/gatech/cs2340/cs2340project/presentation/view/fragments/LocationInfoFragment.java
 <<<<<<< HEAD:app/src/main/java/edu/gatech/cs2340/cs2340project/presentation/view/fragments/LocationInfoFragment.java
     @Override
@@ -28,6 +29,8 @@ public class LocationInfo extends Fragment {
 =======
 
 >>>>>>> parent of 5e74854... Update navigation drawer:app/src/main/java/edu/gatech/cs2340/cs2340project/LocationInfo.java
+=======
+>>>>>>> parent of 5aeafff... Merge branch 'maps' into Henry:app/src/main/java/edu/gatech/cs2340/cs2340project/LocationInfo.java
 =======
 >>>>>>> parent of 5aeafff... Merge branch 'maps' into Henry:app/src/main/java/edu/gatech/cs2340/cs2340project/LocationInfo.java
 }

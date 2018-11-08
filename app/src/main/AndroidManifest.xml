@@ -36,6 +36,7 @@
             android:name=".presentation.view.activities.DonationItemListActivities"
             android:launchMode="singleTop"
 <<<<<<< HEAD
+<<<<<<< HEAD
             android:parentActivityName=".mvc.controller.LocationInfo" />
 <<<<<<< HEAD
         <activity
@@ -63,6 +64,8 @@
             android:name=".mvc.controller.MapsActivity"
             android:label="@string/title_activity_maps"
             android:exported="true"></activity>
+=======
+>>>>>>> parent of 5aeafff... Merge branch 'maps' into Henry
 =======
 >>>>>>> parent of 5aeafff... Merge branch 'maps' into Henry
             android:parentActivityName=".presentation.view.activities.LocationInfoActivities" />
