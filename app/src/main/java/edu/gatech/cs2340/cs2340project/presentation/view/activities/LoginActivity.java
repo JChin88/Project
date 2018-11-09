@@ -15,8 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
@@ -27,44 +27,38 @@ import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private ProgressBar mProgressBar;
+    @BindView(R.id.login_email)
+    AutoCompleteTextView mEmailView;
 
-    private LinearLayout linearLayout;
+    @BindView(R.id.login_password)
+    EditText mPasswordView;
 
-    private LoginPresenter mPresenter;
-    private LoginPresenter.LoginView loginView;
+    @BindView(R.id.login_progress)
+    ProgressBar mProgressBar;
 
-    private FirebaseAuth mAuth;
+    @BindView(R.id.login_linear_layout)
+    LinearLayout linearLayout;
 
+    @BindView(R.id.sign_in_btn)
     Button loginButton;
+
+    @BindView(R.id.login_register_btn)
     Button registerButton;
 
+    private LoginPresenter mPresenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //ButterKnife.bind(this);
-
-        //linearLayout = findViewById(R.id.email_login_form);
-
-        String userEmail = "henry@gmail.com";
-        String userPassword = "password";
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mProgressBar = findViewById(R.id.login_progress);
-        mAuth = FirebaseAuth.getInstance();
-
-        loginButton = findViewById(R.id.email_sign_in_button);
-        registerButton = findViewById(R.id.login_register_btn);
-
+        ButterKnife.bind(this);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Hide the keyboard
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 onLoginPress(v);
             }
         });
@@ -75,6 +69,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             }
         });
         setTitle("Login");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -89,12 +88,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void showViewRetry() {
-        //linearLayout.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideViewRetry() {
-       // linearLayout.setVisibility(View.GONE);
+        linearLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -139,6 +138,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return true;
     }
 
+    /**
+     * Button for login
+     * @param view
+     */
     public void onLoginPress(View view) {
         hideViewRetry();
         showProgress();
@@ -160,11 +163,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     /**
-     * Button for cancel - go back to the welcome screen
+     * Button for register a new account
      *
      */
     public void onRegisterPress(View view) {
-            Intent moveToRegistar = new Intent(LoginActivity.this, RegisterUserActivity.class);
-            LoginActivity.this.startActivity(moveToRegistar);
+            Intent moveToRegister = new Intent(LoginActivity.this,
+                    RegisterUserActivity.class);
+            LoginActivity.this.startActivity(moveToRegister);
     }
 }

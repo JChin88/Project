@@ -8,6 +8,7 @@ import edu.gatech.cs2340.cs2340project.domain.interactor.AddUserInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.AddUserInteractorImpl;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
+import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.AddUserPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
@@ -22,20 +23,20 @@ public class AddUserPresenterImpl extends AbstractPresenter implements AddUserPr
     private String userName;
     private String userEmail;
     private String userPassword;
-    private User.AccountType userType;
+    private UserRights userRights;
 
     public AddUserPresenterImpl(Executor executor, MainThread mainThread, RegisterView mView,
                                 UserRepository mUserRepository, String userName, String userEmail,
-                                String userPassword, User.AccountType userType) {
+                                String userPassword, UserRights userRights) {
         super(executor, mainThread);
         this.mView = mView;
         this.mUserRepository = mUserRepository;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        this.userType = userType;
+        this.userRights = userRights;
         mInteractor = new AddUserInteractorImpl(executor, mainThread, this, mUserRepository,
-                userName, userEmail, userPassword, userType);
+                userName, userEmail, userPassword, userRights);
         mUserRepository.setInteractor(mInteractor);
     }
 

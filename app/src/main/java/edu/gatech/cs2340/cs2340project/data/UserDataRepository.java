@@ -38,6 +38,7 @@ import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
+import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
@@ -67,14 +68,14 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public void addUser(final String name, final String email, final String password, final User.AccountType type) {
+    public void addUser(final String name, final String email, final String password, final UserRights userRights) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             String userID = mAuth.getCurrentUser().getUid();
-                            user = new User(userID, name, email, type);
+                            user = new User(userID, name, email, userRights);
                             db.collection("users").document(userID).set(user);
                             interactor.onNext("User Registered Successful");
                         } else {
@@ -97,7 +98,7 @@ public class UserDataRepository implements UserRepository {
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User.AccountType accountType = User.AccountType.valueOf(documentSnapshot.get("userType").toString());
+                UserRights accountType = UserRights.valueOf(documentSnapshot.get("userRights").toString());
                 User user = new User(firebaseUser.getProviderId(), firebaseUser.getDisplayName(),
                         firebaseUser.getEmail(), accountType);
                 interactor.onNext(user);

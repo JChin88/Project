@@ -94,12 +94,25 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int item = menuItem.getItemId();
-
-        if (item == R.id.nav_log_out) {
-            logout();
-        } else if (item == R.id.nav_profile) {
-            Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
+        switch (menuItem.getItemId()) {
+            case R.id.nav_profile:
+                Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_donation_list123:
+                Intent goDL = new Intent(MainActivity.this, LocationList.class);
+                startActivity(goDL);
+                break;
+            case R.id.nav_map:
+                Intent goToMap = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(goToMap);
+                break;
+            case R.id.nav_inventory:
+                Intent intent = new Intent(MainActivity.this, DonationItemListActivities.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_log_out:
+                logout();
+                break;
         }
         userHomeDrawerLayout.closeDrawer(GravityCompat.START);
         return true;

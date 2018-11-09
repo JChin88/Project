@@ -33,6 +33,7 @@
 
 
     <LinearLayout
+        android:id="@+id/login_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -47,7 +48,7 @@
             android:paddingBottom="10dp">
 
             <AutoCompleteTextView
-                android:id="@+id/email"
+                android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="User ID"
@@ -62,12 +63,11 @@
             android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/email_sign_in_button"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Password"
@@ -82,16 +82,16 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/email_sign_in_button"
+            android:id="@+id/sign_in_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
             android:onClick="onLoginPress"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="@string/login_btn_text"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textStyle="bold"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/login_register_btn"

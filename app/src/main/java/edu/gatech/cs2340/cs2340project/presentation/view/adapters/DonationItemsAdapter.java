@@ -11,6 +11,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
@@ -44,14 +46,15 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
 
     class DonationItemHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.donation_item_name)
         TextView textViewDonationItemTitle;
+
+        @BindView(R.id.donation_item_short_description)
         TextView textViewDonationItemShortDescription;
 
         public DonationItemHolder(@NonNull View itemView) {
             super(itemView);
-            textViewDonationItemTitle = itemView.findViewById(R.id.donation_item_name);
-            textViewDonationItemShortDescription = itemView.findViewById(R.id.donation_item_short_description);
-
+            ButterKnife.bind(this,itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

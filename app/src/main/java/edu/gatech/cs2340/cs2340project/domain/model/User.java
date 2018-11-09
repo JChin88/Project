@@ -2,33 +2,27 @@ package edu.gatech.cs2340.cs2340project.domain.model;
 
 public class User {
 
-    public enum AccountType {
-        User ("User"), Admin ("Admin"), Manager ("Manager");
-
-        private final String role;
-
-        AccountType(String role) {
-            this.role = role;
-        }
-
-        public String getRole() {
-            return role;
-        }
-    }
-
     protected String userID;
     protected String name;
     protected String email;
-    protected AccountType userType;
+    protected String manageLocationName;
+    protected UserRights userRights;
+
     public User() {
         // Empty constructor needed for firestore
     }
 
-    public User(String userID, String name, String email, AccountType userType) {
+    public User(String userID, String name, String email, UserRights userRights) {
+        this(userID, name, email, null, userRights);
+    }
+
+    public User(String userID, String name, String email,
+                String manageLocationName, UserRights userRights) {
         this.userID = userID;
         this.name = name;
         this.email = email;
-        this.userType = userType;
+        this.manageLocationName = manageLocationName;
+        this.userRights = userRights;
     }
 
     public String getUserID() {
@@ -55,11 +49,49 @@ public class User {
         this.email = email;
     }
 
-    public AccountType getUserType() {
-        return userType;
+    public String getManageLocationName() {
+        return manageLocationName;
     }
 
-    public void setUserType(AccountType userType) {
-        this.userType = userType;
+    public void setManageLocationName(String manageLocationName) {
+        this.manageLocationName = manageLocationName;
     }
+
+    public UserRights getUserRights() {
+        return userRights;
+    }
+
+    public void setUserRights(UserRights userRights) {
+        this.userRights = userRights;
+    }
+
+    //
+    public boolean isCanUpdateInventories() {
+        return userRights.isCanUpdateInventories();
+    }
+
+    public boolean isCanAddLocation() {
+        return userRights.isCanAddLocation();
+    }
+
+    public boolean isCanRemoveLocation() {
+        return userRights.isCanRemoveLocation();
+    }
+
+    public boolean isCanAddUser() {
+        return userRights.isCanAddUser();
+    }
+
+    public boolean isCanRemoveUser() {
+        return userRights.isCanRemoveUser();
+    }
+
+    public boolean isCanUnlockUser() {
+        return userRights.isCanUnlockUser();
+    }
+
+    public boolean isCanLockUser() {
+        return userRights.isCanLockUser();
+    }
+
 }

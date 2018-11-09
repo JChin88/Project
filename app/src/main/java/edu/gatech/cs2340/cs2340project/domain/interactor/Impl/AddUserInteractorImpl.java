@@ -5,6 +5,7 @@ import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.AddUserInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
+import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 
 public class AddUserInteractorImpl extends AbstractInteractor implements AddUserInteractor{
@@ -14,19 +15,18 @@ public class AddUserInteractorImpl extends AbstractInteractor implements AddUser
     protected String userName;
     protected String userEmail;
     protected String userPassword;
-    protected User.AccountType userType;
+    protected UserRights userRights;
 
     public AddUserInteractorImpl (Executor threadExecutor, MainThread mainThread, Callback callback,
                                   UserRepository userRepository, String userName, String userEmail,
-                                  String userPassword, User.AccountType userType) {
+                                  String userPassword, UserRights userRights) {
         super(threadExecutor, mainThread);
         mCallBack = callback;
         mUserRepository = userRepository;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        this.userType = userType;
-
+        this.userRights = userRights;
     }
 
     @Override
@@ -51,6 +51,6 @@ public class AddUserInteractorImpl extends AbstractInteractor implements AddUser
 
     @Override
     public void run() {
-        mUserRepository.addUser(userName, userEmail, userPassword, userType);
+        mUserRepository.addUser(userName, userEmail, userPassword, userRights);
     }
 }
