@@ -8,20 +8,29 @@ package edu.gatech.cs2340.cs2340project.presentation.view;
 public interface BaseView {
 
     /**
-     * This is a general method used for showing some kind of progress during a background task. For example, this
-     * method should show a progress bar and/or disable buttons before some background work starts.
+     * Show a view with a progress bar indicating a loading process.
      */
     void showProgress();
 
     /**
-     * This is a general method used for hiding progress information after a background task finishes.
+     * Hide a loading view.
      */
     void hideProgress();
 
     /**
+     * Show a retry view in case of an error when retrieving data.
+     */
+    void showViewRetry();
+
+    /**
+     * Hide a retry view shown if there was an error when retrieving data.
+     */
+    void hideViewRetry();
+
+    /**
      * This method is used for showing error messages on the UI.
      *
-     * @param message The error message to be displayed.
+     * @param errorMessage The error message to be displayed.
      */
-    void showError(String message);
+    void showError(String errorMessage);
 }

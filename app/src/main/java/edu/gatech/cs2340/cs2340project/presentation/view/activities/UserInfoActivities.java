@@ -8,7 +8,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.data.UserData;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
@@ -66,13 +65,23 @@ public class UserInfoActivities extends AppCompatActivity implements View {
     }
 
     @Override
+    public void showViewRetry() {
+
+    }
+
+    @Override
+    public void hideViewRetry() {
+
+    }
+
+    @Override
     public void showError(String errorMessage) {
         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void displayUserInfo(User user) {
-        mUserID.setText("User ID is : " + user.getID());
+        mUserID.setText("User ID is : " + user.getUserID());
         mUserName.setText("User Name is : " + user.getName());
     }
 }

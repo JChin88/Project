@@ -15,17 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.mvc.controller.ApplicationActivity;
-import edu.gatech.cs2340.cs2340project.mvc.controller.Welcome;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter.LoginView;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LoginPresenterImpl;
@@ -33,60 +27,53 @@ import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private ProgressBar mProgressBar;
+    @BindView(R.id.login_email)
+    AutoCompleteTextView mEmailView;
 
-    private LinearLayout linearLayout;
+    @BindView(R.id.login_password)
+    EditText mPasswordView;
+
+    @BindView(R.id.login_progress)
+    ProgressBar mProgressBar;
+
+    @BindView(R.id.login_linear_layout)
+    LinearLayout linearLayout;
+
+    @BindView(R.id.sign_in_btn)
+    Button loginButton;
+
+    @BindView(R.id.login_register_btn)
+    Button registerButton;
 
     private LoginPresenter mPresenter;
-    private LoginPresenter.LoginView loginView;
-
-    private FirebaseAuth mAuth;
-
-    Button loginButton;
-    Button cancelButton;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //ButterKnife.bind(this);
-
-        linearLayout = findViewById(R.id.email_login_form);
-
-        String userEmail = "henry@gmail.com";
-        String userPassword = "password";
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mProgressBar = findViewById(R.id.login_progress);
-        mAuth = FirebaseAuth.getInstance();
-
-        loginButton = findViewById(R.id.email_sign_in_button);
-        cancelButton = findViewById(R.id.cancel_button);
-
+        ButterKnife.bind(this);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Hide the keyboard
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 onLoginPress(v);
             }
         });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancelPress(v);
+                onRegisterPress(v);
             }
         });
         setTitle("Login");
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        showViewRetry();
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -100,13 +87,23 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
+    public void showViewRetry() {
+        linearLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideViewRetry() {
+        linearLayout.setVisibility(View.GONE);
+    }
+
+    @Override
     public void showError(String errorMessage) {
         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void moveToUserHomeActivity(String userID) {
-        Intent intent = new Intent(LoginActivity.this, ApplicationActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("userID", userID);
         intent.putExtra("userName", "Henry");
         LoginActivity.this.startActivity(intent);
@@ -141,16 +138,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return true;
     }
 
-    public void showViewRetry() {
-        linearLayout.setVisibility(View.VISIBLE);
-    }
-
-    public void hideVieWRetry() {
-        linearLayout.setVisibility(View.GONE);
-    }
-
+    /**
+     * Button for login
+     * @param view
+     */
     public void onLoginPress(View view) {
-        hideVieWRetry();
+        hideViewRetry();
         showProgress();
         String userEmail = mEmailView.getText().toString().trim();
         String userPassword = mPasswordView.getText().toString().trim();
@@ -164,16 +157,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             mPresenter.resume();
         } else {
             hideProgress();
+            showViewRetry();
         }
 
     }
 
     /**
-     * Button for cancel - go back to the welcome screen
+     * Button for register a new account
      *
      */
-    public void onCancelPress(View view) {
-            Intent moveBackToWelcome = new Intent(LoginActivity.this, Welcome.class);
-            LoginActivity.this.startActivity(moveBackToWelcome);
+    public void onRegisterPress(View view) {
+            Intent moveToRegister = new Intent(LoginActivity.this,
+                    RegisterUserActivity.class);
+            LoginActivity.this.startActivity(moveToRegister);
     }
 }

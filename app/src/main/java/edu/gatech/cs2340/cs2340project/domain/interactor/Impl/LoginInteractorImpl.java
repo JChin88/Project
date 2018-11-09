@@ -1,14 +1,10 @@
 package edu.gatech.cs2340.cs2340project.domain.interactor.Impl;
 
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-
-import static edu.gatech.cs2340.cs2340project.data.UserDataRepository.LOGIN_SUCCESS;
 
 public class LoginInteractorImpl extends AbstractInteractor implements LoginInteractor {
 
@@ -16,7 +12,6 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
     UserRepository mUserRepository;
     String userId;
     String userPassword;
-    String loginMessage;
 
     public LoginInteractorImpl(String id, String password, Executor threadExecutor,
                                MainThread mainThread, Callback callback,
@@ -29,7 +24,7 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
     }
 
     @Override
-    public void notifyError(final String errorMessage) {
+    public void onError(final String errorMessage) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -39,35 +34,18 @@ public class LoginInteractorImpl extends AbstractInteractor implements LoginInte
     }
 
     @Override
-    public void goBackMainThread(final Object params) {
+    public void onNext(final Object params) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
                 mCallback.onLoginSuccess((String) params);
             }
         });
-
     }
 
     @Override
     public void run() {
-        //String loginMessage;
         mUserRepository.login(userId, userPassword);
-//        loginMessage = mUserRepository.getMessage();
-//
-//        User user1;
-//        if (loginMessage == null) {
-//            loginMessage = "Login message is null";
-//        }
-//
-//        if (!(loginMessage.equals(LOGIN_SUCCESS))) {
-//            notifyError(loginMessage);
-//            return;
-//        }
-//        String currentUID = mUserRepository.getCurrentUID();
-// //       User user = mUserRepository.getUser(currentUID);
-//
-//        moveToUserInfo(currentUID);
     }
 
 }

@@ -3,15 +3,15 @@ package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetLocationDetailsImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
-import edu.gatech.cs2340.cs2340project.data.LocationData;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter.View;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LocationInfoPresenterImpl;
@@ -29,7 +29,8 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
     private TextView locationType;
     private TextView locationPhone;
     private TextView locationWebsite;
-    private TextView mMessage;
+    private ProgressBar progressBar;
+    private LinearLayout linearLayout;
     private LocationInfoPresenter mPresenter;
 
     @Override
@@ -44,13 +45,16 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
         locationType = findViewById(R.id._locationType);
         locationPhone = findViewById(R.id._locationPhone);
         locationWebsite = findViewById(R.id._locationWebsite);
-        mMessage = findViewById(R.id.message_LocationInfo);
+        progressBar = findViewById(R.id.progress_bar_donation_location_details);
+        linearLayout = findViewById(R.id.linear_layout_donation_location_details);
         Intent tempIntent = getIntent();
-        Integer location = Integer.parseInt(tempIntent.getStringExtra("key"));
+        String key = tempIntent.getStringExtra("key");
+
+        setTitle("Location Information");
 
         // create a presenter for this view
         mPresenter = new LocationInfoPresenterImpl(
-                location,
+                key,
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
@@ -69,24 +73,34 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
 
     @Override
     public void showProgress() {
-        mMessage.setText("Retrieving...");
+        progressBar.setVisibility(android.view.View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        Toast.makeText(this, "Retrieved!", Toast.LENGTH_LONG).show();
+        progressBar.setVisibility(android.view.View.GONE);
+    }
+
+    @Override
+    public void showViewRetry() {
+        linearLayout.setVisibility(android.view.View.VISIBLE);
+    }
+
+    @Override
+    public void hideViewRetry() {
+        linearLayout.setVisibility(android.view.View.GONE);
     }
 
     @Override
     public void showError(String message) {
-        mMessage.setText(message);
+        Toast.makeText(LocationInfoActivities.this, message, Toast.LENGTH_LONG);
     }
 
     @Override
     public void displayLocationInfo(Location location) {
         locationName.setText("Location Name: \t" + location.getName());
         locationLatitude.setText("Location Latitude: \t" + Double.toString(location.getLatitude()));
-        locationLongtitude.setText("Location Longtitude: \t" + Double.toString(location.getLongtitude()));
+        locationLongtitude.setText("Location Longtitude: \t" + Double.toString(location.getLongitude()));
         locationAddress.setText("Location Address: \t" + location.getAddress());
         locationType.setText("Location Type: \t" + location.getType());
         locationPhone.setText("Location Phone Number: \t" + location.getPhoneNumber());

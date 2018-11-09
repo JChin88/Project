@@ -23,6 +23,19 @@
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
+        <ImageButton
+            android:id="@+id/donation_item_dots_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignEnd="@id/donation_item_short_description"
+            android:src="@drawable/ic_dots"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="#FFFFE8"
+            android:tint="@color/colorPrimary"
+            />
+
         <TextView
             android:id="@+id/donation_item_short_description"
             android:layout_width="match_parent"

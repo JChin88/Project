@@ -1,11 +1,9 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.LoginInteractorImpl;
 import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
@@ -40,6 +38,7 @@ public class LoginPresenterImpl extends AbstractPresenter implements LoginPresen
     @Override
     public void resume() {
         mView.showProgress();
+        mView.hideViewRetry();
         // run the interactor
         mInteractor.execute();
     }
@@ -60,19 +59,16 @@ public class LoginPresenterImpl extends AbstractPresenter implements LoginPresen
     }
 
     @Override
-    public void onError(String errorMessage) {
-        mView.showError(errorMessage);
-    }
-
-    @Override
     public void onLoginSuccess(String userID) {
         mView.hideProgress();
+        mView.showViewRetry();
         mView.moveToUserHomeActivity(userID);
     }
 
     @Override
     public void onLoginFailed(String errorMessage) {
         mView.hideProgress();
-        onError(errorMessage);
+        mView.showViewRetry();
+        mView.showError(errorMessage);
     }
 }

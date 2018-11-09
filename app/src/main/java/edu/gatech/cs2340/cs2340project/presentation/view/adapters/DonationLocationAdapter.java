@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.presentation.adapter;
+package edu.gatech.cs2340.cs2340project.presentation.view.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +12,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
+import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
-public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem, DonationItemsAdapter.DonationItemHolder> {
+public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, DonationLocationAdapter.DonationLocationHolder> {
 
     private OnItemClickListener listener;
 
@@ -24,33 +24,33 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
      *
      * @param options
      */
-    public DonationItemsAdapter(@NonNull FirestoreRecyclerOptions<DonationItem> options) {
+    public DonationLocationAdapter(@NonNull FirestoreRecyclerOptions<Location> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull DonationItemHolder holder, int position, @NonNull DonationItem model) {
-        holder.textViewDonationItemTitle.setText(model.getDonationItemName());
-        holder.textViewDonationItemShortDescription.setText(model.getShortDescription());
+    protected void onBindViewHolder(@NonNull DonationLocationHolder holder, int position, @NonNull Location model) {
+        holder.donationLocationName.setText(model.getName());
+        holder.donationLocationType.setText(model.getType());
     }
 
     @NonNull
     @Override
-    public DonationItemHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v  = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.donation_item,
-                    viewGroup, false);
-        return new DonationItemHolder(v);
+    public DonationLocationHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View v  = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_donation_location,
+                viewGroup, false);
+        return new DonationLocationHolder(v);
     }
 
-    class DonationItemHolder extends RecyclerView.ViewHolder {
+    class DonationLocationHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewDonationItemTitle;
-        TextView textViewDonationItemShortDescription;
+        TextView donationLocationName;
+        TextView donationLocationType;
 
-        public DonationItemHolder(@NonNull View itemView) {
+        public DonationLocationHolder(@NonNull View itemView) {
             super(itemView);
-            textViewDonationItemTitle = itemView.findViewById(R.id.donation_item_name);
-            textViewDonationItemShortDescription = itemView.findViewById(R.id.donation_item_short_description);
+            donationLocationName = itemView.findViewById(R.id.card_view_donation_location_name);
+            donationLocationType = itemView.findViewById(R.id.card_view_donation_location_type);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

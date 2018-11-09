@@ -2,24 +2,24 @@ package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
-import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationDetails;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetLocationDetailsImpl;
+import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationDetailsInteractor;
+import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetLocationDetailsInteractorImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
 public class LocationInfoPresenterImpl extends AbstractPresenter implements LocationInfoPresenter,
-        GetLocationDetails.CallBack {
+        GetLocationDetailsInteractor.Callback {
 
     private LocationInfoPresenter.View mView;
     private LocationRepository mLocationRepository;
-    private Integer _key;
+    private String key;
 
-    public LocationInfoPresenterImpl(Integer key, Executor executor, MainThread mainThread,
+    public LocationInfoPresenterImpl(String key, Executor executor, MainThread mainThread,
                                      View view, LocationRepository locationRepository) {
         super(executor, mainThread);
-        _key = key;
+        this.key = key;
         mView = view;
         mLocationRepository = locationRepository;
     }
@@ -30,14 +30,14 @@ public class LocationInfoPresenterImpl extends AbstractPresenter implements Loca
         mView.showProgress();
 
         // initialize the interactor
-        GetLocationDetails interactor = new GetLocationDetailsImpl(
-                _key,
+        GetLocationDetailsInteractor interactor = new GetLocationDetailsInteractorImpl(
+                key,
                 mExecutor,
                 mMainThread,
                 this,
                 mLocationRepository
         );
-
+        mLocationRepository.setInteractor(interactor);
         // run the interactor
         interactor.execute();
     }
@@ -58,20 +58,15 @@ public class LocationInfoPresenterImpl extends AbstractPresenter implements Loca
     }
 
     @Override
-    public void onError(String message) {
-        mView.showError(message);
-    }
-
-    @Override
     public void onLocationRetrieved(Location location) {
         mView.hideProgress();
         mView.displayLocationInfo(location);
     }
 
     @Override
-    public void onRetrievalFailed(String error) {
+    public void onRetrievalFailed(String errorMessage) {
         mView.hideProgress();
-
+        mView.showError(errorMessage);
     }
 
 }

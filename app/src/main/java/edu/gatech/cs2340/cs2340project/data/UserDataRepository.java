@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -36,6 +38,7 @@ import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
+import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
@@ -65,7 +68,51 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public User getUser(String uid) {
+    public void addUser(final String name, final String email, final String password, final UserRights userRights) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String userID = mAuth.getCurrentUser().getUid();
+                            user = new User(userID, name, email, userRights);
+                            db.collection("users").document(userID).set(user);
+                            interactor.onNext("User Registered Successful");
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                interactor.onError("Email already registered!");
+                            } else {
+                                interactor.onError(task.getException().getMessage());
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getCurrentUser() {
+        final FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String currentUserID = firebaseUser.getProviderId();
+//        firebaseUser.updateProfile()
+        DocumentReference userRef = db.collection("users").document(currentUserID);
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                UserRights accountType = UserRights.valueOf(documentSnapshot.get("userRights").toString());
+                User user = new User(firebaseUser.getProviderId(), firebaseUser.getDisplayName(),
+                        firebaseUser.getEmail(), accountType);
+                interactor.onNext(user);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                interactor.onError("Error on retrieve current user info");
+            }
+        });
+    }
+
+    @Override
+    public void getUser(String uid) {
 //        FirebaseUser firebaseUser = mAuth.getCurrentUser();
 //        firebaseUser.updateProfile()
 ////        User user = new User(firebaseUser.getUid(),
@@ -74,28 +121,19 @@ public class UserDataRepository implements UserRepository {
 ////                                firebaseUser.getPhoneNumber(),
 ////                                firebaseUser.getProviderData());
 
-        if (user == null) {
-            DocumentReference userRef =  db.collection("users").document(uid);
-            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        DocumentReference userRef =  db.collection("users").document(uid);
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
                         user =  documentSnapshot.toObject(User.class);
+                        interactor.onNext(user);
+                    } else {
+                        interactor.onError("Get User Failed");
                     }
                 }
             });
-        }
-        return user;
-    }
 
-    @Override
-    public String getCurrentUID() {
-        return mAuth.getCurrentUser().getUid();
-    }
-
-    @Override
-    public String getMessage() {
-        return LOGIN_MESSAGE;
     }
 
     @Override
@@ -106,7 +144,7 @@ public class UserDataRepository implements UserRepository {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             LOGIN_MESSAGE = LOGIN_SUCCESS;
-                            interactor.goBackMainThread(mAuth.getCurrentUser().getUid());
+                            interactor.onNext(mAuth.getCurrentUser().getUid());
                         } else {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
                                     || task.getException() instanceof FirebaseAuthInvalidUserException) {
@@ -114,14 +152,14 @@ public class UserDataRepository implements UserRepository {
                             } else {
                                 LOGIN_MESSAGE = task.getException().getMessage();
                             }
-                            interactor.notifyError(LOGIN_MESSAGE);
+                            interactor.onError(LOGIN_MESSAGE);
                         }
                     }
                 });
     }
 
     @Override
-    public List<User> getUsers() {
+    public void getUsers() {
         if (users == null) {
             users = new ArrayList<>();
             CollectionReference usersRef = db.collection("users");
@@ -129,13 +167,15 @@ public class UserDataRepository implements UserRepository {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     for (QueryDocumentSnapshot documentSnapshots : queryDocumentSnapshots) {
-                        User user = documentSnapshots.toObject(User.class);
-                        users.add(user);
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            User user = documentSnapshots.toObject(User.class);
+                            users.add(user);
+                        }
                     }
+                    interactor.onNext(users);
                 }
             });
         }
-        return users;
     }
 
 }
