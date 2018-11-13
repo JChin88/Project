@@ -19,13 +19,18 @@ public class LocationTest {
         DonationItem belt = new DonationItem(new Date(), "belt", "location",
                 "sdesc", "fdesc", 4.20,
                 DonationItem.DonationItemCategory.CLOTHES, "comments");
-        itemList.add(new DonationItem(new Date(), "pants", "location",
+        DonationItem pants = new DonationItem(new Date(), "pants", "location",
                 "sdesc", "fdesc", 69.69,
                 DonationItem.DonationItemCategory.CLOTHES, "comments");
+        itemList.add(lochNess);
+        itemList.add(belt);
+        itemList.add(pants);
         Location location = new Location("loc", "location", "type",
                 0.0, 0.0, "address", "phone", "website",
                 itemList);
 
+        DonationItem result;
         //find Loch-Ness Monster
+        result = location.findItem("Loch-Ness Monster");
     }
 }
