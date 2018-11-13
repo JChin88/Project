@@ -32,5 +32,18 @@ public class LocationTest {
         DonationItem result;
         //find Loch-Ness Monster
         result = location.findItem("Loch-Ness Monster");
+        assertEquals(result, lochNess);
+
+        //find belt
+        result = location.findItem("belt");
+        assertEquals(result, belt);
+
+        //find pants
+        result = location.findItem("pants");
+        assertEquals(result, pants);
+
+        //item not in list
+        result = location.findItem("dummy");
+        assertNull(result);
     }
 }
