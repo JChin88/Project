@@ -27,23 +27,24 @@ import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
+    //@BindView fields must not be private or static.
     @BindView(R.id.login_email)
-    AutoCompleteTextView mEmailView;
+     AutoCompleteTextView mEmailView;
 
     @BindView(R.id.login_password)
-    EditText mPasswordView;
+     EditText mPasswordView;
 
     @BindView(R.id.login_progress)
-    ProgressBar mProgressBar;
+     ProgressBar mProgressBar;
 
     @BindView(R.id.login_linear_layout)
-    LinearLayout linearLayout;
+     LinearLayout linearLayout;
 
     @BindView(R.id.sign_in_btn)
-    Button loginButton;
+     Button loginButton;
 
     @BindView(R.id.login_register_btn)
-    Button registerButton;
+     Button registerButton;
 
     private LoginPresenter mPresenter;
     @Override
@@ -138,11 +139,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return true;
     }
 
-    /**
-     * Button for login
-     * @param view
-     */
-    public void onLoginPress(View view) {
+    private void onLoginPress(View view) {
         hideViewRetry();
         showProgress();
         String userEmail = mEmailView.getText().toString().trim();
@@ -162,11 +159,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     }
 
-    /**
-     * Button for register a new account
-     *
-     */
-    public void onRegisterPress(View view) {
+    private void onRegisterPress(View view) {
             Intent moveToRegister = new Intent(LoginActivity.this,
                     RegisterUserActivity.class);
             LoginActivity.this.startActivity(moveToRegister);

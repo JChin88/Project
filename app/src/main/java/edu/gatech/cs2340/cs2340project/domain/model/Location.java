@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Location {
 
-    protected String locationKey;
-    protected String name;
-    protected String type;
-    protected double longitude;
-    protected double latitude;
-    protected String address;
-    protected String phoneNumber;
-    protected String website;
+    private String locationKey;
+    private String name;
+    private String type;
+    private double longitude;
+    private double latitude;
+    private String address;
+    private String phoneNumber;
+    private String website;
     //List<DonationItem> _donationItemList;
 
     public Location() {

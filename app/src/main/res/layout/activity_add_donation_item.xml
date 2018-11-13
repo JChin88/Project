@@ -52,7 +52,7 @@
         android:maxLines="1"/>
 
     <Spinner
-        android:id="@+id/spinner_donation_item_catogory"
+        android:id="@+id/spinner_donation_item_category"
         android:layout_width="match_parent"
         android:layout_height="30dp" />
 

@@ -41,7 +41,7 @@ public class DonationItemListActivities extends AppCompatActivity {
     private DonationItemsAdapter adapter;
     private DonationItemsAdapter2 adapter2;
     private List<DonationItem> listDI;
-    FirestoreRecyclerOptions<DonationItem> options;
+    private FirestoreRecyclerOptions<DonationItem> options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class DonationItemListActivities extends AppCompatActivity {
     }
 
 
-    public void setUpRecyclerView() {
+    private void setUpRecyclerView() {
         Query query = donationItemRef.orderBy(("donationItemName"), Query.Direction.ASCENDING);
         options = new FirestoreRecyclerOptions.Builder<DonationItem>()
                 .setQuery(query, DonationItem.class)

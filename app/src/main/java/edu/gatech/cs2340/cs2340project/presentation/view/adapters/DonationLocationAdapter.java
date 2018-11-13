@@ -47,7 +47,7 @@ public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, 
         TextView donationLocationName;
         TextView donationLocationType;
 
-        public DonationLocationHolder(@NonNull View itemView) {
+        private DonationLocationHolder(@NonNull View itemView) {
             super(itemView);
             donationLocationName = itemView.findViewById(R.id.card_view_donation_location_name);
             donationLocationType = itemView.findViewById(R.id.card_view_donation_location_type);

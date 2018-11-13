@@ -11,8 +11,8 @@ import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 
 public class GetLocationListInteractorImpl extends AbstractInteractor implements GetLocationListInteractor {
 
-    GetLocationListInteractorImpl.Callback mCallback;
-    LocationRepository mLocationRepository;
+    private GetLocationListInteractorImpl.Callback mCallback;
+    private LocationRepository mLocationRepository;
 
     public GetLocationListInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                          Callback mCallback, LocationRepository mLocationRepository) {
@@ -36,7 +36,7 @@ public class GetLocationListInteractorImpl extends AbstractInteractor implements
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLocationListRetrived((List<Location>) params);
+                mCallback.onLocationListRetrieved((List<Location>) params);
             }
         });
     }

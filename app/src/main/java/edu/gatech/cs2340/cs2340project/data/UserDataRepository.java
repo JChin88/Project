@@ -51,8 +51,8 @@ public class UserDataRepository implements UserRepository {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
-    User user;
-    List<User> users;
+    private User user;
+    private List<User> users;
 
     private String LOGIN_MESSAGE;
     private Interactor interactor;
@@ -63,6 +63,7 @@ public class UserDataRepository implements UserRepository {
         //mMainThread = mainThread;
     }
 
+    @Override
     public void setInteractor(Interactor interactor) {
         this.interactor = interactor;
     }

@@ -9,9 +9,9 @@ import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 
 public class GetLocationDetailsInteractorImpl extends AbstractInteractor implements GetLocationDetailsInteractor {
 
-    GetLocationDetailsInteractor.Callback mCallBack;
-    LocationRepository mLocationRepository;
-    String key;
+    private GetLocationDetailsInteractor.Callback mCallBack;
+    private LocationRepository mLocationRepository;
+    private String key;
 
     public GetLocationDetailsInteractorImpl(String key, Executor threadExecutor, MainThread mainThread
             , Callback callback, LocationRepository locationRepository) {

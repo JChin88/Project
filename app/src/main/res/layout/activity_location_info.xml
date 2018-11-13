@@ -33,7 +33,7 @@
             android:textSize="20dp"
             android:padding="5dp"/>
         <TextView
-            android:id="@+id/_locationLongtitude"
+            android:id="@+id/_locationLongitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"

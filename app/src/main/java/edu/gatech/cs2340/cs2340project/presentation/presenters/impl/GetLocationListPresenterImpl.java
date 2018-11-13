@@ -13,8 +13,8 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPres
 public class GetLocationListPresenterImpl extends AbstractPresenter implements GetLocationListPresenter,
         GetLocationListInteractor.Callback {
 
-    GetLocationListPresenter.LocationListView mView;
-    LocationRepository mLocationRepository;
+    private GetLocationListPresenter.LocationListView mView;
+    private LocationRepository mLocationRepository;
 
     public GetLocationListPresenterImpl(Executor executor, MainThread mainThread,
                                         LocationListView mView, LocationRepository mLocationRepository) {
@@ -44,7 +44,7 @@ public class GetLocationListPresenterImpl extends AbstractPresenter implements G
     }
 
     @Override
-    public void onLocationListRetrived(List<Location> locationList) {
+    public void onLocationListRetrieved(List<Location> locationList) {
 
     }
 

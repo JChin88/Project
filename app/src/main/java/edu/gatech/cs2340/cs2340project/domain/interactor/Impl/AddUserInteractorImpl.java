@@ -4,18 +4,17 @@ import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.AddUserInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 
 public class AddUserInteractorImpl extends AbstractInteractor implements AddUserInteractor{
 
-    protected AddUserInteractor.Callback mCallBack;
-    protected UserRepository mUserRepository;
-    protected String userName;
-    protected String userEmail;
-    protected String userPassword;
-    protected UserRights userRights;
+    private final AddUserInteractor.Callback mCallBack;
+    private final UserRepository mUserRepository;
+    private final String userName;
+    private final String userEmail;
+    private final String userPassword;
+    private final UserRights userRights;
 
     public AddUserInteractorImpl (Executor threadExecutor, MainThread mainThread, Callback callback,
                                   UserRepository userRepository, String userName, String userEmail,

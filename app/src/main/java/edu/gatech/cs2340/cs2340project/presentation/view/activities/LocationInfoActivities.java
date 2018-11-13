@@ -40,7 +40,7 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
 
         locationName = findViewById(R.id._locationName);
         locationLatitude = findViewById(R.id._locationLatitude);
-        locationLongtitude = findViewById(R.id._locationLongtitude);
+        locationLongtitude = findViewById(R.id._locationLongitude);
         locationAddress = findViewById(R.id._locationAddress);
         locationType = findViewById(R.id._locationType);
         locationPhone = findViewById(R.id._locationPhone);

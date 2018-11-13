@@ -35,7 +35,7 @@ public class LocationInfo extends AppCompatActivity {
 
         locationName = findViewById(R.id._locationName);
         locationLatitude = findViewById(R.id._locationLatitude);
-        locationLongtitude = findViewById(R.id._locationLongtitude);
+        locationLongtitude = findViewById(R.id._locationLongitude);
         locationAddress = findViewById(R.id._locationAddress);
         locationType = findViewById(R.id._locationType);
         locationPhone = findViewById(R.id._locationPhone);
@@ -63,7 +63,7 @@ public class LocationInfo extends AppCompatActivity {
 
     }
 
-    public void setTextWithKey(Integer key) {
+    private void setTextWithKey(Integer key) {
         Location tempLocation = LocationData.getLocation(key);
         mLocationName = tempLocation.getName();
         locationName.setText("Location Name: \t" + tempLocation.getName());

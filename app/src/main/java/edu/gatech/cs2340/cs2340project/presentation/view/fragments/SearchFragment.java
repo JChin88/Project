@@ -1,6 +1,5 @@
 package edu.gatech.cs2340.cs2340project.presentation.view.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,23 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -71,18 +61,18 @@ public class SearchFragment extends Fragment {
     private TextInputEditText searchWord;
     private View RL;
     private RecyclerView recyclerView;
-    List<String> listLocationName;
-    List<DonationItem> listDI;
+    private List<String> listLocationName;
+    private List<DonationItem> listDI;
 
     private ProgressBar progressBar;
 
-    RadioGroup radioGroup;
-    RadioButton radioButton;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
 
     private Spinner locationSpinner;
     private Spinner categorySpinner;
 
-    ListenerRegistration listen;
+    private ListenerRegistration listen;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -174,7 +164,7 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public void checkRadioButton() {
+    private void checkRadioButton() {
         int radioID = radioGroup.getCheckedRadioButtonId();
         radioButton = RL.findViewById(radioID);
     }
@@ -202,7 +192,7 @@ public class SearchFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public void setUpRecyclerView(String searchText) {
+    private void setUpRecyclerView(String searchText) {
         checkRadioButton();
         progressBar.setVisibility(View.VISIBLE);
         donationItemRef = db.collection("Donation Items");
@@ -210,9 +200,9 @@ public class SearchFragment extends Fragment {
         String location = locationSpinner.getSelectedItem().toString();
         String category = categorySpinner.getSelectedItem().toString();
         Query query = donationItemRef.orderBy("donationItemName", Query.Direction.ASCENDING);
-        if (typeSearch.equals("Location Name")) {
-            if (searchText.length() > 0) {
-                if (location.equals("ALL")) {
+        if ("Location Name".equals(typeSearch)) {
+            if (!searchText.isEmpty()) {
+                if ("ALL".equals(location)) {
                     query = donationItemRef.whereEqualTo("donationItemName", searchText)
                             .orderBy("donationItemName", Query.Direction.ASCENDING);
                 } else {
@@ -221,17 +211,17 @@ public class SearchFragment extends Fragment {
                             .orderBy("donationItemName", Query.Direction.ASCENDING);
                 }
             } else {
-                if (location.equals("ALL")) {
+                if ("ALL".equals(location)) {
                     query =  donationItemRef.orderBy("donationItemName", Query.Direction.ASCENDING);
                 } else {
                     query = donationItemRef.whereEqualTo("locationName", location)
                             .orderBy("donationItemName", Query.Direction.ASCENDING);
                 }
             }
-        } else if (typeSearch.equals("Category")) {
+        } else if ("Category".equals(typeSearch)) {
             query = db.collection("Donation Items").whereEqualTo("category", category)
                     .orderBy("donationItemName", Query.Direction.ASCENDING);
-            if (searchWord.getText().toString().trim().length() > 0) {
+            if (!searchWord.getText().toString().trim().isEmpty()) {
                 searchWord.setText("");
             }
         }
@@ -321,7 +311,7 @@ public class SearchFragment extends Fragment {
 //        }
 //    }
 
-    public void readLocationData() {
+    private void readLocationData() {
         InputStream locationDataFile = getResources().openRawResource(R.raw.location_data);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(locationDataFile, Charset.forName("UTF-8"))

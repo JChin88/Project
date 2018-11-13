@@ -1,18 +1,18 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import android.widget.Toast;
-
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.AddUserInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.AddUserInteractorImpl;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.AddUserPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
+/**
+ * Add user presenter implementation version
+ */
 public class AddUserPresenterImpl extends AbstractPresenter implements AddUserPresenter,
         AddUserInteractor.Callback {
 

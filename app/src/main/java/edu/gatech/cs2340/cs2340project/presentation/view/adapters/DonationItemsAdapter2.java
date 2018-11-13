@@ -16,8 +16,8 @@ import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
 public class DonationItemsAdapter2 extends RecyclerView.Adapter<DonationItemsAdapter2.DonationItemHolder> {
 
-    Context baseContext;
-    List<DonationItem> listDI;
+    private Context baseContext;
+    private List<DonationItem> listDI;
 
     public DonationItemsAdapter2(Activity searchActivity, List<DonationItem> listDI) {
         baseContext = searchActivity.getBaseContext();
@@ -54,7 +54,7 @@ public class DonationItemsAdapter2 extends RecyclerView.Adapter<DonationItemsAda
         TextView textViewDonationItemTitle;
         TextView textViewDonationItemShortDescription;
 
-        public DonationItemHolder(@NonNull View itemView) {
+        private DonationItemHolder(@NonNull View itemView) {
             super(itemView);
             textViewDonationItemTitle = itemView.findViewById(R.id.donation_item_name);
             textViewDonationItemShortDescription = itemView.findViewById(R.id.donation_item_short_description);

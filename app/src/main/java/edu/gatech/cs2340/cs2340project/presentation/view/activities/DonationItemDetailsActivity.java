@@ -71,7 +71,6 @@ public class DonationItemDetailsActivity extends AppCompatActivity {
             });
         } else {
             ll_DIDetails.setVisibility(View.GONE);
-            return;
         }
 
     }

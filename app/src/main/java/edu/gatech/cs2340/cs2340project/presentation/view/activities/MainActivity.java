@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout userHomeDrawerLayout;
-    ActionBarDrawerToggle toggle;
+    private ActionBarDrawerToggle toggle;
     private TextView welcomeM;
 
     private String userID;
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void logout() {
+    private void logout() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         MainActivity.this.startActivity(intent);
         finish();

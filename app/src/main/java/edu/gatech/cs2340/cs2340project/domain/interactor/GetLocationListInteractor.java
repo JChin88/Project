@@ -8,7 +8,7 @@ public interface GetLocationListInteractor {
 
     interface Callback {
 
-        void onLocationListRetrived(List<Location> locationList);
+        void onLocationListRetrieved(List<Location> locationList);
 
         void onLocationListRetrievedFail(String errorMessage);
 

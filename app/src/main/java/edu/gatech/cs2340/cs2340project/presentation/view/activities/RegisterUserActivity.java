@@ -27,6 +27,7 @@ import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
 public class RegisterUserActivity extends AppCompatActivity implements AddUserPresenter.RegisterView {
 
+    //@BindView fields must not be private or static.
     @BindView(R.id.register_user_name_edit_text)
     TextInputEditText userNameView;
 
@@ -161,7 +162,7 @@ public class RegisterUserActivity extends AppCompatActivity implements AddUserPr
         return true;
     }
 
-    public void onRegisterPress(View view) {
+    private void onRegisterPress(View view) {
         showProgress();
         hideViewRetry();
         String userName = userNameView.getText().toString().trim();

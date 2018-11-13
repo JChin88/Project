@@ -32,6 +32,9 @@ import java.util.TimeZone;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
+/**
+ * Add a donation item into the database
+ */
 public class AddDonationItem extends AppCompatActivity {
 
     public static final String EXTRA_ID =
@@ -48,7 +51,7 @@ public class AddDonationItem extends AppCompatActivity {
 
     private String locationName;
 
-    FirebaseFirestore db;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +64,14 @@ public class AddDonationItem extends AppCompatActivity {
         editTextShortDescription = findViewById(R.id.edit_text_donation_item_short_description);
         editTextFullDescription = findViewById(R.id.edit_text_donation_item_full_description);
         editTextValue = findViewById(R.id.edit_text_donation_item_values);
-        spinnerCategory = findViewById(R.id.spinner_donation_item_catogory);
+        spinnerCategory = findViewById(R.id.spinner_donation_item_category);
         editTextComments = findViewById(R.id.edit_text_donation_item_comments);
         locationName = getIntent().getStringExtra("Location Name");
         textViewLocationName.setText(getIntent().getStringExtra("Location Name"));
 
 
 
-        if (textViewTimeStamp.getText().toString().equals("Time Stamp")) {
+        if ("Time Stamp".equals(textViewTimeStamp.getText().toString())) {
             textViewTimeStamp.setVisibility(View.GONE);
         }
 

@@ -32,8 +32,8 @@ import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
 public class LocationList extends AppCompatActivity {
 
-    TextView locationInfo;
-    FirebaseFirestore db;
+    private TextView locationInfo;
+    private FirebaseFirestore db;
 
 
     @Override
@@ -44,7 +44,7 @@ public class LocationList extends AppCompatActivity {
         readLocationData();
 
         //
-        List<String> locationNameList = new ArrayList<String>();
+        List<String> locationNameList = new ArrayList<>();
         for (Location location: LocationData.getLocationList()) {
             locationNameList.add(location.getName());
         }
@@ -67,7 +67,7 @@ public class LocationList extends AppCompatActivity {
 //            });
 //        }
 
-        ListAdapter locationAdapter = new ArrayAdapter<String>(this,
+        ListAdapter locationAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, locationNameList);
         ListView locationListView = findViewById(R.id._locationList);
         locationListView.setAdapter(locationAdapter);
@@ -86,7 +86,7 @@ public class LocationList extends AppCompatActivity {
 
     }
 
-    public void readLocationData() {
+    private void readLocationData() {
         InputStream locationDataFile = getResources().openRawResource(R.raw.location_data);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(locationDataFile, Charset.forName("UTF-8"))

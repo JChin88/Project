@@ -11,9 +11,9 @@ import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 
 public class GetUserInfoInteractorImpl extends AbstractInteractor implements GetUserInfoInteractor {
 
-    GetUserInfoInteractor.Callback mCallBack;
-    UserRepository mUserRepository;
-    String userID;
+    private GetUserInfoInteractor.Callback mCallBack;
+    private UserRepository mUserRepository;
+    private String userID;
 
     @Inject
     public GetUserInfoInteractorImpl(String id, Executor threadExecutor, MainThread mainThread

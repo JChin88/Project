@@ -1,5 +1,8 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.base;
 
+/**
+ * Base presenter for other presenter
+ */
 public interface BasePresenter {
     /**
      * Method that control the lifecycle of the view. It should be called in the view's

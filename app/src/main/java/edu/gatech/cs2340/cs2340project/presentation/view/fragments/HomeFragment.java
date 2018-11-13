@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
         setUpRecyclerView();
     }
 
-    public void setUpRecyclerView() {
+    private void setUpRecyclerView() {
         Query query = locationRef.orderBy(("name"), Query.Direction.ASCENDING);
         FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<Location>()
                 .setQuery(query, Location.class)

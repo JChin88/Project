@@ -52,7 +52,7 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
         @BindView(R.id.donation_item_short_description)
         TextView textViewDonationItemShortDescription;
 
-        public DonationItemHolder(@NonNull View itemView) {
+        private DonationItemHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
             itemView.setOnClickListener(new View.OnClickListener() {

@@ -15,13 +15,13 @@ import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
  */
 public abstract class AbstractInteractor implements Interactor {
 
-    protected Executor mThreadExecutor;
+    private final Executor mThreadExecutor;
     protected MainThread mMainThread;
 
-    protected volatile boolean mIsCanceled;
-    protected volatile boolean mIsRunning;
+    private volatile boolean mIsCanceled;
+    private volatile boolean mIsRunning;
 
-    public AbstractInteractor(Executor threadExecutor, MainThread mainThread) {
+    protected AbstractInteractor(Executor threadExecutor, MainThread mainThread) {
         mThreadExecutor = threadExecutor;
         mMainThread = mainThread;
     }
@@ -49,6 +49,7 @@ public abstract class AbstractInteractor implements Interactor {
         mIsCanceled = false;
     }
 
+    @Override
     public void execute() {
 
         // mark this interactor as running

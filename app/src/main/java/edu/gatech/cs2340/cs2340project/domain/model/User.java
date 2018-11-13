@@ -2,11 +2,11 @@ package edu.gatech.cs2340.cs2340project.domain.model;
 
 public class User {
 
-    protected String userID;
-    protected String name;
-    protected String email;
-    protected String manageLocationName;
-    protected UserRights userRights;
+    private String userID;
+    private String name;
+    private String email;
+    private String manageLocationName;
+    private UserRights userRights;
 
     public User() {
         // Empty constructor needed for firestore
