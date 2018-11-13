@@ -7,10 +7,7 @@ public class LocationEmployee extends User {
     public LocationEmployee() {
         //super("jim", 1, "password", "email", new LocationEmployee);
     }
-
-    public LocationEmployee(String name, String id, String password, String email, User.AccountType userType) {
-        super(name, id, password, email, userType);
-    }
+    
     public void addInventory() {}
     public void removeInventory() {}
 
