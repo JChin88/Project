@@ -116,4 +116,5 @@ public class DonationItem {
     public void setComments(String comments) {
         this.comments = comments;
     }
+
 }

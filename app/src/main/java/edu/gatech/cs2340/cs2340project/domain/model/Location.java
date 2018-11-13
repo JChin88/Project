@@ -12,7 +12,7 @@ public class Location {
     protected String address;
     protected String phoneNumber;
     protected String website;
-    //List<DonationItem> _donationItemList;
+    List<DonationItem> _donationItemList;
 
     public Location() {
 
@@ -28,6 +28,21 @@ public class Location {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.website = website;
+    }
+
+    public Location(String locationKey, String name, String type, double longitude, double latitude,
+                    String address, String phoneNumber, String website, List<DonationItem> itemList) {
+        this(locationKey, name, type, longitude, latitude, address, phoneNumber, website);
+        this._donationItemList = itemList;
+    }
+
+    public DonationItem findItem(String itemName) {
+        for(DonationItem item : this._donationItemList) {
+            if(item.getDonationItemName().equals(itemName)) {
+                return item;
+            }
+        }
+        return null;
     }
 
     public String getLocationKey() {
