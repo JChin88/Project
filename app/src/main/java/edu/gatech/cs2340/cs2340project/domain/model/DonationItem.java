@@ -5,6 +5,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @IgnoreExtraProperties
 public class DonationItem {
@@ -115,6 +116,31 @@ public class DonationItem {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    /** Sorts the list of donated items in the order that they were donated to the location.
+     *  If two (or more) items were donated at the same time, they stay the in the order that they
+     *  were entered into the array.
+     * @param itemList list of donated items
+     */
+    public static void sortTime(List<DonationItem> itemList) {
+
+        int length = itemList.size();
+
+        for (int i = 0; i < length; i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < length; j++) {
+                if (itemList.get(minIndex).getTimeStamp().compareTo(itemList.get(j).getTimeStamp()) > 0) {
+                    minIndex = j;
+                }
+            }
+
+            DonationItem temp = itemList.get(i);
+            itemList.set(i, itemList.get(minIndex));
+            itemList.set(minIndex, temp);
+
+        }
     }
 
 }
