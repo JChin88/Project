@@ -1,13 +1,13 @@
 package edu.gatech.cs2340.cs2340project.mvc.model;
 
-import edu.gatech.cs2340.cs2340project.domain.model.User;
 
-public class LocationEmployee extends User {
+public class LocationEmployee  {
 
     public LocationEmployee() {
         //super("jim", 1, "password", "email", new LocationEmployee);
     }
-    
+
+
     public void addInventory() {}
     public void removeInventory() {}
 
@@ -29,6 +29,32 @@ public class LocationEmployee extends User {
                 double value = hourlyRate * 1.5 * hours;
                 return value;
             }
+        }
+    }
+
+
+    /**
+     * Sums up the total number of donations of a person
+     * Determines if they are a High donator or not.
+     * If the donation total is greater than 20 then they are a
+     * high Donator. if it is less than 20 they are a Low donator
+     * @param donations pay per hour
+     * @return True if they are a High donator, False if they are a low
+     */
+    public boolean totalDonation(int[] donations) {
+        int total = 0;
+        for (int i = 0; i < donations.length; i++) {
+            if (donations[i] < 0) {
+                throw new IllegalArgumentException("the donation is Negative");
+            } else {
+                total = donations[i] + total;
+            }
+        }
+
+        if (total > 20) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -2,6 +2,7 @@ package edu.gatech.cs2340.cs2340project.mvc.model;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class LocationEmployeeTest {
@@ -9,6 +10,7 @@ public class LocationEmployeeTest {
     double hourlyRate;
     double outcome;
     boolean employed = true;
+    boolean highDonator;
     LocationEmployee jim = new LocationEmployee();
     @Test
     public void salary() {
@@ -33,5 +35,17 @@ public class LocationEmployeeTest {
         outcome = jim.salary(hourlyRate, hours, employed);
         assertEquals(750, outcome, .1);
 
+    }
+
+
+    @Test
+    public void totalDonation() {
+        int[] donations = {-1 , 2, 4, 5, 6};
+        try {
+            highDonator = jim.totalDonation(donations);
+            fail("Expected an IndexOutOfBoundsException to be thrown");
+        } catch (IllegalArgumentException anIllegalArgumentException) {
+            assertThat(anIllegalArgumentException.getMessage(), is("the donation is Negative"));
+        }
     }
 }
