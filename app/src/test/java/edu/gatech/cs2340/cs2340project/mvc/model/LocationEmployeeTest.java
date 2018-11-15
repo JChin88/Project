@@ -40,12 +40,23 @@ public class LocationEmployeeTest {
 
     @Test
     public void totalDonation() {
-        int[] donations = {-1 , 2, 4, 5, 6};
+        //tests if a negetive donation amount is given (negetive donation amount)
+        int[] donations1 = {-1 , 2, 4, 5, 6};
         try {
-            highDonator = jim.totalDonation(donations);
-            fail("Expected an IndexOutOfBoundsException to be thrown");
+            highDonator = jim.totalDonation(donations1);
+            fail("Expected an IllegalArgumentException to be thrown");
         } catch (IllegalArgumentException anIllegalArgumentException) {
             assertThat(anIllegalArgumentException.getMessage(), is("the donation is Negative"));
         }
+
+        //tests if the donator is not a high donator (low Donator < 20)
+        int[] donations2 = {1, 2, 4, 5, 6};
+        highDonator = jim.totalDonation(donations2);
+        assertFalse(highDonator);
+
+        //tests if the donator is a high donator (high Donator total > 20)
+        int[] donations3 = {1, 2, 10, 5, 6};
+        highDonator = jim.totalDonation(donations3);
+        assertTrue(highDonator);
     }
 }
