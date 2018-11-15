@@ -35,9 +35,9 @@ public class LocationEmployee  {
 
     /**
      * Sums up the total number of donations of a person
-     * Determines if they are a High donator or not
-     * If the donation is greater than 20 then they are a
-     * high Donator. if it is less then they are Low
+     * Determines if they are a High donator or not.
+     * If the donation total is greater than 20 then they are a
+     * high Donator. if it is less than 20 they are a Low donator
      * @param donations pay per hour
      * @return True if they are a High donator, False if they are a low
      */
