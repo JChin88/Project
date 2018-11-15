@@ -9,6 +9,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Yumin Jeong
+ */
+
 @SuppressWarnings("deprecation")
 public class DonationItemTest {
 
