@@ -67,8 +67,10 @@ public class LocationInfo extends AppCompatActivity {
         Location tempLocation = LocationData.getLocation(key);
         mLocationName = tempLocation.getName();
         locationName.setText("Location Name: \t" + tempLocation.getName());
-        locationLatitude.setText("Location Latitude: \t" + Double.toString(tempLocation.getLatitude()));
-        locationLongtitude.setText("Location Longtitude: \t" + Double.toString(tempLocation.getLongitude()));
+        locationLatitude.setText("Location Latitude: \t" + Double
+                .toString(tempLocation.getLatitude()));
+        locationLongtitude.setText("Location Longtitude: \t" + Double
+                .toString(tempLocation.getLongitude()));
         locationAddress.setText("Location Address: \t" + tempLocation.getAddress());
         locationType.setText("Location Type: \t" + tempLocation.getType());
         locationPhone.setText("Location Phone Number: \t" + tempLocation.getPhoneNumber());

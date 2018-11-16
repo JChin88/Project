@@ -9,13 +9,15 @@ import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 
-public class GetLocationListInteractorImpl extends AbstractInteractor implements GetLocationListInteractor {
+public class GetLocationListInteractorImpl extends AbstractInteractor
+        implements GetLocationListInteractor {
 
     private GetLocationListInteractorImpl.Callback mCallback;
     private LocationRepository mLocationRepository;
 
     public GetLocationListInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                         Callback mCallback, LocationRepository mLocationRepository) {
+                                         Callback mCallback,
+                                         LocationRepository mLocationRepository) {
         super(threadExecutor, mainThread);
         this.mCallback = mCallback;
         this.mLocationRepository = mLocationRepository;

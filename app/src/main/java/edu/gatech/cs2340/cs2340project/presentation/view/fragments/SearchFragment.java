@@ -82,7 +82,8 @@ public class SearchFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
@@ -119,12 +120,14 @@ public class SearchFragment extends Fragment {
             listLocationName.add(location.getName());
         }
         listLocationName.add(0, "ALL");
-        ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, listLocationName);
+        ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, listLocationName);
         adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationSpinner = view.findViewById(R.id.spinner_DI_location_search);
         locationSpinner.setAdapter(adapterLocation);
 
-        ArrayAdapter<DonationItem.DonationItemCategory> adapterCategory = new ArrayAdapter<>(getContext(),
+        ArrayAdapter<DonationItem.DonationItemCategory> adapterCategory
+                = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, DonationItem.DonationItemCategory.values());
         adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner = view.findViewById(R.id.spinner_DI_category_search);
@@ -154,8 +157,10 @@ public class SearchFragment extends Fragment {
 //                    listLocationName.add(querySnapshot.toObject(Location.class).getName());
 //                }
 //                listLocationName.add(0, "ALL");
-//                ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, listLocationName);
-//                adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(getContext(),
+// android.R.layout.simple_spinner_item, listLocationName);
+//                adapterLocation.setDropDownViewResource(android.R.layout
+// .simple_spinner_dropdown_item);
 //                locationSpinner.setAdapter(adapterLocation);
 //
 //                setUpRecyclerView("");
@@ -252,7 +257,8 @@ public class SearchFragment extends Fragment {
                     //listDI = queryDocumentSnapshots.toObjects(DonationItem.class);
                     listDI.addAll(queryDocumentSnapshots.toObjects(DonationItem.class));
                 } else {
-                    Toast.makeText(getActivity(), "No Items Match the Search", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "No Items Match the Search",
+                            Toast.LENGTH_LONG).show();
                 }
                 adapter.notifyDataSetChanged();
 
@@ -266,10 +272,12 @@ public class SearchFragment extends Fragment {
             }
         });
 
-////        DonationItem.DonationItemCategory category = DonationItem.DonationItemCategory.valueOf("CLOTHES");
+////        DonationItem.DonationItemCategory category
+// = DonationItem.DonationItemCategory.valueOf("CLOTHES");
 ////        query = searchByCategory(category);
 //
-//        FirestoreRecyclerOptions<DonationItem> options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+//        FirestoreRecyclerOptions<DonationItem> options
+// = new FirestoreRecyclerOptions.Builder<DonationItem>()
 //                .setQuery(query, DonationItem.class)
 //                .build();
 //        adapter = new DonationItemsAdapter(options);
@@ -329,7 +337,8 @@ public class SearchFragment extends Fragment {
                 tempLocation.setName(part[1]);
                 tempLocation.setLatitude(Double.parseDouble(part[2]));
                 tempLocation.setLongitude(Double.parseDouble(part[3]));
-                tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6] + ", " + part[7]);
+                tempLocation.setAddress(part[4] + ", " + part[5] +  ", "
+                        + part[6] + ", " + part[7]);
                 tempLocation.setType(part[8]);
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));
                 tempLocation.setPhoneNumber(part[9]);

@@ -100,7 +100,8 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
     public void displayLocationInfo(Location location) {
         locationName.setText("Location Name: \t" + location.getName());
         locationLatitude.setText("Location Latitude: \t" + Double.toString(location.getLatitude()));
-        locationLongtitude.setText("Location Longtitude: \t" + Double.toString(location.getLongitude()));
+        locationLongtitude.setText("Location Longtitude: \t" + Double
+                .toString(location.getLongitude()));
         locationAddress.setText("Location Address: \t" + location.getAddress());
         locationType.setText("Location Type: \t" + location.getType());
         locationPhone.setText("Location Phone Number: \t" + location.getPhoneNumber());

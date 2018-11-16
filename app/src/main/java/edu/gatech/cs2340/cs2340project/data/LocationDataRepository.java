@@ -82,12 +82,14 @@ public class LocationDataRepository implements LocationRepository {
                 tempLocation.setName(part[1]);
                 tempLocation.setLatitude(Double.parseDouble(part[2]));
                 tempLocation.setLongitude(Double.parseDouble(part[3]));
-                tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6] + ", " + part[7]);
+                tempLocation.setAddress(part[4] + ", " + part[5] +  ", "
+                        + part[6] + ", " + part[7]);
                 tempLocation.setType(part[8]);
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));
                 tempLocation.setPhoneNumber(part[9]);
                 tempLocation.setWebsite(part[10]);
-                db.collection("Donation Locations").document().set(tempLocation, SetOptions.merge());
+                db.collection("Donation Locations").document()
+                        .set(tempLocation, SetOptions.merge());
             }
         } catch (IOException e) {
             e.printStackTrace();

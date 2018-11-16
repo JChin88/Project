@@ -39,7 +39,8 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -70,8 +71,10 @@ public class HomeFragment extends Fragment {
 //                Intent intent = new Intent(getContext(), LocationInfoActivities.class);
 //                intent.putExtra("key", key);
 //                startActivity(intent);
-                Navigation.findNavController(getView()).navigate(R.id.action_nav_home_to_locationInfo);
-//                Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_locationInfo, null);
+                Navigation.findNavController(getView())
+                        .navigate(R.id.action_nav_home_to_locationInfo);
+//                Navigation
+// .createNavigateOnClickListener(R.id.action_nav_home_to_locationInfo, null);
 
             }
         });

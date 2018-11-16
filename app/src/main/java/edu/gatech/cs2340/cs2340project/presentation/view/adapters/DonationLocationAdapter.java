@@ -14,7 +14,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
-public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, DonationLocationAdapter.DonationLocationHolder> {
+public class DonationLocationAdapter
+        extends FirestoreRecyclerAdapter<Location, DonationLocationAdapter.DonationLocationHolder> {
 
     private OnItemClickListener listener;
 
@@ -29,7 +30,8 @@ public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, 
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull DonationLocationHolder holder, int position, @NonNull Location model) {
+    protected void onBindViewHolder(@NonNull DonationLocationHolder holder, int position,
+                                    @NonNull Location model) {
         holder.donationLocationName.setText(model.getName());
         holder.donationLocationType.setText(model.getType());
     }
@@ -37,7 +39,8 @@ public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, 
     @NonNull
     @Override
     public DonationLocationHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v  = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_donation_location,
+        View v  = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.card_view_donation_location,
                 viewGroup, false);
         return new DonationLocationHolder(v);
     }

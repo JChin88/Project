@@ -87,7 +87,8 @@ public class AddDonationItem extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_ID)) {
             setTitle("Edit Donation Item");
-            DocumentReference dS = db.collection("Donation Items").document(intent.getStringExtra(EXTRA_ID));
+            DocumentReference dS = db.collection("Donation Items")
+                    .document(intent.getStringExtra(EXTRA_ID));
             dS.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -148,17 +149,20 @@ public class AddDonationItem extends AppCompatActivity {
                 shortDescription, fullDescription, values, category, comments);
 
         if (title.trim().isEmpty()) {
-            Toast.makeText(this, "Please insert a donation item title", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please insert a donation item title",
+                    Toast.LENGTH_LONG).show();
             return;
         }
 
         if (getIntent().hasExtra(EXTRA_ID)) {
             DocumentReference dr = FirebaseFirestore.getInstance()
-                    .collection("Donation Items").document(getIntent().getStringExtra(EXTRA_ID));
+                    .collection("Donation Items").document(getIntent()
+                            .getStringExtra(EXTRA_ID));
             dr.set(tempDI, SetOptions.merge());
             Toast.makeText(this, "Donation Item Updated", Toast.LENGTH_SHORT).show();
         } else {
-            CollectionReference donationItemsRef = FirebaseFirestore.getInstance().collection("Donation Items");
+            CollectionReference donationItemsRef = FirebaseFirestore.getInstance()
+                    .collection("Donation Items");
             donationItemsRef.add(tempDI);
             Toast.makeText(this, "Donation Item Added", Toast.LENGTH_SHORT).show();
         }

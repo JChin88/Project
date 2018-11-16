@@ -25,7 +25,8 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.AddUserPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.AddUserPresenterImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
-public class RegisterUserActivity extends AppCompatActivity implements AddUserPresenter.RegisterView {
+public class RegisterUserActivity extends AppCompatActivity
+        implements AddUserPresenter.RegisterView {
 
     //@BindView fields must not be private or static.
     @BindView(R.id.register_user_name_edit_text)

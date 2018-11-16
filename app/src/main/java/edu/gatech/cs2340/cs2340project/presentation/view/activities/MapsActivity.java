@@ -49,12 +49,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng pavilionOfHope = new LatLng(33.80129, -84.25537);
         LatLng dAndD = new LatLng(33.71747, -84.2521);
         LatLng keepNorthFultonBeautiful = new LatLng(33.96921, -84.3688);
-        mMap.addMarker(new MarkerOptions().position(AFDStation4).title("AFD Station 4").snippet("(404) 555 - 3456"));
-        mMap.addMarker(new MarkerOptions().position(boysAndGirls).title("Boys and Girls Club").snippet("(404) 555 - 1234"));
-        mMap.addMarker(new MarkerOptions().position(pathwayUpper).title("Pathway Upper").snippet("(404) 555 - 5432"));
-        mMap.addMarker(new MarkerOptions().position(pavilionOfHope).title("Pavilion of Hope").snippet("(404) 555 - 8765"));
-        mMap.addMarker(new MarkerOptions().position(dAndD).title("D&D").snippet("(404) 555 - 9876"));
-        mMap.addMarker(new MarkerOptions().position(keepNorthFultonBeautiful).title("Keep North Fulton Beautiful").snippet("(770) 555 - 7321"));
+        mMap.addMarker(new MarkerOptions().position(AFDStation4).title("AFD Station 4")
+                .snippet("(404) 555 - 3456"));
+        mMap.addMarker(new MarkerOptions().position(boysAndGirls).title("Boys and Girls Club")
+                .snippet("(404) 555 - 1234"));
+        mMap.addMarker(new MarkerOptions().position(pathwayUpper).title("Pathway Upper")
+                .snippet("(404) 555 - 5432"));
+        mMap.addMarker(new MarkerOptions().position(pavilionOfHope).title("Pavilion of Hope")
+                .snippet("(404) 555 - 8765"));
+        mMap.addMarker(new MarkerOptions().position(dAndD).title("D&D")
+                .snippet("(404) 555 - 9876"));
+        mMap.addMarker(new MarkerOptions().position(keepNorthFultonBeautiful)
+                .title("Keep North Fulton Beautiful").snippet("(770) 555 - 7321"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(AFDStation4));
     }
 }

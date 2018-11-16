@@ -56,7 +56,8 @@ public class LocationList extends AppCompatActivity {
 //                        @Override
 //                        public void onSuccess(DocumentReference documentReference) {
 ////                            Toast.makeText(LocationList.this,
-////                                    "Add a list of location success!!", Toast.LENGTH_LONG).show();
+////                                    "Add a list of location success!!",
+// Toast.LENGTH_LONG).show();
 //                        }
 //                    }).addOnFailureListener(new OnFailureListener() {
 //                @Override
@@ -75,9 +76,11 @@ public class LocationList extends AppCompatActivity {
         locationListView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
                         int locationClickparent = position + 1 ;
-                        Intent moveToLocationInfo = new Intent(LocationList.this, LocationInfo.class);
+                        Intent moveToLocationInfo = new Intent(LocationList.this,
+                                LocationInfo.class);
                         moveToLocationInfo.putExtra("key", locationClickparent + "");
                         LocationList.this.startActivity(moveToLocationInfo);
                     }
@@ -104,7 +107,8 @@ public class LocationList extends AppCompatActivity {
                 tempLocation.setName(part[1]);
                 tempLocation.setLatitude(Double.parseDouble(part[2]));
                 tempLocation.setLongitude(Double.parseDouble(part[3]));
-                tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6] + ", " + part[7]);
+                tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6]
+                        + ", " + part[7]);
                 tempLocation.setType(part[8]);
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));
                 tempLocation.setPhoneNumber(part[9]);

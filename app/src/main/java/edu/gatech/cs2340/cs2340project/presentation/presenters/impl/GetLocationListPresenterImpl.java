@@ -10,14 +10,16 @@ import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.GetLocationListPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
-public class GetLocationListPresenterImpl extends AbstractPresenter implements GetLocationListPresenter,
+public class GetLocationListPresenterImpl extends AbstractPresenter
+        implements GetLocationListPresenter,
         GetLocationListInteractor.Callback {
 
     private GetLocationListPresenter.LocationListView mView;
     private LocationRepository mLocationRepository;
 
     public GetLocationListPresenterImpl(Executor executor, MainThread mainThread,
-                                        LocationListView mView, LocationRepository mLocationRepository) {
+                                        LocationListView mView,
+                                        LocationRepository mLocationRepository) {
         super(executor, mainThread);
         this.mView = mView;
         this.mLocationRepository = mLocationRepository;

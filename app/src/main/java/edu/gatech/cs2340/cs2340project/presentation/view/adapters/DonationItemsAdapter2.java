@@ -14,7 +14,8 @@ import java.util.List;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
-public class DonationItemsAdapter2 extends RecyclerView.Adapter<DonationItemsAdapter2.DonationItemHolder> {
+public class DonationItemsAdapter2
+        extends RecyclerView.Adapter<DonationItemsAdapter2.DonationItemHolder> {
 
     private Context baseContext;
     private List<DonationItem> listDI;
@@ -40,7 +41,8 @@ public class DonationItemsAdapter2 extends RecyclerView.Adapter<DonationItemsAda
     @Override
     public void onBindViewHolder(@NonNull DonationItemHolder donationItemHolder, int i) {
         donationItemHolder.textViewDonationItemTitle.setText(listDI.get(i).getDonationItemName());
-        donationItemHolder.textViewDonationItemShortDescription.setText(listDI.get(i).getShortDescription());
+        donationItemHolder.textViewDonationItemShortDescription.setText(listDI.get(i)
+                .getShortDescription());
 
     }
 
@@ -57,7 +59,8 @@ public class DonationItemsAdapter2 extends RecyclerView.Adapter<DonationItemsAda
         private DonationItemHolder(@NonNull View itemView) {
             super(itemView);
             textViewDonationItemTitle = itemView.findViewById(R.id.donation_item_name);
-            textViewDonationItemShortDescription = itemView.findViewById(R.id.donation_item_short_description);
+            textViewDonationItemShortDescription = itemView
+                    .findViewById(R.id.donation_item_short_description);
         }
     }
 }

@@ -63,7 +63,8 @@ public class DonationItemListActivities extends AppCompatActivity {
                 intent.putExtra("Location Name", locationName);
                 intent.putExtra("Request", ADD_DONATION_ITEM_REQUEST);
                 DonationItemListActivities.this.startActivity(intent);
-                //DonationItemListActivities.this.startActivityForResult(intent, ADD_DONATION_ITEM_REQUEST);
+                //DonationItemListActivities.this.startActivityForResult(intent,
+                // ADD_DONATION_ITEM_REQUEST);
             }
         });
         setTitle("Donation Items");

@@ -16,7 +16,8 @@ import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
-public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem, DonationItemsAdapter.DonationItemHolder> {
+public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
+        DonationItemsAdapter.DonationItemHolder> {
 
     private OnItemClickListener listener;
 
@@ -31,7 +32,8 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull DonationItemHolder holder, int position, @NonNull DonationItem model) {
+    protected void onBindViewHolder(@NonNull DonationItemHolder holder, int position,
+                                    @NonNull DonationItem model) {
         holder.textViewDonationItemTitle.setText(model.getDonationItemName());
         holder.textViewDonationItemShortDescription.setText(model.getShortDescription());
     }

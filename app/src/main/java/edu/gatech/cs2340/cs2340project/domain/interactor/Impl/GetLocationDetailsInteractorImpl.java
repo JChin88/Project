@@ -7,14 +7,16 @@ import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 
-public class GetLocationDetailsInteractorImpl extends AbstractInteractor implements GetLocationDetailsInteractor {
+public class GetLocationDetailsInteractorImpl extends AbstractInteractor
+        implements GetLocationDetailsInteractor {
 
     private GetLocationDetailsInteractor.Callback mCallBack;
     private LocationRepository mLocationRepository;
     private String key;
 
-    public GetLocationDetailsInteractorImpl(String key, Executor threadExecutor, MainThread mainThread
-            , Callback callback, LocationRepository locationRepository) {
+    public GetLocationDetailsInteractorImpl(String key, Executor threadExecutor,
+                                            MainThread mainThread, Callback callback,
+                                            LocationRepository locationRepository) {
         super(threadExecutor, mainThread);
         this.key = key;
         mCallBack = callback;

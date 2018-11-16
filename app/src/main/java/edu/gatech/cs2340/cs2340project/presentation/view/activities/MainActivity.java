@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity
         userHomeDrawerLayout = findViewById(R.id.user_drawer_layout);
 
         toggle = new ActionBarDrawerToggle(this, userHomeDrawerLayout,
-                toolbar, R.string.user_navigation_drawer_open, R.string.user_navigation_drawer_close);
+                toolbar, R.string.user_navigation_drawer_open,
+                R.string.user_navigation_drawer_close);
         userHomeDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         userHomeDrawerLayout.bringToFront();
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.my_nav_host_fragment);
-        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
+        NavigationUI.setupWithNavController(bottomNavigationView,
+                navHostFragment.getNavController());
     }
 
     @Override

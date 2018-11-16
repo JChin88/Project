@@ -69,7 +69,8 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public void addUser(final String name, final String email, final String password, final UserRights userRights) {
+    public void addUser(final String name, final String email, final String password,
+                        final UserRights userRights) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -99,7 +100,8 @@ public class UserDataRepository implements UserRepository {
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                UserRights accountType = UserRights.valueOf(documentSnapshot.get("userRights").toString());
+                UserRights accountType
+                        = UserRights.valueOf(documentSnapshot.get("userRights").toString());
                 User user = new User(firebaseUser.getProviderId(), firebaseUser.getDisplayName(),
                         firebaseUser.getEmail(), accountType);
                 interactor.onNext(user);
@@ -147,8 +149,10 @@ public class UserDataRepository implements UserRepository {
                             LOGIN_MESSAGE = LOGIN_SUCCESS;
                             interactor.onNext(mAuth.getCurrentUser().getUid());
                         } else {
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
-                                    || task.getException() instanceof FirebaseAuthInvalidUserException) {
+                            if (task.getException()
+                                    instanceof FirebaseAuthInvalidCredentialsException
+                                    || task.getException()
+                                    instanceof FirebaseAuthInvalidUserException) {
                                 LOGIN_MESSAGE = LOGIN_INVALID_UIDPS;
                             } else {
                                 LOGIN_MESSAGE = task.getException().getMessage();
