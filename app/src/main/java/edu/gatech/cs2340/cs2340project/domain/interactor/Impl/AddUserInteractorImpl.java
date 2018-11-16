@@ -7,6 +7,9 @@ import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 
+/**
+ * Implementation of add user interactor
+ */
 public class AddUserInteractorImpl extends AbstractInteractor implements AddUserInteractor{
 
     private final AddUserInteractor.Callback mCallBack;
@@ -16,6 +19,17 @@ public class AddUserInteractorImpl extends AbstractInteractor implements AddUser
     private final String userPassword;
     private final UserRights userRights;
 
+    /**
+     * Constructor for the interactor
+     * @param threadExecutor background thread
+     * @param mainThread main thread of ui
+     * @param callback callback of use case
+     * @param userRepository the user repository
+     * @param userName user name
+     * @param userEmail user email
+     * @param userPassword user password
+     * @param userRights user rights
+     */
     public AddUserInteractorImpl (Executor threadExecutor, MainThread mainThread, Callback callback,
                                   UserRepository userRepository, String userName, String userEmail,
                                   String userPassword, UserRights userRights) {

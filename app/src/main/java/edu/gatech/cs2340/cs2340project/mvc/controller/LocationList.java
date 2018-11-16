@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedReader;
@@ -30,17 +23,19 @@ import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationData;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LocationList extends AppCompatActivity {
 
     private TextView locationInfo;
-    private FirebaseFirestore db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_list);
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         readLocationData();
 
         //
@@ -95,7 +90,7 @@ public class LocationList extends AppCompatActivity {
                 new InputStreamReader(locationDataFile, Charset.forName("UTF-8"))
         );
 
-        String line = "";
+        String line;
         try {
             reader.readLine();
             while ((line = reader.readLine()) != null) {

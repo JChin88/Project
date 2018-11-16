@@ -14,17 +14,22 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.AddUserPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.base.BasePresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.AddUserPresenterImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
+/**
+ * @author Hoa v Luu
+ */
 public class RegisterUserActivity extends AppCompatActivity
         implements AddUserPresenter.RegisterView {
 
@@ -56,8 +61,6 @@ public class RegisterUserActivity extends AppCompatActivity
     @BindView(R.id.register_linear_layout)
     LinearLayout registerLL;
 
-    private AddUserPresenter mPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +77,7 @@ public class RegisterUserActivity extends AppCompatActivity
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onRegisterPress(v);
+                onRegisterPress();
             }
         });
 
@@ -163,15 +166,15 @@ public class RegisterUserActivity extends AppCompatActivity
         return true;
     }
 
-    private void onRegisterPress(View view) {
+    private void onRegisterPress() {
         showProgress();
         hideViewRetry();
-        String userName = userNameView.getText().toString().trim();
-        String userEmail = userEmailView.getText().toString().trim();
+        String userName = Objects.requireNonNull(userNameView.getText()).toString().trim();
+        String userEmail = Objects.requireNonNull(userEmailView.getText()).toString().trim();
         String userPassword = userPasswordView.getText().toString().trim();
         UserRights userRights = UserRights.valueOf(userTypeSpinner.getSelectedItem().toString());
         if (isInputValid(userName, userEmail, userPassword)) {
-            mPresenter = new AddUserPresenterImpl(ThreadExecutor.getInstance(),
+            BasePresenter mPresenter = new AddUserPresenterImpl(ThreadExecutor.getInstance(),
                     MainThreadImpl.getInstance(),
                     this,
                     new UserDataRepository(),

@@ -14,21 +14,29 @@ import java.util.List;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
+/**
+ * Second type of adapter
+ */
 public class DonationItemsAdapter2
         extends RecyclerView.Adapter<DonationItemsAdapter2.DonationItemHolder> {
 
-    private Context baseContext;
-    private List<DonationItem> listDI;
+    private final Context baseContext;
+    private final List<DonationItem> listDI;
 
+    /**
+     * Contrusctor for adapter
+     * @param searchActivity the activity for the recycler view
+     * @param listDI list of donation item wanted to display
+     */
     public DonationItemsAdapter2(Activity searchActivity, List<DonationItem> listDI) {
         baseContext = searchActivity.getBaseContext();
         this.listDI = listDI;
     }
 
-    public DonationItemsAdapter2(Context context, List<DonationItem> listDI) {
-        baseContext = context;
-        this.listDI = listDI;
-    }
+//    public DonationItemsAdapter2(Context context, List<DonationItem> listDI) {
+//        baseContext = context;
+//        this.listDI = listDI;
+//    }
 
     @NonNull
     @Override
@@ -51,10 +59,10 @@ public class DonationItemsAdapter2
         return listDI.size();
     }
 
-    class DonationItemHolder extends RecyclerView.ViewHolder {
+    final class DonationItemHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewDonationItemTitle;
-        TextView textViewDonationItemShortDescription;
+        final TextView textViewDonationItemTitle;
+        final TextView textViewDonationItemShortDescription;
 
         private DonationItemHolder(@NonNull View itemView) {
             super(itemView);

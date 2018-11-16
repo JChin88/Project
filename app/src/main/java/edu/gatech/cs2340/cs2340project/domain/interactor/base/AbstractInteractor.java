@@ -18,7 +18,7 @@ import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 public abstract class AbstractInteractor implements Interactor {
 
     private final Executor mThreadExecutor;
-    protected MainThread mMainThread;
+    protected final MainThread mMainThread;
 
     private volatile boolean mIsCanceled;
     private volatile boolean mIsRunning;
@@ -38,15 +38,25 @@ public abstract class AbstractInteractor implements Interactor {
      */
     public abstract void run();
 
+    /**
+     * Cancel thread
+     */
     public void cancel() {
         mIsCanceled = true;
         mIsRunning = false;
     }
 
+    /**
+     * Check if the thread is running
+     * @return boolean indicate state
+     */
     public boolean isRunning() {
         return mIsRunning;
     }
 
+    /**
+     * call finished a thread
+     */
     public void onFinished() {
         mIsRunning = false;
         mIsCanceled = false;

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,6 +18,9 @@ import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
 import static edu.gatech.cs2340.cs2340project.presentation.view.activities.AddDonationItem.EXTRA_ID;
 
+/**
+ * Show donation item detail
+ */
 public class DonationItemDetailsActivity extends AppCompatActivity {
 
     private LinearLayout ll_DIDetails;
@@ -54,19 +58,23 @@ public class DonationItemDetailsActivity extends AppCompatActivity {
             String id = intent.getStringExtra(EXTRA_ID);
 
             DocumentReference tempDIRef = db.collection("Donation Items").document(id);
-            tempDIRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            final Task<DocumentSnapshot> documentSnapshotTask =
+                    tempDIRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    DonationItem tempDI = documentSnapshot.toObject(DonationItem.class);
-                    textViewDITimestamp.setText(tempDI.getTimeStamp().toString());
-                    textViewDIName.setText(tempDI.getDonationItemName());
-                    textViewDILocationName.setText(tempDI.getLocationName());
-                    textViewShortDescription.setText(tempDI.getShortDescription());
-                    textViewFullDescription.setText(tempDI.getFullDescription());
-                    textViewValues.setText(Double.toString(tempDI.getValue()));
-                    textViewCategory.setText(tempDI.getCategory().toString());
-                    textViewComments.setText(tempDI.getComments());
-                    ll_DIDetails.setVisibility(View.VISIBLE);
+                    if (documentSnapshot.exists()) {
+                        DonationItem tempDI = documentSnapshot.toObject(DonationItem.class);
+                        assert tempDI != null;
+                        textViewDITimestamp.setText(tempDI.getTimeStamp().toString());
+                        textViewDIName.setText(tempDI.getDonationItemName());
+                        textViewDILocationName.setText(tempDI.getLocationName());
+                        textViewShortDescription.setText(tempDI.getShortDescription());
+                        textViewFullDescription.setText(tempDI.getFullDescription());
+                        textViewValues.setText(Double.toString(tempDI.getValue()));
+                        textViewCategory.setText(tempDI.getCategory().toString());
+                        textViewComments.setText(tempDI.getComments());
+                        ll_DIDetails.setVisibility(View.VISIBLE);
+                    }
                 }
             });
         } else {

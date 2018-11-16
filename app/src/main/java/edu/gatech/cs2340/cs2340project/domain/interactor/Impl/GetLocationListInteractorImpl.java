@@ -1,20 +1,27 @@
 package edu.gatech.cs2340.cs2340project.domain.interactor.Impl;
 
-import java.util.List;
-
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationListInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
-import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 
+/**
+ * @author Hoa V Luu
+ */
 public class GetLocationListInteractorImpl extends AbstractInteractor
         implements GetLocationListInteractor {
 
-    private GetLocationListInteractorImpl.Callback mCallback;
-    private LocationRepository mLocationRepository;
+    private final GetLocationListInteractorImpl.Callback mCallback;
+    private final LocationRepository mLocationRepository;
 
+    /**
+     * Constructor
+     * @param threadExecutor background thread
+     * @param mainThread main thread
+     * @param mCallback get location callback
+     * @param mLocationRepository repository stored data
+     */
     public GetLocationListInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                          Callback mCallback,
                                          LocationRepository mLocationRepository) {
@@ -28,7 +35,7 @@ public class GetLocationListInteractorImpl extends AbstractInteractor
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLocationListRetrievedFail(errorMessage);
+                mCallback.onLocationListRetrievedFail();
             }
         });
     }
@@ -38,7 +45,7 @@ public class GetLocationListInteractorImpl extends AbstractInteractor
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLocationListRetrieved((List<Location>) params);
+                mCallback.onLocationListRetrieved();
             }
         });
     }

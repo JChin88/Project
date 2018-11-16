@@ -1,28 +1,25 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import java.util.List;
-
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationListInteractor;
-import edu.gatech.cs2340.cs2340project.domain.model.Location;
-import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.GetLocationListPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
+/**
+ * @author Hoa V Luu
+ */
 public class GetLocationListPresenterImpl extends AbstractPresenter
         implements GetLocationListPresenter,
         GetLocationListInteractor.Callback {
 
-    private GetLocationListPresenter.LocationListView mView;
-    private LocationRepository mLocationRepository;
-
-    public GetLocationListPresenterImpl(Executor executor, MainThread mainThread,
-                                        LocationListView mView,
-                                        LocationRepository mLocationRepository) {
+    /**
+     * Presenter constructor
+     * @param executor background thread
+     * @param mainThread main thread
+     */
+    public GetLocationListPresenterImpl(Executor executor, MainThread mainThread) {
         super(executor, mainThread);
-        this.mView = mView;
-        this.mLocationRepository = mLocationRepository;
     }
 
     @Override
@@ -46,12 +43,12 @@ public class GetLocationListPresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void onLocationListRetrieved(List<Location> locationList) {
+    public void onLocationListRetrieved() {
 
     }
 
     @Override
-    public void onLocationListRetrievedFail(String errorMessage) {
+    public void onLocationListRetrievedFail() {
 
     }
 }

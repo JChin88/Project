@@ -16,6 +16,9 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.UserInfoPresenterImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
+/**
+ * @author Hoa V Luu
+ */
 public class UserInfoActivities extends AppCompatActivity implements View {
 
     private TextView mUserID;

@@ -4,18 +4,30 @@ import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationDetailsInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetLocationDetailsInteractorImpl;
+import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LocationInfoPresenterImpl extends AbstractPresenter implements LocationInfoPresenter,
         GetLocationDetailsInteractor.Callback {
 
-    private LocationInfoPresenter.View mView;
-    private LocationRepository mLocationRepository;
-    private String key;
+    private final LocationInfoPresenter.View mView;
+    private final LocationRepository mLocationRepository;
+    private final String key;
 
+    /**
+     * Constrcutor
+     * @param key key of location wanted to get info
+     * @param executor background thread
+     * @param mainThread main thread
+     * @param view view want to display
+     * @param locationRepository repository holds value
+     */
     public LocationInfoPresenterImpl(String key, Executor executor, MainThread mainThread,
                                      View view, LocationRepository locationRepository) {
         super(executor, mainThread);
@@ -30,7 +42,7 @@ public class LocationInfoPresenterImpl extends AbstractPresenter implements Loca
         mView.showProgress();
 
         // initialize the interactor
-        GetLocationDetailsInteractor interactor = new GetLocationDetailsInteractorImpl(
+        Interactor interactor = new GetLocationDetailsInteractorImpl(
                 key,
                 mExecutor,
                 mMainThread,

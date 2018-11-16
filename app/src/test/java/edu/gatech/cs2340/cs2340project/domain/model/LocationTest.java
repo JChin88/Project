@@ -8,8 +8,14 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Jonathan Chin
+ */
 public class LocationTest {
 
+    /**
+     * test find item
+     */
     @Test
     public void findItem() {
         List<DonationItem> itemList = new LinkedList<>();

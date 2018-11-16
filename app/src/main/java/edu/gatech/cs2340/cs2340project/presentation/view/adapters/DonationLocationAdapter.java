@@ -14,6 +14,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
+/**
+ * Main adapter for list of donation item
+ */
 public class DonationLocationAdapter
         extends FirestoreRecyclerAdapter<Location, DonationLocationAdapter.DonationLocationHolder> {
 
@@ -23,7 +26,7 @@ public class DonationLocationAdapter
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
      *
-     * @param options
+     * @param options the firestore options
      */
     public DonationLocationAdapter(@NonNull FirestoreRecyclerOptions<Location> options) {
         super(options);
@@ -45,10 +48,10 @@ public class DonationLocationAdapter
         return new DonationLocationHolder(v);
     }
 
-    class DonationLocationHolder extends RecyclerView.ViewHolder {
+    final class DonationLocationHolder extends RecyclerView.ViewHolder {
 
-        TextView donationLocationName;
-        TextView donationLocationType;
+        final TextView donationLocationName;
+        final TextView donationLocationType;
 
         private DonationLocationHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,7 +62,7 @@ public class DonationLocationAdapter
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                    if ((position != RecyclerView.NO_POSITION) && (listener != null)) {
                         listener.OnItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
@@ -68,9 +71,18 @@ public class DonationLocationAdapter
     }
 
     public interface OnItemClickListener {
+        /**
+         * action when user click
+         * @param documentSnapshot snapshot can convert to donation item object
+         * @param position the position where user clicked
+         */
         void OnItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
+    /**
+     *
+     * @param listener listener for item
+     */
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }

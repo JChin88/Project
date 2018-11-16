@@ -3,11 +3,9 @@ package edu.gatech.cs2340.cs2340project.data;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -22,17 +20,23 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 
-
+/**
+ * @author Hoa V Luu
+ */
 public class LocationDataRepository implements LocationRepository {
 
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
     private Interactor interactor;
 
+    /**
+     * Constructor for location data
+     */
     public LocationDataRepository() {
         db = FirebaseFirestore.getInstance();
     }
@@ -50,14 +54,14 @@ public class LocationDataRepository implements LocationRepository {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    if (documentSnapshot.exists()) {
+                    if (Objects.requireNonNull(documentSnapshot).exists()) {
                         Location location = documentSnapshot.toObject(Location.class);
                         interactor.onNext(location);
                     } else {
                         interactor.onError("No Such Location");
                     }
                 } else {
-                    interactor.onError(task.getException().getMessage());
+                    interactor.onError(Objects.requireNonNull(task.getException()).getMessage());
                 }
 
             }
@@ -70,7 +74,7 @@ public class LocationDataRepository implements LocationRepository {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(locationDataFile, Charset.forName("UTF-8"))
         );
-        String line = "";
+        String line;
         try {
             reader.readLine();
             while ((line = reader.readLine()) != null) {

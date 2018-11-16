@@ -9,8 +9,8 @@ import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
  * interactors in a background thread.
  */
 public abstract class AbstractPresenter {
-    protected Executor mExecutor;
-    protected MainThread mMainThread;
+    protected final Executor mExecutor;
+    protected final MainThread mMainThread;
 
     protected AbstractPresenter(Executor executor, MainThread mainThread) {
         mExecutor = executor;

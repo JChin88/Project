@@ -1,7 +1,11 @@
 package edu.gatech.cs2340.cs2340project.mvc.model;
 
 
-public class LocationEmployee  {
+class LocationEmployee  {
+    private static final int MAX_HOUSE = 40;
+    private static final double OVERTIME_RATIO = 1.5;
+    private static final int BOUND_DONATION = 20;
+
 
     public LocationEmployee() {
         //super("jim", 1, "password", "email", new LocationEmployee);
@@ -20,14 +24,13 @@ public class LocationEmployee  {
      * @return the total salary, 0 if unemployed
      */
     public double salary(double hourlyRate, double hours, boolean employed) {
-        if (employed == false) {
+        if (!employed) {
             return 0;
         } else {
-            if (hours <= 40) {
+            if (hours <= MAX_HOUSE) {
                 return hours * hourlyRate;
             } else {
-                double value = hourlyRate * 1.5 * hours;
-                return value;
+                return hourlyRate * OVERTIME_RATIO * hours;
             }
         }
     }
@@ -43,18 +46,14 @@ public class LocationEmployee  {
      */
     public boolean totalDonation(int[] donations) {
         int total = 0;
-        for (int i = 0; i < donations.length; i++) {
-            if (donations[i] < 0) {
+        for (int donation : donations) {
+            if (donation < 0) {
                 throw new IllegalArgumentException("the donation is Negative");
             } else {
-                total = donations[i] + total;
+                total = donation + total;
             }
         }
 
-        if (total > 20) {
-            return true;
-        } else {
-            return false;
-        }
+        return total > BOUND_DONATION;
     }
 }

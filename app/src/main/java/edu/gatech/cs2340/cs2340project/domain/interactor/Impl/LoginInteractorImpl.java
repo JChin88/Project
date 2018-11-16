@@ -6,13 +6,25 @@ import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LoginInteractorImpl extends AbstractInteractor implements LoginInteractor {
 
-    private LoginInteractor.Callback mCallback;
-    private UserRepository mUserRepository;
-    private String userId;
-    private String userPassword;
+    private final LoginInteractor.Callback mCallback;
+    private final UserRepository mUserRepository;
+    private final String userId;
+    private final String userPassword;
 
+    /**
+     * Constructor
+     * @param id user id want to login
+     * @param password user password want to login
+     * @param threadExecutor background thread
+     * @param mainThread main thread
+     * @param callback callback to use
+     * @param userRepository user repository hold user data
+     */
     public LoginInteractorImpl(String id, String password, Executor threadExecutor,
                                MainThread mainThread, Callback callback,
                                UserRepository userRepository) {

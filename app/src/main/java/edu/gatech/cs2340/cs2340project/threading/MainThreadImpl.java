@@ -8,11 +8,9 @@ import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 /**
  * This class makes sure that the runnable we provide will be run on the main UI thread.
  */
-public class MainThreadImpl implements MainThread {
+public final class MainThreadImpl implements MainThread {
 
-    private static MainThread sMainThread;
-
-    private Handler mHandler;
+    private final Handler mHandler;
 
     private MainThreadImpl() {
         mHandler = new Handler(Looper.getMainLooper());
@@ -23,11 +21,16 @@ public class MainThreadImpl implements MainThread {
         mHandler.post(runnable);
     }
 
-    public static MainThread getInstance() {
-        if (sMainThread == null) {
-            sMainThread = new MainThreadImpl();
-        }
+    private static class SMainThreadHolder {
+        private static final MainThread sMainThread = new MainThreadImpl();
+    }
 
-        return sMainThread;
+    /**
+     *
+     * @return main thread of the ui
+     */
+    public static MainThread getInstance() {
+
+        return SMainThreadHolder.sMainThread;
     }
 }

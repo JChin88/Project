@@ -16,6 +16,9 @@ import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
+/**
+ * Adapter for recycler adapter to set up the view of list of donation item
+ */
 public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
         DonationItemsAdapter.DonationItemHolder> {
 
@@ -25,7 +28,7 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
      *
-     * @param options
+     * @param options the firestore recycler option
      */
     public DonationItemsAdapter(@NonNull FirestoreRecyclerOptions<DonationItem> options) {
         super(options);
@@ -46,7 +49,7 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
         return new DonationItemHolder(v);
     }
 
-    class DonationItemHolder extends RecyclerView.ViewHolder {
+    final class DonationItemHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.donation_item_name)
         TextView textViewDonationItemTitle;
@@ -61,7 +64,7 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                    if ((position != RecyclerView.NO_POSITION) && (listener != null)) {
                         listener.OnItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
@@ -69,10 +72,22 @@ public class DonationItemsAdapter extends FirestoreRecyclerAdapter<DonationItem,
         }
     }
 
+    /**
+     * interface for click listener
+     */
     public interface OnItemClickListener {
+        /**
+         * action when click
+         * @param documentSnapshot the donation item snapshot
+         * @param position the positin clicked on the list
+         */
         void OnItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
+    /**
+     *
+     * @param listener the listen execute when the user tap a donation item card view
+     */
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }

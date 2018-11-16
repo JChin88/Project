@@ -9,28 +9,35 @@ import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
+/**
+ * @author Hoa V Luu
+ */
 public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfoPresenter,
         GetUserInfoInteractor.Callback {
 
-    private GetUserInfoInteractor mInteractor;
-    private UserInfoPresenter.View mView;
-    private UserRepository mUserRepository;
-    private String id;
+    private final GetUserInfoInteractor mInteractor;
+    private final UserInfoPresenter.View mView;
 
+    /**
+     * constructor
+     * @param id id of user info wanted to display
+     * @param threadExecutor background thread
+     * @param mainThread main thread
+     * @param view view want to display
+     * @param userRepository repository hold user info
+     */
     public UserInfoPresenterImpl(String id, Executor threadExecutor, MainThread mainThread,
                                  View view, UserRepository userRepository) {
         super(threadExecutor, mainThread);
-        this.id = id;
         mView = view;
-        mUserRepository = userRepository;
         mInteractor = new GetUserInfoInteractorImpl(
                 id,
                 mExecutor,
                 mMainThread,
                 this,
-                mUserRepository
+                userRepository
         );
-        mUserRepository.setInteractor(mInteractor);
+        userRepository.setInteractor(mInteractor);
     }
 
     @Override

@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_nav_graph"
     app:startDestination="@id/nav_home">
 
     <fragment
@@ -29,8 +28,6 @@
         android:name="edu.gatech.cs2340.cs2340project.presentation.view.fragments.LocationInfoFragment"
         android:label="fragment_location_info"
         tools:layout="@layout/fragment_location_info" >
-        <action
-            android:id="@+id/action_locationInfo_to_inventory"
-            app:destination="@id/inventory" />
+        <!--<action app:destination="@id/inventory" />-->
     </fragment>
 </navigation>

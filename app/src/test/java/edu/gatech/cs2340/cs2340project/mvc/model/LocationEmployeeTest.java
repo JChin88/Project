@@ -5,43 +5,45 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+/**
+ * @author Jonanthan
+ */
 public class LocationEmployeeTest {
-    double hours;
-    double hourlyRate;
-    double outcome;
-    boolean employed = true;
-    boolean highDonator;
-    LocationEmployee jim = new LocationEmployee();
+    private final LocationEmployee jim = new LocationEmployee();
+
+    /**
+     * Test salary
+     */
     @Test
     public void salary() {
         //test for unemployed (employed == false)
-        employed = false;
-        hours = 10;
-        hourlyRate = 10;
-        outcome = jim.salary(hourlyRate, hours, employed);
+        double hours = 10;
+        double hourlyRate = 10;
+        double outcome = jim.salary(hourlyRate, hours, false);
         assertEquals(0, outcome, .1);
 
         
         //test for hours less than 40 and employed is true
-        employed = true;
         hours = 10;
         hourlyRate = 10;
-        outcome = jim.salary(hourlyRate, hours, employed);
+        outcome = jim.salary(hourlyRate, hours, true);
         assertEquals(100, outcome, .1);
 
         //test for hours greater than 40 and employed is true
-        employed = true;
         hours = 50;
-        outcome = jim.salary(hourlyRate, hours, employed);
+        outcome = jim.salary(hourlyRate, hours, true);
         assertEquals(750, outcome, .1);
 
     }
 
-
+    /**
+     * test total donation
+     */
     @Test
     public void totalDonation() {
         //tests if a negetive donation amount is given (negetive donation amount)
         int[] donations1 = {-1 , 2, 4, 5, 6};
+        boolean highDonator;
         try {
             highDonator = jim.totalDonation(donations1);
             fail("Expected an IllegalArgumentException to be thrown");

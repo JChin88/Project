@@ -11,35 +11,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import java.util.Objects;
+
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.mvc.controller.LocationList;
 
+/**
+ * @author Hoa V Luu
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout userHomeDrawerLayout;
     private ActionBarDrawerToggle toggle;
-    private TextView welcomeM;
-
-    private String userID;
-    private String userName;
-    private Toolbar toolbar;
+//    private TextView welcomeM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Home Page");
-        toolbar = findViewById(R.id.user_tool_bar);
+        Toolbar toolbar = findViewById(R.id.user_tool_bar);
         setSupportActionBar(toolbar);
 
         userHomeDrawerLayout = findViewById(R.id.user_drawer_layout);
@@ -53,8 +49,8 @@ public class MainActivity extends AppCompatActivity
 
 //        welcomeM = findViewById(R.id.welcomeMessage);
         Intent tempIntent = getIntent();
-        userID = tempIntent.getStringExtra("userID");
-        userName = tempIntent.getStringExtra("userName");
+        String userID = tempIntent.getStringExtra("userID");
+        String userName = tempIntent.getStringExtra("userName");
 
         String welcomeMessage = userName + " welcome to your application activity screen!";
         //welcomeM.setText(welcomeMessage);
@@ -67,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.my_nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView,
-                navHostFragment.getNavController());
+                Objects.requireNonNull(navHostFragment).getNavController());
     }
 
     @Override

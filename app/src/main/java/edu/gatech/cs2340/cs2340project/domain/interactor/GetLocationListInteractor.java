@@ -1,16 +1,24 @@
 package edu.gatech.cs2340.cs2340project.domain.interactor;
 
-import java.util.List;
-
-import edu.gatech.cs2340.cs2340project.domain.model.Location;
-
+/**
+ * @author Hoa V Luu
+ */
 public interface GetLocationListInteractor {
 
+    /**
+     * callback for next action
+     */
     interface Callback {
 
-        void onLocationListRetrieved(List<Location> locationList);
+        /**
+         * next action when get location success
+         */
+        void onLocationListRetrieved();
 
-        void onLocationListRetrievedFail(String errorMessage);
+        /**
+         *  next action when get location failed
+         */
+        void onLocationListRetrievedFail();
 
     }
 }

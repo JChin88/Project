@@ -8,12 +8,22 @@ import edu.gatech.cs2340.cs2340project.domain.interactor.GetDonationItemListInte
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
 import edu.gatech.cs2340.cs2340project.domain.repository.DonationItemRepository;
 
+/**
+ * Get list of donation item use case
+ */
 public class GetDonationItemListInteractorImpl extends AbstractInteractor
         implements GetDonationItemListInteractor {
 
-    private GetDonationItemListInteractor.Callback mCallback;
-    private DonationItemRepository mDonationItemRepository;
+    private final GetDonationItemListInteractor.Callback mCallback;
+    private final DonationItemRepository mDonationItemRepository;
 
+    /**
+     * Constructor
+     * @param threadExecutor background thread
+     * @param mainThread main thread
+     * @param mCallback callback for this use case
+     * @param mDonationItemRepository repository
+     */
     public GetDonationItemListInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                              Callback mCallback,
                                              DonationItemRepository mDonationItemRepository) {

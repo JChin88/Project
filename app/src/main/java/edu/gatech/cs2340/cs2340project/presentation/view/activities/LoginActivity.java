@@ -15,38 +15,42 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter.LoginView;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.base.BasePresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LoginPresenterImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
     //@BindView fields must not be private or static.
     @BindView(R.id.login_email)
-     AutoCompleteTextView mEmailView;
+    AutoCompleteTextView mEmailView;
 
     @BindView(R.id.login_password)
-     EditText mPasswordView;
+    EditText mPasswordView;
 
     @BindView(R.id.login_progress)
-     ProgressBar mProgressBar;
+    ProgressBar mProgressBar;
 
     @BindView(R.id.login_linear_layout)
-     LinearLayout linearLayout;
+    LinearLayout linearLayout;
 
     @BindView(R.id.sign_in_btn)
-     Button loginButton;
+    Button loginButton;
 
     @BindView(R.id.login_register_btn)
-     Button registerButton;
+    Button registerButton;
 
-    private LoginPresenter mPresenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,15 +62,17 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 //Hide the keyboard
                 InputMethodManager inputMethodManager = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                Objects.requireNonNull(inputMethodManager)
+                        .hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus())
+                                        .getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
-                onLoginPress(v);
+                onLoginPress();
             }
         });
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onRegisterPress(v);
+                onRegisterPress();
             }
         });
         setTitle("Login");
@@ -139,17 +145,17 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return true;
     }
 
-    private void onLoginPress(View view) {
+    private void onLoginPress() {
         hideViewRetry();
         showProgress();
         String userEmail = mEmailView.getText().toString().trim();
         String userPassword = mPasswordView.getText().toString().trim();
         if (isInputValid(userEmail, userPassword)) {
-            mPresenter = new LoginPresenterImpl(userEmail,
+            BasePresenter mPresenter = new LoginPresenterImpl(userEmail,
                     userPassword,
                     ThreadExecutor.getInstance(),
                     MainThreadImpl.getInstance(),
-                     this,
+                    this,
                     new UserDataRepository());
             mPresenter.resume();
         } else {
@@ -159,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     }
 
-    private void onRegisterPress(View view) {
+    private void onRegisterPress() {
             Intent moveToRegister = new Intent(LoginActivity.this,
                     RegisterUserActivity.class);
             LoginActivity.this.startActivity(moveToRegister);

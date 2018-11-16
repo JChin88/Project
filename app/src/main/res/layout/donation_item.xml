@@ -24,7 +24,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         <ImageButton
-            android:id="@+id/donation_item_dots_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -34,7 +33,7 @@
             android:paddingRight="8dp"
             android:background="#FFFFE8"
             android:tint="@color/colorPrimary"
-            />
+            android:contentDescription="Setting" />
 
         <TextView
             android:id="@+id/donation_item_short_description"

@@ -8,31 +8,37 @@ import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LoginPresenterImpl extends AbstractPresenter implements LoginPresenter,
         LoginInteractor.Callback {
 
-    private LoginInteractor mInteractor;
-    private LoginPresenter.LoginView mView;
-    private UserRepository mUserRepository;
-    private String mUserId;
-    private String mUserPassword;
+    private final LoginInteractor mInteractor;
+    private final LoginPresenter.LoginView mView;
 
+    /**
+     * constructor
+     * @param id user id
+     * @param password user password
+     * @param executor background thread
+     * @param mainThread main thread
+     * @param view view want to show
+     * @param userRepository user repository to get value
+     */
     public LoginPresenterImpl(String id, String password, Executor executor, MainThread mainThread,
                                  LoginView view, UserRepository userRepository) {
         super(executor, mainThread);
-        mUserId = id;
-        mUserPassword = password;
         mView = view;
-        mUserRepository = userRepository;
         mInteractor = new LoginInteractorImpl(
-                mUserId,
-                mUserPassword,
+                id,
+                password,
                 mExecutor,
                 mMainThread,
                 this,
-                mUserRepository
+                userRepository
         );
-        mUserRepository.setInteractor(mInteractor);
+        userRepository.setInteractor(mInteractor);
     }
 
     @Override

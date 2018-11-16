@@ -16,32 +16,35 @@ import static org.junit.Assert.*;
 @SuppressWarnings("deprecation")
 public class DonationItemTest {
 
-    private List<DonationItem> donatedList = new ArrayList<DonationItem>();
-    private List<DonationItem> donatedList2 = new ArrayList<DonationItem>();
-    private List<DonationItem> donatedList3 = new ArrayList<DonationItem>();
-    private List<DonationItem> donatedList4 = new ArrayList<DonationItem>();
+    private final List<DonationItem> donatedList = new ArrayList<>();
+    private final List<DonationItem> donatedList2 = new ArrayList<>();
+    private final List<DonationItem> donatedList3 = new ArrayList<>();
+    private final List<DonationItem> donatedList4 = new ArrayList<>();
 
-    Date A = new Date(2018-1900, 11,13);
-    Date B = new Date(2018-1900, 11, 20);
-    Date C = new Date(2018-1900, 11, 20);
-    Date D = new Date(2018-1900, 12, 24);
-    Date E = new Date(2019-1900, 5, 24);
+    private final Date A = new Date(2018-1900, 11,13);
+    private final Date B = new Date(2018-1900, 11, 20);
+    private final Date C = new Date(2018-1900, 11, 20);
+    private final Date D = new Date(2018-1900, 12, 24);
+    private final Date E = new Date(2019-1900, 5, 24);
 
-    DonationItem itemA = new DonationItem(A, "name", "location", "item description",
+    private final DonationItem itemA = new DonationItem(A, "name", "location", "item description",
             "November 13, 2018", 1, DonationItem.DonationItemCategory.CLOTHES, "comment");
 
-    DonationItem itemB = new DonationItem(B, "name", "location", "item description",
+    private final DonationItem itemB = new DonationItem(B, "name", "location", "item description",
             "November 20, 2018", 1, DonationItem.DonationItemCategory.CLOTHES, "comment");
 
-    DonationItem itemC = new DonationItem(C, "name", "location", "item description",
+    private final DonationItem itemC = new DonationItem(C, "name", "location", "item description",
             "November 20, 2018", 1, DonationItem.DonationItemCategory.CLOTHES, "comment");
 
-    DonationItem itemD = new DonationItem(D, "name", "location", "item description",
+    private final DonationItem itemD = new DonationItem(D, "name", "location", "item description",
             "December 24, 2018", 1, DonationItem.DonationItemCategory.CLOTHES, "comment");
 
-    DonationItem itemE = new DonationItem(E, "name", "location", "item description",
+    private final DonationItem itemE = new DonationItem(E, "name", "location", "item description",
             "May 24, 2019", 1, DonationItem.DonationItemCategory.CLOTHES, "comment");
 
+    /**
+     * set up
+     */
     @Before
     public void setup() {
         donatedList.add(itemC);
@@ -60,43 +63,55 @@ public class DonationItemTest {
         donatedList4.add(itemA);
     }
 
+    /**
+     * test sort time
+     */
     @Test
     public void testSortTime() {
         DonationItem.sortTime(donatedList);
 
-        assertTrue(donatedList.size() == 5);
-        assertTrue(donatedList.get(0) == itemA);
-        assertTrue(donatedList.get(1) == itemB);
-        assertTrue(donatedList.get(2) == itemC);
-        assertTrue(donatedList.get(3) == itemD);
-        assertTrue(donatedList.get(4) == itemE);
+        assertEquals(5, donatedList.size());
+        assertSame(donatedList.get(0), itemA);
+        assertSame(donatedList.get(1), itemB);
+        assertSame(donatedList.get(2), itemC);
+        assertSame(donatedList.get(3), itemD);
+        assertSame(donatedList.get(4), itemE);
     }
 
+    /**
+     * test with one item
+     */
     @Test
     public void testWithOneItem() {
         DonationItem.sortTime(donatedList2);
 
-        assertTrue(donatedList2.size() == 1);
-        assertTrue(donatedList2.get(0) == itemA);
+        assertEquals(1, donatedList2.size());
+        assertSame(donatedList2.get(0), itemA);
 
     }
 
+    /**
+     * test in place
+     */
     @Test
     public void testInPlace() {
         DonationItem.sortTime(donatedList3);
 
-        assertTrue(donatedList3.size() == 2);
-        assertTrue(donatedList3.get(0) == itemC);
-        assertTrue(donatedList3.get(1) == itemB);
+        assertEquals(2, donatedList3.size());
+        assertSame(donatedList3.get(0), itemC);
+        assertSame(donatedList3.get(1), itemB);
     }
 
+    /**
+     * test duplicate
+     */
     @Test
     public void testDuplicates() {
         DonationItem.sortTime(donatedList4);
 
-        assertTrue(donatedList4.size() == 3);
+        assertEquals(3, donatedList4.size());
         for (int i =0; i < donatedList4.size(); i++) {
-            assertTrue(donatedList4.get(i) == itemA);
+            assertSame(donatedList4.get(i), itemA);
         }
     }
 }

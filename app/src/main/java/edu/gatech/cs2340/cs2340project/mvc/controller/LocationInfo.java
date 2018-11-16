@@ -12,6 +12,9 @@ import edu.gatech.cs2340.cs2340project.data.LocationData;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.presentation.view.activities.DonationItemListActivities;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LocationInfo extends AppCompatActivity {
 
     //Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
@@ -24,7 +27,6 @@ public class LocationInfo extends AppCompatActivity {
     private TextView locationType;
     private TextView locationPhone;
     private TextView locationWebsite;
-    private Button mInventoryBtn;
 
     private String mLocationName;
 
@@ -41,12 +43,12 @@ public class LocationInfo extends AppCompatActivity {
         locationPhone = findViewById(R.id._locationPhone);
         locationWebsite = findViewById(R.id._locationWebsite);
 
-        mInventoryBtn = findViewById(R.id.inventory_btn);
+        Button mInventoryBtn = findViewById(R.id.inventory_btn);
 
-        boolean isUser = false;
-        if (isUser) {
-            mInventoryBtn.setVisibility(View.GONE);
-        }
+//        boolean isUser = false;
+//        if (isUser) {
+//            mInventoryBtn.setVisibility(View.GONE);
+//        }
 
         mInventoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override

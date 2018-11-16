@@ -1,22 +1,11 @@
 package edu.gatech.cs2340.cs2340project.data;
 
-import android.app.Application;
-import android.app.job.JobInfo;
-import android.app.job.JobParameters;
-import android.app.job.JobScheduler;
-import android.app.job.JobService;
-import android.content.ComponentName;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Parcel;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -31,25 +20,24 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
-import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
-import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
-import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
+/**
+ * @author Hoa V Luu
+ */
 public class UserDataRepository implements UserRepository {
 
-    public static final String LOGIN_SUCCESS = "Login Success!";
-    public static final String LOGIN_INVALID_UIDPS = "Incorrect email or password!";
+    private static final String LOGIN_SUCCESS = "Login Success!";
+    private static final String LOGIN_INVALID_UIDPS = "Incorrect email or password!";
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private final FirebaseAuth mAuth;
+    private final FirebaseFirestore db;
 
     private User user;
     private List<User> users;
@@ -57,6 +45,9 @@ public class UserDataRepository implements UserRepository {
     private String LOGIN_MESSAGE;
     private Interactor interactor;
 
+    /**
+     * constructor to initialized firestore
+     */
     public UserDataRepository() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -76,7 +67,7 @@ public class UserDataRepository implements UserRepository {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String userID = mAuth.getCurrentUser().getUid();
+                            String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
                             user = new User(userID, name, email, userRights);
                             db.collection("users").document(userID).set(user);
                             interactor.onNext("User Registered Successful");
@@ -84,7 +75,8 @@ public class UserDataRepository implements UserRepository {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 interactor.onError("Email already registered!");
                             } else {
-                                interactor.onError(task.getException().getMessage());
+                                interactor.onError(Objects.requireNonNull(
+                                        task.getException()).getMessage());
                             }
                         }
                     }
@@ -94,14 +86,15 @@ public class UserDataRepository implements UserRepository {
     @Override
     public void getCurrentUser() {
         final FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        String currentUserID = firebaseUser.getProviderId();
+        String currentUserID = Objects.requireNonNull(firebaseUser).getProviderId();
 //        firebaseUser.updateProfile()
         DocumentReference userRef = db.collection("users").document(currentUserID);
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 UserRights accountType
-                        = UserRights.valueOf(documentSnapshot.get("userRights").toString());
+                        = UserRights.valueOf(Objects.requireNonNull(
+                                documentSnapshot.get("userRights")).toString());
                 User user = new User(firebaseUser.getProviderId(), firebaseUser.getDisplayName(),
                         firebaseUser.getEmail(), accountType);
                 interactor.onNext(user);
@@ -147,15 +140,17 @@ public class UserDataRepository implements UserRepository {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             LOGIN_MESSAGE = LOGIN_SUCCESS;
-                            interactor.onNext(mAuth.getCurrentUser().getUid());
+                            interactor.onNext(Objects
+                                    .requireNonNull(mAuth.getCurrentUser()).getUid());
                         } else {
-                            if (task.getException()
-                                    instanceof FirebaseAuthInvalidCredentialsException
-                                    || task.getException()
-                                    instanceof FirebaseAuthInvalidUserException) {
+                            if ((task.getException()
+                                    instanceof FirebaseAuthInvalidCredentialsException)
+                                    || (task.getException()
+                                    instanceof FirebaseAuthInvalidUserException)) {
                                 LOGIN_MESSAGE = LOGIN_INVALID_UIDPS;
                             } else {
-                                LOGIN_MESSAGE = task.getException().getMessage();
+                                LOGIN_MESSAGE = Objects
+                                        .requireNonNull(task.getException()).getMessage();
                             }
                             interactor.onError(LOGIN_MESSAGE);
                         }

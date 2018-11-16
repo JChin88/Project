@@ -17,6 +17,9 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPrese
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LocationInfoPresenterImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LocationInfoActivities extends AppCompatActivity implements View {
 
     //Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
