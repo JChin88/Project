@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,15 +13,16 @@
 
     <!-- Login progress -->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="377dp"
+        android:layout_height="129dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:text="Welcome to Donation Tracker"
-        android:textSize="24sp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/logo" />
+
 
     <ProgressBar
         android:id="@+id/login_progress"
@@ -35,21 +37,25 @@
         android:id="@+id/login_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="false"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="10dp"
+            app:passwordToggleEnabled="false">
 
             <AutoCompleteTextView
                 android:id="@+id/login_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="User ID"
+                android:layout_width="344dp"
+                android:layout_height="53dp"
+                android:background="@drawable/emailbutton"
+                android:hint="email"
+                android:paddingLeft="70dp"
+                android:paddingBottom="7dp"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -60,44 +66,46 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:paddingTop="0dp"
             android:paddingBottom="10dp">
 
             <EditText
                 android:id="@+id/login_password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Password"
+                android:layout_width="344dp"
+                android:layout_height="53dp"
+                android:background="@drawable/passwordbutton"
+                android:hint="password"
+                android:paddingLeft="70dp"
+                android:paddingBottom="7dp"
                 android:imeActionId="6"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
+                android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textSize="18sp"
-                android:importantForAutofill="no" />
+                android:textSize="18sp" />
 
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/sign_in_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
+            android:background="@drawable/loginbutton"
+            android:layout_width="344dp"
+            android:layout_height="53dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="@string/login_btn_text"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/login_register_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/register_btn_text"
-            tools:textColor="@color/colorAccent"
+            android:background="@drawable/noaccount"
+            android:layout_marginLeft="60dp"
+            android:layout_width="261dp"
+            android:layout_height="10dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp" />
     </LinearLayout>
 
 
