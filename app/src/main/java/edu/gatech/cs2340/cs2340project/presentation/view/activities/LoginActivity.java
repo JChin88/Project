@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
@@ -13,28 +14,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
+import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutorImpl;
+import edu.gatech.cs2340.cs2340project.domain.interactor.Login;
+import edu.gatech.cs2340.cs2340project.presentation.dagger.component.DaggerAppComponent;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter.LoginView;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LoginPresenterImpl;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
 
-public class LoginActivity extends AppCompatActivity implements LoginView {
+public class LoginActivity extends DaggerAppCompatActivity implements LoginView {
+
+    @BindView(R.id.welcomeMessage)
+    TextView textViewWelcomeMessage;
 
     @BindView(R.id.login_email)
     AutoCompleteTextView mEmailView;
 
     @BindView(R.id.login_password)
     EditText mPasswordView;
-
-    @BindView(R.id.login_progress)
-    ProgressBar mProgressBar;
 
     @BindView(R.id.login_linear_layout)
     LinearLayout linearLayout;
@@ -45,12 +53,19 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.login_register_btn)
     Button registerButton;
 
-    private LoginPresenter mPresenter;
+    @BindView(R.id.relativeLayout_progress)
+    RelativeLayout relativeLayoutProgress;
+
+    @Inject
+    LoginPresenter mPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        mPresenter.setView(this);
+        //
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,13 +74,25 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
-                onLoginPress(v);
+                //
+                hideViewRetry();
+                showProgress();
+                String userEmail = mEmailView.getText().toString().trim();
+                String userPassword = mPasswordView.getText().toString().trim();
+                if (isInputValid(userEmail, userPassword)) {
+                    mPresenter.initialize(userEmail, userPassword);
+                } else {
+                    hideProgress();
+                    showViewRetry();
+                }
             }
         });
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onRegisterPress(v);
+                Intent moveToRegister = new Intent(LoginActivity.this,
+                        RegisterUserActivity.class);
+                LoginActivity.this.startActivity(moveToRegister);
             }
         });
         setTitle("Login");
@@ -78,12 +105,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void showProgress() {
-        mProgressBar.setVisibility(android.view.View.VISIBLE);
+        textViewWelcomeMessage.setVisibility(View.VISIBLE);
+        relativeLayoutProgress.setVisibility(View.VISIBLE);
+        setProgressBarIndeterminateVisibility(true);
+//        mProgressBar.setVisibility(android.view.View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        mProgressBar.setVisibility(android.view.View.GONE);
+        textViewWelcomeMessage.setVisibility(View.GONE);
+        relativeLayoutProgress.setVisibility(View.GONE);
+        setProgressBarIndeterminateVisibility(false);
+//        mProgressBar.setVisibility(android.view.View.GONE);
     }
 
     @Override
@@ -138,37 +171,4 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return true;
     }
 
-    /**
-     * Button for login
-     * @param view
-     */
-    public void onLoginPress(View view) {
-        hideViewRetry();
-        showProgress();
-        String userEmail = mEmailView.getText().toString().trim();
-        String userPassword = mPasswordView.getText().toString().trim();
-        if (isInputValid(userEmail, userPassword)) {
-            mPresenter = new LoginPresenterImpl(userEmail,
-                    userPassword,
-                    ThreadExecutor.getInstance(),
-                    MainThreadImpl.getInstance(),
-                     this,
-                    new UserDataRepository());
-            mPresenter.resume();
-        } else {
-            hideProgress();
-            showViewRetry();
-        }
-
-    }
-
-    /**
-     * Button for register a new account
-     *
-     */
-    public void onRegisterPress(View view) {
-            Intent moveToRegister = new Intent(LoginActivity.this,
-                    RegisterUserActivity.class);
-            LoginActivity.this.startActivity(moveToRegister);
-    }
 }

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
+import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutorImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter.View;
@@ -55,7 +55,7 @@ public class LocationInfoActivities extends AppCompatActivity implements View {
         // create a presenter for this view
         mPresenter = new LocationInfoPresenterImpl(
                 key,
-                ThreadExecutor.getInstance(),
+                ThreadExecutorImpl.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
                 new LocationDataRepository()

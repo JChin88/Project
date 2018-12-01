@@ -1,6 +1,5 @@
 package edu.gatech.cs2340.cs2340project.presentation.view.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -20,13 +18,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import androidx.navigation.Navigation;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
-import edu.gatech.cs2340.cs2340project.mvc.controller.LocationInfo;
-import edu.gatech.cs2340.cs2340project.mvc.controller.LocationList;
-import edu.gatech.cs2340.cs2340project.presentation.view.activities.DonationItemListActivities;
-import edu.gatech.cs2340.cs2340project.presentation.view.activities.LocationInfoActivities;
-import edu.gatech.cs2340.cs2340project.presentation.view.activities.LoginActivity;
 import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationLocationAdapter;
 
 public class HomeFragment extends Fragment {
@@ -34,18 +29,22 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference locationRef = db.collection("Donation Locations");
 
-    private RecyclerView recyclerView;
+    @BindView(R.id.donation_location_recycler_view)
+    RecyclerView recyclerView;
+
     private DonationLocationAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        final View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+        ButterKnife.bind(this, fragmentView);
+        return fragmentView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        recyclerView = view.findViewById(R.id.donation_location_recycler_view);
+        super.onViewCreated(view, savedInstanceState);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         setUpRecyclerView();

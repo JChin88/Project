@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
+import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutorImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter.View;
@@ -39,7 +39,7 @@ public class UserInfoActivities extends AppCompatActivity implements View {
         // create a presenter for this view
         mPresenter = new UserInfoPresenterImpl(
                 userID,
-                ThreadExecutor.getInstance(),
+                ThreadExecutorImpl.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
                 new UserDataRepository()

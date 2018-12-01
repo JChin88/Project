@@ -18,8 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
+import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutorImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.AddUserPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.AddUserPresenterImpl;
@@ -169,7 +168,7 @@ public class RegisterUserActivity extends AppCompatActivity implements AddUserPr
         String userPassword = userPasswordView.getText().toString().trim();
         UserRights userRights = UserRights.valueOf(userTypeSpinner.getSelectedItem().toString());
         if (isInputValid(userName, userEmail, userPassword)) {
-            mPresenter = new AddUserPresenterImpl(ThreadExecutor.getInstance(),
+            mPresenter = new AddUserPresenterImpl(ThreadExecutorImpl.getInstance(),
                     MainThreadImpl.getInstance(),
                     this,
                     new UserDataRepository(),

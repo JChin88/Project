@@ -39,9 +39,13 @@ public class DonationItemListActivities extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private DonationItemsAdapter adapter;
+    private DonationItemsAdapter searchAdapter;
     private DonationItemsAdapter2 adapter2;
     private List<DonationItem> listDI;
+    Query query;
     FirestoreRecyclerOptions<DonationItem> options;
+
+    int number = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +63,20 @@ public class DonationItemListActivities extends AppCompatActivity {
         buttonAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DonationItemListActivities.this, AddDonationItem.class);
-                intent.putExtra("Location Name", locationName);
-                intent.putExtra("Request", ADD_DONATION_ITEM_REQUEST);
-                DonationItemListActivities.this.startActivity(intent);
-                //DonationItemListActivities.this.startActivityForResult(intent, ADD_DONATION_ITEM_REQUEST);
+                adapter.stopListening();
+                Query query = donationItemRef.orderBy(("donationItemName"), Query.Direction.DESCENDING).limit(number);
+                FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+                        .setQuery(query, DonationItem.class)
+                        .build();
+                searchAdapter = new DonationItemsAdapter(options);
+                searchAdapter.startListening();
+                recyclerView.setAdapter(searchAdapter);
+                number++;
+//                Intent intent = new Intent(DonationItemListActivities.this, AddDonationItem.class);
+//                intent.putExtra("Location Name", locationName);
+//                intent.putExtra("Request", ADD_DONATION_ITEM_REQUEST);
+//                DonationItemListActivities.this.startActivity(intent);
+//                //DonationItemListActivities.this.startActivityForResult(intent, ADD_DONATION_ITEM_REQUEST);
             }
         });
         setTitle("Donation Items");
@@ -72,12 +85,11 @@ public class DonationItemListActivities extends AppCompatActivity {
 
 
     public void setUpRecyclerView() {
-        Query query = donationItemRef.orderBy(("donationItemName"), Query.Direction.ASCENDING);
+        query = donationItemRef.orderBy(("donationItemName"), Query.Direction.ASCENDING);
         options = new FirestoreRecyclerOptions.Builder<DonationItem>()
                 .setQuery(query, DonationItem.class)
                 .build();
         adapter = new DonationItemsAdapter(options);
-
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new DonationItemsAdapter.OnItemClickListener() {
             @Override

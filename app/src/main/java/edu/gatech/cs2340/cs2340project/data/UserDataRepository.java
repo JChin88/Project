@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
@@ -42,7 +45,26 @@ import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
+import io.reactivex.Observable;
 
+/**
+ * Concrete implementation to load tasks from the data sources into a cache.
+ * <p>
+ * For simplicity, this implements a dumb synchronisation between locally persisted data and data
+ * obtained from the server, by using the remote data source only if the local database doesn't
+ * exist or is empty.
+ * <p />
+ * By marking the constructor with {@code @Inject} and the class with {@code @Singleton}, Dagger
+ * injects the dependencies required to create an instance of the TasksRespository (if it fails, it
+ * emits a compiler error). It uses {@link TasksRepositoryModule} to do so, and the constructed
+ * instance is available in {@link AppComponent}.
+ * <p />
+ * Dagger generated code doesn't require public access to the constructor or class, and
+ * therefore, to ensure the developer doesn't instantiate the class manually and bypasses Dagger,
+ * it's good practice minimise the visibility of the class/constructor as much as possible.
+ */
+
+@Singleton
 public class UserDataRepository implements UserRepository {
 
     public static final String LOGIN_SUCCESS = "Login Success!";
@@ -57,6 +79,7 @@ public class UserDataRepository implements UserRepository {
     private String LOGIN_MESSAGE;
     private Interactor interactor;
 
+    @Inject
     public UserDataRepository() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -65,6 +88,11 @@ public class UserDataRepository implements UserRepository {
 
     public void setInteractor(Interactor interactor) {
         this.interactor = interactor;
+    }
+
+    @Override
+    public String getCurrentUserID() {
+        return mAuth.getCurrentUser().getUid();
     }
 
     @Override
@@ -89,7 +117,6 @@ public class UserDataRepository implements UserRepository {
                 });
     }
 
-    @Override
     public void getCurrentUser() {
         final FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String currentUserID = firebaseUser.getProviderId();
@@ -137,25 +164,28 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public void login(final String email, final String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            LOGIN_MESSAGE = LOGIN_SUCCESS;
-                            interactor.onNext(mAuth.getCurrentUser().getUid());
-                        } else {
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
-                                    || task.getException() instanceof FirebaseAuthInvalidUserException) {
-                                LOGIN_MESSAGE = LOGIN_INVALID_UIDPS;
+    public Observable<String> login(final String email, final String password) {
+        return Observable.create(emitter -> {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                LOGIN_MESSAGE = LOGIN_SUCCESS;
+                                emitter.onNext(mAuth.getCurrentUser().getUid());
                             } else {
-                                LOGIN_MESSAGE = task.getException().getMessage();
+//                                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
+//                                        || task.getException() instanceof FirebaseAuthInvalidUserException) {
+//                                    LOGIN_MESSAGE = LOGIN_INVALID_UIDPS;
+//                                } else {
+//                                    LOGIN_MESSAGE = task.getException().getMessage();
+//                                }
+                                emitter.onError(task.getException());
                             }
-                            interactor.onError(LOGIN_MESSAGE);
                         }
-                    }
-                });
+                    });
+        });
+
     }
 
     @Override
@@ -177,5 +207,6 @@ public class UserDataRepository implements UserRepository {
             });
         }
     }
+
 
 }

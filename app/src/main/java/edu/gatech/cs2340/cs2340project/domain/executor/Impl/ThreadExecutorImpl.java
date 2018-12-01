@@ -1,13 +1,10 @@
 package edu.gatech.cs2340.cs2340project.domain.executor.Impl;
 
-import android.support.annotation.NonNull;
-
 import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.AbstractInteractor;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -15,10 +12,10 @@ import java.util.concurrent.TimeUnit;
  * This singleton class will make sure that each interactor operation gets a background thread.
  * <p/>
  */
-public class ThreadExecutor implements Executor {
+public class ThreadExecutorImpl implements Executor {
 
     // This is a singleton
-    private static volatile ThreadExecutor sThreadExecutor;
+    private static volatile ThreadExecutorImpl sThreadExecutor;
 
     private static final int                     CORE_POOL_SIZE  = 3;
     private static final int                     MAX_POOL_SIZE   = 5;
@@ -28,7 +25,7 @@ public class ThreadExecutor implements Executor {
 
     private ThreadPoolExecutor mThreadPoolExecutor;
 
-    public ThreadExecutor() {
+    public ThreadExecutorImpl() {
         long keepAlive = KEEP_ALIVE_TIME;
         mThreadPoolExecutor = new ThreadPoolExecutor(
                 CORE_POOL_SIZE,
@@ -58,7 +55,7 @@ public class ThreadExecutor implements Executor {
      */
     public static Executor getInstance() {
         if (sThreadExecutor == null) {
-            sThreadExecutor = new ThreadExecutor();
+            sThreadExecutor = new ThreadExecutorImpl();
         }
 
         return sThreadExecutor;

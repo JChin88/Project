@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -17,14 +16,12 @@
             android:layout_alignParentStart="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/edit_text_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Search" />
         </android.support.design.widget.TextInputLayout>
 
         <ImageButton
-            android:id="@+id/search_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_search"
@@ -33,19 +30,16 @@
 
 
     <RadioGroup
-        android:id="@+id/radio_group_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/text_input_layout">
 
         <RadioButton
-            android:id="@+id/radio_btn_location_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Location Name"/>
         <RadioButton
-            android:id="@+id/radio_btn_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Category"/>
@@ -53,19 +47,17 @@
     </RadioGroup>
 
     <Spinner
-        android:id="@+id/spinner_DI_location_search"
         android:layout_width="match_parent"
         android:layout_height="40dp">
     </Spinner>
 
     <Spinner
-        android:id="@+id/spinner_DI_category_search"
         android:layout_width="match_parent"
         android:layout_height="40dp">
     </Spinner>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/test_recycler_view123"
+        android:id="@+id/test_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -11,38 +11,38 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.mvc.controller.LocationList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout userHomeDrawerLayout;
+    @BindView(R.id.user_drawer_layout)
+    DrawerLayout userHomeDrawerLayout;
+    @BindView(R.id.user_tool_bar)
+    Toolbar toolbar;
+
     ActionBarDrawerToggle toggle;
-    private TextView welcomeM;
 
     private String userID;
     private String userName;
-    private Toolbar toolbar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         setTitle("Home Page");
-        toolbar = findViewById(R.id.user_tool_bar);
         setSupportActionBar(toolbar);
-
-        userHomeDrawerLayout = findViewById(R.id.user_drawer_layout);
 
         toggle = new ActionBarDrawerToggle(this, userHomeDrawerLayout,
                 toolbar, R.string.user_navigation_drawer_open, R.string.user_navigation_drawer_close);
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         userHomeDrawerLayout.bringToFront();
 
-//        welcomeM = findViewById(R.id.welcomeMessage);
         Intent tempIntent = getIntent();
         userID = tempIntent.getStringExtra("userID");
         userName = tempIntent.getStringExtra("userName");
