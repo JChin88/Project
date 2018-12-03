@@ -4,16 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,14 +21,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutorImpl;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Login;
-import edu.gatech.cs2340.cs2340project.presentation.dagger.component.DaggerAppComponent;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter.LoginView;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LoginPresenterImpl;
-import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LoginPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LoginPresenter.LoginView;
 
 public class LoginActivity extends DaggerAppCompatActivity implements LoginView {
 
@@ -80,7 +71,7 @@ public class LoginActivity extends DaggerAppCompatActivity implements LoginView 
                 String userEmail = mEmailView.getText().toString().trim();
                 String userPassword = mPasswordView.getText().toString().trim();
                 if (isInputValid(userEmail, userPassword)) {
-                    mPresenter.initialize(userEmail, userPassword);
+                    mPresenter.login(userEmail, userPassword);
                 } else {
                     hideProgress();
                     showViewRetry();

@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.cs2340project.presentation.dagger.component;
 
 import android.app.Application;
-import android.content.Context;
 
 import javax.inject.Singleton;
 

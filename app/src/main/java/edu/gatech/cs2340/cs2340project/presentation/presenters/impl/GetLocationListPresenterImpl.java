@@ -2,25 +2,19 @@ package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
 import java.util.List;
 
-import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
-import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import javax.inject.Inject;
+
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationListInteractor;
-import edu.gatech.cs2340.cs2340project.domain.model.Location;
-import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.GetLocationListPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.GetLocationListPresenter;
 
-public class GetLocationListPresenterImpl extends AbstractPresenter implements GetLocationListPresenter,
-        GetLocationListInteractor.Callback {
+public class GetLocationListPresenterImpl implements GetLocationListPresenter{
 
-    GetLocationListPresenter.LocationListView mView;
-    LocationRepository mLocationRepository;
+    GetLocationListPresenter.LocationListView locationListView;
+    GetLocationListInteractor getLocationListInteractor;
 
-    public GetLocationListPresenterImpl(Executor executor, MainThread mainThread,
-                                        LocationListView mView, LocationRepository mLocationRepository) {
-        super(executor, mainThread);
-        this.mView = mView;
-        this.mLocationRepository = mLocationRepository;
+    @Inject
+    public GetLocationListPresenterImpl(GetLocationListInteractor getLocationListInteractor) {
+        this.getLocationListInteractor = getLocationListInteractor;
     }
 
     @Override
@@ -44,12 +38,11 @@ public class GetLocationListPresenterImpl extends AbstractPresenter implements G
     }
 
     @Override
-    public void onLocationListRetrived(List<Location> locationList) {
-
+    public void setView(LocationListView locationListView) {
+        this.locationListView = locationListView;
     }
 
     @Override
-    public void onLocationListRetrievedFail(String errorMessage) {
-
+    public void getLocationList() {
     }
 }

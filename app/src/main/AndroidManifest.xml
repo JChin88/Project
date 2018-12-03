@@ -42,9 +42,6 @@
 
         <activity android:name=".presentation.view.activities.UserInfoActivities" />
         <activity
-            android:name=".presentation.view.activities.LocationInfoActivities"
-            android:launchMode="singleTop" />
-        <activity
             android:name=".presentation.view.activities.DonationItemListActivities"
             android:launchMode="singleTop"
             android:parentActivityName=".presentation.view.activities.LocationInfoActivities" />

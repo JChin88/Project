@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.presentation.dagger.module;
+package edu.gatech.cs2340.cs2340project.presentation.dagger.module.Scoped;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

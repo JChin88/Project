@@ -3,15 +3,22 @@ package edu.gatech.cs2340.cs2340project.presentation.dagger.module;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import edu.gatech.cs2340.cs2340project.data.DonationItemDataRepository;
+import edu.gatech.cs2340.cs2340project.data.LocationDataRepository;
 import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.JobExecutor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.executor.ThreadExecutor;
+import edu.gatech.cs2340.cs2340project.domain.repository.DonationItemRepository;
+import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.dagger.component.AppComponent;
 import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
@@ -41,4 +48,25 @@ public abstract class ApplicationModule {
     @Binds
     @Singleton
     abstract UserRepository bindUserRepository(UserDataRepository userDataRepository);
+
+    @Binds
+    @Singleton
+    abstract LocationRepository bindLocationRepository(LocationDataRepository locationDataRepository);
+
+    @Binds
+    @Singleton
+    abstract DonationItemRepository bindDonationItemRepository(DonationItemDataRepository donationItemDataRepository);
+
+    @Provides
+    @Singleton
+    static FirebaseFirestore provideFirestore() {
+        FirebaseFirestore.setLoggingEnabled(true);
+        return FirebaseFirestore.getInstance();
+    }
+
+    @Provides
+    @Singleton
+    static FirebaseAuth provideFireBaseAuth() {
+        return FirebaseAuth.getInstance();
+    }
 }

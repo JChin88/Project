@@ -7,7 +7,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -23,44 +22,44 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
+import io.reactivex.Observable;
 
-
+@Singleton
 public class LocationDataRepository implements LocationRepository {
 
     private FirebaseFirestore db;
-    private Interactor interactor;
-
+    @Inject
     public LocationDataRepository() {
         db = FirebaseFirestore.getInstance();
     }
 
     @Override
-    public void setInteractor(Interactor interactor) {
-        this.interactor = interactor;
-    }
+    public Observable<Location> getLocation(String key) {
+        return Observable.create(emmiter -> {
+            db.collection("Donation Locations").document(key).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                if (documentSnapshot.exists()) {
+                                    Location location = documentSnapshot.toObject(Location.class);
+                                    emmiter.onNext(location);
+                                    emmiter.onComplete();
+                                } else {
+                                    emmiter.onError(task.getException());
+                                }
+                            } else {
+                                emmiter.onError(task.getException());
+                            }
 
-    @Override
-    public void getLocation(String key) {
-        db.collection("Donation Locations").document(key).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if (documentSnapshot.exists()) {
-                        Location location = documentSnapshot.toObject(Location.class);
-                        interactor.onNext(location);
-                    } else {
-                        interactor.onError("No Such Location");
-                    }
-                } else {
-                    interactor.onError(task.getException().getMessage());
-                }
-
-            }
+                        }
+                    });
         });
     }
 
@@ -96,22 +95,31 @@ public class LocationDataRepository implements LocationRepository {
     }
 
     @Override
-    public void getLocationList() {
-        final List<Location> listLocation = new ArrayList<>();
-        CollectionReference locationListRef = db.collection("Donation Locations");
-        locationListRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-                        Location location = documentSnapshot.toObject(Location.class);
-                        listLocation.add(location);
+    public Observable<List<Location>> getLocationList() {
+        return Observable.create(emitter -> {
+            final List<Location> listLocation = new ArrayList<>();
+            CollectionReference locationListRef = db.collection("Donation Locations");
+            locationListRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Location location = documentSnapshot.toObject(Location.class);
+                            listLocation.add(location);
+                        }
+                        emitter.onNext(listLocation);
+                        emitter.onComplete();
                     }
-                    interactor.onNext(listLocation);
-                } else {
-                    interactor.onError("Retrived list of locations failed");
+//                    } else {
+//                        interactor.onError("Retrived list of locations failed");
+//                    }
                 }
-            }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    emitter.onError(e);
+                }
+            });
         });
     }
 

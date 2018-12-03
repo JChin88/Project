@@ -1,26 +1,22 @@
 package edu.gatech.cs2340.cs2340project.domain.repository;
 
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import java.util.List;
 
-import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
 import io.reactivex.Observable;
 
 public interface UserRepository {
 
-    void addUser(String userName, String userEmail, String userPassword, UserRights userRights);
+    Observable<String> addUser(String userName, String userEmail, String userPassword, UserRights userRights);
 
     String getCurrentUserID();
 
-    void getUser(String id);
+    Observable<User> getUser(String id);
 
     //void addUser(User user);
 
-    void getUsers();
-
-    void setInteractor(Interactor interactor);
+    Observable<List<User>> getUsers();
 
     /**
      * Login
@@ -30,4 +26,6 @@ public interface UserRepository {
      * @param password The passwrod used to sign in.
      */
     Observable<String> login(final String email, final String password);
+
+    User getCurrentUserTest();
 }

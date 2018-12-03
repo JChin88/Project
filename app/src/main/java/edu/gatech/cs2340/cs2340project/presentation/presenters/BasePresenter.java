@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.cs2340project.presentation.presenters.base;
+package edu.gatech.cs2340.cs2340project.presentation.presenters;
 
 public interface BasePresenter {
     /**
@@ -24,5 +24,4 @@ public interface BasePresenter {
      * (Activity or Fragment) onDestroy() method.
      */
     void destroy();
-
 }

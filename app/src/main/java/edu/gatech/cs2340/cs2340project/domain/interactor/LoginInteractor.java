@@ -1,14 +1,40 @@
 package edu.gatech.cs2340.cs2340project.domain.interactor;
 
-import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
+import javax.inject.Inject;
 
-public interface LoginInteractor extends Interactor {
+import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import edu.gatech.cs2340.cs2340project.domain.executor.ThreadExecutor;
+import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
+import io.reactivex.Observable;
 
-    interface Callback {
+public class LoginInteractor extends UseCase<String, LoginInteractor.Params> {
 
-        void onLoginSuccess(String userID);
+    private final UserRepository userRepository;
 
-        void onLoginFailed(String errorMessage);
+    @Inject
+    public LoginInteractor(ThreadExecutor threadExecutor, MainThread mainThread, UserRepository userRepository) {
+        super(threadExecutor, mainThread);
+        this.userRepository = userRepository;
     }
 
+    @Override
+    Observable<String> buildUseCaseObservable(Params params) {
+        return this.userRepository.login(params.email, params.password);
+    }
+
+    public static final class Params {
+
+        private final String email;
+
+        private final String password;
+
+        public Params(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
+
+        public static Params login(String email, String password) {
+            return new Params(email, password);
+        }
+    }
 }

@@ -20,22 +20,29 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" ></fragment>
     <fragment
-        android:id="@+id/inventory"
-        android:name="edu.gatech.cs2340.cs2340project.Inventory"
-        android:label="fragment_inventory"
-        tools:layout="@layout/fragment_inventory" />
-    <fragment
         android:id="@+id/locationInfo"
         android:name="edu.gatech.cs2340.cs2340project.presentation.view.fragments.LocationInfoFragment"
         android:label="fragment_location_info"
         tools:layout="@layout/fragment_location_info" >
+        <argument
+            android:name="locationID"
+            app:argType="string" />
         <action
-            android:id="@+id/action_locationInfo_to_inventory"
-            app:destination="@id/inventory" />
+            android:id="@+id/action_locationInfo_to_locationInventory"
+            app:destination="@id/locationInventory" />
     </fragment>
     <fragment
         android:id="@+id/nav_favorite"
         android:name="edu.gatech.cs2340.cs2340project.presentation.view.fragments.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/locationInventory"
+        android:name="edu.gatech.cs2340.cs2340project.presentation.view.fragments.LocationInventoryFragment"
+        android:label="fragment_location_inventory"
+        tools:layout="@layout/fragment_location_inventory" >
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -8,15 +8,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutorImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter.View;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.UserInfoPresenterImpl;
-import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.UserInfoPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.UserInfoPresenter.UserInfoView;
 
-public class UserInfoActivities extends AppCompatActivity implements View {
+public class UserInfoActivities extends AppCompatActivity implements UserInfoView {
 
     private TextView mUserID;
     private TextView mUserName;
@@ -37,13 +33,13 @@ public class UserInfoActivities extends AppCompatActivity implements View {
         userID = tempIntent.getStringExtra("userID");
 
         // create a presenter for this view
-        mPresenter = new UserInfoPresenterImpl(
-                userID,
-                ThreadExecutorImpl.getInstance(),
-                MainThreadImpl.getInstance(),
-                this,
-                new UserDataRepository()
-        );
+//        mPresenter = new UserInfoPresenterImpl(
+//                userID,
+//                ThreadExecutorImpl.getInstance(),
+//                MainThreadImpl.getInstance(),
+//                this,
+//                new UserDataRepository()
+//        );
     }
 
     @Override

@@ -1,45 +1,37 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
-import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import javax.inject.Inject;
+
+import edu.gatech.cs2340.cs2340project.domain.interactor.base.DefaultObserver;
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationDetailsInteractor;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetLocationDetailsInteractorImpl;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
-import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.LocationInfoPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LocationInfoPresenter;
 
-public class LocationInfoPresenterImpl extends AbstractPresenter implements LocationInfoPresenter,
-        GetLocationDetailsInteractor.Callback {
+public class LocationInfoPresenterImpl implements LocationInfoPresenter{
 
-    private LocationInfoPresenter.View mView;
-    private LocationRepository mLocationRepository;
-    private String key;
+    private LocationInfoPresenter.LocationInfoView mView;
 
-    public LocationInfoPresenterImpl(String key, Executor executor, MainThread mainThread,
-                                     View view, LocationRepository locationRepository) {
-        super(executor, mainThread);
-        this.key = key;
-        mView = view;
-        mLocationRepository = locationRepository;
+    private final GetLocationDetailsInteractor getLocationDetailsInteractor;
+
+    @Inject
+    public LocationInfoPresenterImpl(GetLocationDetailsInteractor getLocationDetailsInteractor) {
+        this.getLocationDetailsInteractor = getLocationDetailsInteractor;
+    }
+
+    @Override
+    public void setView(LocationInfoView locationInfoView) {
+        mView = locationInfoView;
+    }
+
+    @Override
+    public void initialize(String key) {
+        mView.showProgress();
+        getLocationDetailsInteractor.execute(new LocationInfoObserver(),
+                GetLocationDetailsInteractor.Params.forUser(key));
     }
 
     @Override
     public void resume() {
-
-        mView.showProgress();
-
-        // initialize the interactor
-        GetLocationDetailsInteractor interactor = new GetLocationDetailsInteractorImpl(
-                key,
-                mExecutor,
-                mMainThread,
-                this,
-                mLocationRepository
-        );
-        mLocationRepository.setInteractor(interactor);
-        // run the interactor
-        interactor.execute();
     }
 
     @Override
@@ -57,16 +49,23 @@ public class LocationInfoPresenterImpl extends AbstractPresenter implements Loca
 
     }
 
-    @Override
-    public void onLocationRetrieved(Location location) {
-        mView.hideProgress();
-        mView.displayLocationInfo(location);
-    }
+    private final class LocationInfoObserver extends DefaultObserver<Location> {
 
-    @Override
-    public void onRetrievalFailed(String errorMessage) {
-        mView.hideProgress();
-        mView.showError(errorMessage);
-    }
+        @Override
+        public void onComplete() {
+            mView.hideProgress();
+        }
 
+        @Override
+        public void onError(Throwable e) {
+            String errorMessage = e.getMessage();
+            mView.hideProgress();
+            mView.showError(errorMessage);
+        }
+
+        @Override
+        public void onNext(Location location) {
+            mView.displayLocationInfo(location);
+        }
+    }
 }

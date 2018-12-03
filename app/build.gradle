@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
-
+apply plugin: 'androidx.navigation.safeargs' // Safe check for navigation
 android {
     compileSdkVersion 28
     defaultConfig {

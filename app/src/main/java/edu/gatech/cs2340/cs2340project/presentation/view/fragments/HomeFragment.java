@@ -66,12 +66,9 @@ public class HomeFragment extends Fragment {
                 String message = "Position: " + position + "ID: " + key;
                 //Pass the id into the next info
                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(getContext(), LocationInfoActivities.class);
-//                intent.putExtra("key", key);
-//                startActivity(intent);
-                Navigation.findNavController(getView()).navigate(R.id.action_nav_home_to_locationInfo);
-//                Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_locationInfo, null);
-
+                HomeFragmentDirections.ActionNavHomeToLocationInfo action
+                        = HomeFragmentDirections.actionNavHomeToLocationInfo(key);
+                Navigation.findNavController(getView()).navigate(action);
             }
         });
 
