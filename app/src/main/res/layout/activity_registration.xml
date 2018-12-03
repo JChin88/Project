@@ -21,7 +21,6 @@
         android:visibility="gone" />
 
     <ScrollView
-        android:id="@+id/registration_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -69,7 +68,8 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:importantForAutofill="no" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -87,16 +87,16 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:importantForAutofill="no" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/register_account_type_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Account Type"
                 android:textAllCaps="false"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Spinner

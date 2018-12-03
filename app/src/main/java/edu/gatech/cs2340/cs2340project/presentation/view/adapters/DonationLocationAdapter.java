@@ -16,7 +16,11 @@ import javax.inject.Inject;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
-public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, DonationLocationAdapter.DonationLocationHolder> {
+/**
+ * Main adapter for list of donation item
+ */
+public class DonationLocationAdapter
+        extends FirestoreRecyclerAdapter<Location, DonationLocationAdapter.DonationLocationHolder> {
 
     private OnItemClickListener listener;
 
@@ -24,14 +28,15 @@ public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, 
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
      *
-     * @param options
+     * @param options the firestore options
      */
     public DonationLocationAdapter(@NonNull FirestoreRecyclerOptions<Location> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull DonationLocationHolder holder, int position, @NonNull Location model) {
+    protected void onBindViewHolder(@NonNull DonationLocationHolder holder, int position,
+                                    @NonNull Location model) {
         holder.donationLocationName.setText(model.getName());
         holder.donationLocationType.setText(model.getType());
     }
@@ -39,17 +44,18 @@ public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, 
     @NonNull
     @Override
     public DonationLocationHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v  = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_donation_location,
+        View v  = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.card_view_donation_location,
                 viewGroup, false);
         return new DonationLocationHolder(v);
     }
 
-    class DonationLocationHolder extends RecyclerView.ViewHolder {
+    final class DonationLocationHolder extends RecyclerView.ViewHolder {
 
-        TextView donationLocationName;
-        TextView donationLocationType;
+        final TextView donationLocationName;
+        final TextView donationLocationType;
 
-        public DonationLocationHolder(@NonNull View itemView) {
+        private DonationLocationHolder(@NonNull View itemView) {
             super(itemView);
             donationLocationName = itemView.findViewById(R.id.card_view_donation_location_name);
             donationLocationType = itemView.findViewById(R.id.card_view_donation_location_type);
@@ -58,7 +64,7 @@ public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, 
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                    if ((position != RecyclerView.NO_POSITION) && (listener != null)) {
                         listener.OnItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
@@ -67,9 +73,18 @@ public class DonationLocationAdapter extends FirestoreRecyclerAdapter<Location, 
     }
 
     public interface OnItemClickListener {
+        /**
+         * action when user click
+         * @param documentSnapshot snapshot can convert to donation item object
+         * @param position the position where user clicked
+         */
         void OnItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
+    /**
+     *
+     * @param listener listener for item
+     */
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }

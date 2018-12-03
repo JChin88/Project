@@ -12,6 +12,9 @@ import edu.gatech.cs2340.cs2340project.data.LocationData;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 import edu.gatech.cs2340.cs2340project.presentation.view.activities.DonationItemListActivities;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LocationInfo extends AppCompatActivity {
 
     //Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
@@ -24,7 +27,6 @@ public class LocationInfo extends AppCompatActivity {
     private TextView locationType;
     private TextView locationPhone;
     private TextView locationWebsite;
-    private Button mInventoryBtn;
 
     private String mLocationName;
 
@@ -35,18 +37,18 @@ public class LocationInfo extends AppCompatActivity {
 
         locationName = findViewById(R.id._locationName);
         locationLatitude = findViewById(R.id._locationLatitude);
-        locationLongtitude = findViewById(R.id._locationLongtitude);
+        locationLongtitude = findViewById(R.id._locationLongitude);
         locationAddress = findViewById(R.id._locationAddress);
         locationType = findViewById(R.id._locationType);
         locationPhone = findViewById(R.id._locationPhone);
         locationWebsite = findViewById(R.id._locationWebsite);
 
-        mInventoryBtn = findViewById(R.id.inventory_btn);
+        Button mInventoryBtn = findViewById(R.id.inventory_btn);
 
-        boolean isUser = false;
-        if (isUser) {
-            mInventoryBtn.setVisibility(View.GONE);
-        }
+//        boolean isUser = false;
+//        if (isUser) {
+//            mInventoryBtn.setVisibility(View.GONE);
+//        }
 
         mInventoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,12 +65,14 @@ public class LocationInfo extends AppCompatActivity {
 
     }
 
-    public void setTextWithKey(Integer key) {
+    private void setTextWithKey(Integer key) {
         Location tempLocation = LocationData.getLocation(key);
         mLocationName = tempLocation.getName();
         locationName.setText("Location Name: \t" + tempLocation.getName());
-        locationLatitude.setText("Location Latitude: \t" + Double.toString(tempLocation.getLatitude()));
-        locationLongtitude.setText("Location Longtitude: \t" + Double.toString(tempLocation.getLongitude()));
+        locationLatitude.setText("Location Latitude: \t" + Double
+                .toString(tempLocation.getLatitude()));
+        locationLongtitude.setText("Location Longtitude: \t" + Double
+                .toString(tempLocation.getLongitude()));
         locationAddress.setText("Location Address: \t" + tempLocation.getAddress());
         locationType.setText("Location Type: \t" + tempLocation.getType());
         locationPhone.setText("Location Phone Number: \t" + tempLocation.getPhoneNumber());

@@ -12,11 +12,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Objects;
+
 import edu.gatech.cs2340.cs2340project.R;
 
+/**
+ * @author Jonathan Chin
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
-    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         Log.d("Test", "Test");
-        mapFragment.getMapAsync(this);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
     }
 
     /**
@@ -40,7 +43,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
         // Add a markers and move the camera
         LatLng AFDStation4 = new LatLng(33.75416, -84.37742);
@@ -49,12 +51,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng pavilionOfHope = new LatLng(33.80129, -84.25537);
         LatLng dAndD = new LatLng(33.71747, -84.2521);
         LatLng keepNorthFultonBeautiful = new LatLng(33.96921, -84.3688);
-        mMap.addMarker(new MarkerOptions().position(AFDStation4).title("AFD Station 4").snippet("(404) 555 - 3456"));
-        mMap.addMarker(new MarkerOptions().position(boysAndGirls).title("Boys and Girls Club").snippet("(404) 555 - 1234"));
-        mMap.addMarker(new MarkerOptions().position(pathwayUpper).title("Pathway Upper").snippet("(404) 555 - 5432"));
-        mMap.addMarker(new MarkerOptions().position(pavilionOfHope).title("Pavilion of Hope").snippet("(404) 555 - 8765"));
-        mMap.addMarker(new MarkerOptions().position(dAndD).title("D&D").snippet("(404) 555 - 9876"));
-        mMap.addMarker(new MarkerOptions().position(keepNorthFultonBeautiful).title("Keep North Fulton Beautiful").snippet("(770) 555 - 7321"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(AFDStation4));
+        googleMap.addMarker(new MarkerOptions().position(AFDStation4).title("AFD Station 4")
+                .snippet("(404) 555 - 3456"));
+        googleMap.addMarker(new MarkerOptions().position(boysAndGirls).title("Boys and Girls Club")
+                .snippet("(404) 555 - 1234"));
+        googleMap.addMarker(new MarkerOptions().position(pathwayUpper).title("Pathway Upper")
+                .snippet("(404) 555 - 5432"));
+        googleMap.addMarker(new MarkerOptions().position(pavilionOfHope).title("Pavilion of Hope")
+                .snippet("(404) 555 - 8765"));
+        googleMap.addMarker(new MarkerOptions().position(dAndD).title("D&D")
+                .snippet("(404) 555 - 9876"));
+        googleMap.addMarker(new MarkerOptions().position(keepNorthFultonBeautiful)
+                .title("Keep North Fulton Beautiful").snippet("(770) 555 - 7321"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(AFDStation4));
     }
 }

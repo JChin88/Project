@@ -1,9 +1,9 @@
 package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,23 +15,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 
+/**
+ * Add a donation item into the database
+ */
+@SuppressWarnings("ChainedMethodCall")
 public class AddDonationItem extends AppCompatActivity {
 
     public static final String EXTRA_ID =
@@ -46,29 +42,25 @@ public class AddDonationItem extends AppCompatActivity {
     private Spinner spinnerCategory;
     private EditText editTextComments;
 
-    private String locationName;
-
-    FirebaseFirestore db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_donation_item);
-
+        Intent intent = getIntent();
+        String locationName = intent.getStringExtra("Location Name");
         textViewTimeStamp = findViewById(R.id.text_view_donation_item_time_stamp);
         editTextDonationItemName = findViewById(R.id.edit_text_donation_item_name);
         textViewLocationName = findViewById(R.id.text_view_donation_item_location_name);
         editTextShortDescription = findViewById(R.id.edit_text_donation_item_short_description);
         editTextFullDescription = findViewById(R.id.edit_text_donation_item_full_description);
         editTextValue = findViewById(R.id.edit_text_donation_item_values);
-        spinnerCategory = findViewById(R.id.spinner_donation_item_catogory);
+        spinnerCategory = findViewById(R.id.spinner_donation_item_category);
         editTextComments = findViewById(R.id.edit_text_donation_item_comments);
-        locationName = getIntent().getStringExtra("Location Name");
-        textViewLocationName.setText(getIntent().getStringExtra("Location Name"));
+        textViewLocationName.setText(locationName);
 
+        String temp1 = textViewTimeStamp.getText().toString();
 
-
-        if (textViewTimeStamp.getText().toString().equals("Time Stamp")) {
+        if ("Time Stamp".equals(temp1)) {
             textViewTimeStamp.setVisibility(View.GONE);
         }
 
@@ -77,28 +69,33 @@ public class AddDonationItem extends AppCompatActivity {
         adapterUserType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(adapterUserType);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
 
-        db = FirebaseFirestore.getInstance();
-
-        Intent intent = getIntent();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (intent.hasExtra(EXTRA_ID)) {
+            String temp = intent.getStringExtra(EXTRA_ID);
             setTitle("Edit Donation Item");
-            DocumentReference dS = db.collection("Donation Items").document(intent.getStringExtra(EXTRA_ID));
+            CollectionReference collectionReference = db.collection("Donation Items");
+            DocumentReference dS = collectionReference.document(temp);
             dS.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    DonationItem tempDI = documentSnapshot.toObject(DonationItem.class);
-                    textViewTimeStamp.setText(tempDI.getTimeStamp().toString());
-                    textViewTimeStamp.setVisibility(View.VISIBLE);
-                    textViewTimeStamp.setText(tempDI.getTimeStamp().toString());
-                    editTextDonationItemName.setText(tempDI.getDonationItemName());
-                    textViewLocationName.setText(tempDI.getLocationName());
-                    editTextShortDescription.setText(tempDI.getShortDescription());
-                    editTextFullDescription.setText(tempDI.getFullDescription());
-                    editTextValue.setText(Double.toString(tempDI.getValue()));
-                    spinnerCategory.setSelection(tempDI.getCategory().ordinal());
-                    editTextComments.setText(tempDI.getComments());
+                    if (documentSnapshot.exists()) {
+                        DonationItem tempDI = documentSnapshot.toObject(DonationItem.class);
+                        assert tempDI != null;
+                        textViewTimeStamp.setText(tempDI.getTimeStamp().toString());
+                        textViewTimeStamp.setVisibility(View.VISIBLE);
+                        textViewTimeStamp.setText(tempDI.getTimeStamp().toString());
+                        editTextDonationItemName.setText(tempDI.getDonationItemName());
+                        textViewLocationName.setText(tempDI.getLocationName());
+                        editTextShortDescription.setText(tempDI.getShortDescription());
+                        editTextFullDescription.setText(tempDI.getFullDescription());
+                        editTextValue.setText(Double.toString(tempDI.getValue()));
+                        spinnerCategory.setSelection(tempDI.getCategory().ordinal());
+                        editTextComments.setText(tempDI.getComments());
+                    }
                 }
             });
         } else {
@@ -135,7 +132,7 @@ public class AddDonationItem extends AppCompatActivity {
         String shortDescription = editTextShortDescription.getText().toString();
         String fullDescription = editTextFullDescription.getText().toString();
         double values = Double.parseDouble(editTextValue.getText().toString());
-        DonationItem.DonationItemCategory category =  DonationItem.DonationItemCategory
+        DonationItem.DonationItemCategory category = DonationItem.DonationItemCategory
                 .valueOf(spinnerCategory.getSelectedItem().toString());
         String comments = editTextComments.getText().toString();
 
@@ -145,21 +142,26 @@ public class AddDonationItem extends AppCompatActivity {
                 shortDescription, fullDescription, values, category, comments);
 
         if (title.trim().isEmpty()) {
-            Toast.makeText(this, "Please insert a donation item title", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if (getIntent().hasExtra(EXTRA_ID)) {
-            DocumentReference dr = FirebaseFirestore.getInstance()
-                    .collection("Donation Items").document(getIntent().getStringExtra(EXTRA_ID));
-            dr.set(tempDI, SetOptions.merge());
-            Toast.makeText(this, "Donation Item Updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please insert a donation item title",
+                    Toast.LENGTH_LONG).show();
         } else {
-            CollectionReference donationItemsRef = FirebaseFirestore.getInstance().collection("Donation Items");
-            donationItemsRef.add(tempDI);
-            Toast.makeText(this, "Donation Item Added", Toast.LENGTH_SHORT).show();
+
+            Intent intent = getIntent();
+
+            if (intent.hasExtra(EXTRA_ID)) {
+                DocumentReference dr = FirebaseFirestore.getInstance()
+                        .collection("Donation Items").document
+                                (intent.getStringExtra(EXTRA_ID));
+                dr.set(tempDI, SetOptions.merge());
+                Toast.makeText(this, "Donation Item Updated", Toast.LENGTH_SHORT).show();
+            } else {
+                CollectionReference donationItemsRef = FirebaseFirestore.getInstance()
+                        .collection("Donation Items");
+                donationItemsRef.add(tempDI);
+                Toast.makeText(this, "Donation Item Added", Toast.LENGTH_SHORT).show();
+            }
+            finish();
         }
-        finish();
 
     }
 }
