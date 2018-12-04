@@ -1,52 +1,34 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
-import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import javax.inject.Inject;
+
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetUserInfoInteractor;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.GetUserInfoInteractorImpl;
+import edu.gatech.cs2340.cs2340project.domain.interactor.base.DefaultObserver;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.UserInfoPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.UserInfoPresenter;
 
-/**
- * @author Hoa V Luu
- */
-public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfoPresenter,
-        GetUserInfoInteractor.Callback {
+public class UserInfoPresenterImpl implements UserInfoPresenter{
 
-    private final GetUserInfoInteractor mInteractor;
-    private final UserInfoPresenter.View mView;
+    private GetUserInfoInteractor getUserInfoInteractor;
+    private UserInfoPresenter.UserInfoView userInfoView;
 
-    /**
-     * constructor
-     * @param id id of user info wanted to display
-     * @param threadExecutor background thread
-     * @param mainThread main thread
-     * @param view view want to display
-     * @param userRepository repository hold user info
-     */
-    public UserInfoPresenterImpl(String id, Executor threadExecutor, MainThread mainThread,
-                                 View view, UserRepository userRepository) {
-        super(threadExecutor, mainThread);
-        mView = view;
-        mInteractor = new GetUserInfoInteractorImpl(
-                id,
-                mExecutor,
-                mMainThread,
-                this,
-                userRepository
-        );
-        userRepository.setInteractor(mInteractor);
+    @Inject
+    public UserInfoPresenterImpl(GetUserInfoInteractor getUserInfoInteractor) {
+        this.getUserInfoInteractor = getUserInfoInteractor;
+    }
+
+    @Override
+    public void setView(UserInfoView userInfoView) {
+        this.userInfoView = userInfoView;
+    }
+
+    @Override
+    public void getUser(String id) {
+        getUserInfoInteractor.execute(new UserInfoObserver(), GetUserInfoInteractor.Params.forUser(id));
     }
 
     @Override
     public void resume() {
-
-        mView.showProgress();
-
-        // run the interactor
-        mInteractor.execute();
     }
 
     @Override
@@ -64,15 +46,24 @@ public class UserInfoPresenterImpl extends AbstractPresenter implements UserInfo
 
     }
 
-    @Override
-    public void onUserRetrieved(User user) {
-        mView.hideProgress();
-        mView.displayUserInfo(user);
-    }
+    private final class UserInfoObserver extends DefaultObserver<User> {
 
-    @Override
-    public void onRetrievalFailed(String errorMessage) {
-        mView.hideProgress();
-        mView.showError(errorMessage);
+        @Override
+        public void onComplete() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            String errorMessage = e.getMessage();
+            userInfoView.hideProgress();
+            userInfoView.showError(errorMessage);
+        }
+
+        @Override
+        public void onNext(User user) {
+            userInfoView.hideProgress();
+            userInfoView.displayUserInfo(user);
+        }
     }
 }

@@ -1,80 +1,74 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
-import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.LoginInteractorImpl;
+import android.support.annotation.NonNull;
+
+import javax.inject.Inject;
+
 import edu.gatech.cs2340.cs2340project.domain.interactor.LoginInteractor;
-import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
+import edu.gatech.cs2340.cs2340project.domain.interactor.base.DefaultObserver;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LoginPresenter;
 
-/**
- * @author Hoa V Luu
- */
-public class LoginPresenterImpl extends AbstractPresenter implements LoginPresenter,
-        LoginInteractor.Callback {
+public class LoginPresenterImpl implements LoginPresenter {
 
-    private final LoginInteractor mInteractor;
-    private final LoginPresenter.LoginView mView;
+    private LoginPresenter.LoginView mView;
+    private final LoginInteractor loginInteractor;
 
-    /**
-     * constructor
-     * @param id user id
-     * @param password user password
-     * @param executor background thread
-     * @param mainThread main thread
-     * @param view view want to show
-     * @param userRepository user repository to get value
-     */
-    public LoginPresenterImpl(String id, String password, Executor executor, MainThread mainThread,
-                                 LoginView view, UserRepository userRepository) {
-        super(executor, mainThread);
-        mView = view;
-        mInteractor = new LoginInteractorImpl(
-                id,
-                password,
-                mExecutor,
-                mMainThread,
-                this,
-                userRepository
-        );
-        userRepository.setInteractor(mInteractor);
+    @Inject
+    public LoginPresenterImpl(LoginInteractor loginInteractor) {
+        this.loginInteractor = loginInteractor;
     }
 
     @Override
-    public void resume() {
+    public void setView(@NonNull LoginView view) {
+        mView = view;
+    }
+
+    @Override
+    public void login(String email, String password) {
         mView.showProgress();
         mView.hideViewRetry();
         // run the interactor
-        mInteractor.execute();
+        loginInteractor.execute(new LoginObserver(), LoginInteractor.Params.login(email, password));
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void stop() {
-
     }
 
     @Override
     public void destroy() {
-
+        this.loginInteractor.dispose();
+        this.mView = null;
     }
 
     @Override
-    public void onLoginSuccess(String userID) {
-        mView.hideProgress();
-        mView.showViewRetry();
-        mView.moveToUserHomeActivity(userID);
+    public void resume() {
     }
 
-    @Override
-    public void onLoginFailed(String errorMessage) {
-        mView.hideProgress();
-        mView.showViewRetry();
-        mView.showError(errorMessage);
+    private final class LoginObserver extends DefaultObserver<String> {
+
+        @Override
+        public void onComplete() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            String errorMessage = e.getMessage();
+            mView.hideProgress();
+            mView.showViewRetry();
+            mView.showError(errorMessage);
+        }
+
+        @Override
+        public void onNext(String userID) {
+            mView.hideProgress();
+            mView.showViewRetry();
+            mView.moveToUserHomeActivity(userID);
+        }
     }
 }

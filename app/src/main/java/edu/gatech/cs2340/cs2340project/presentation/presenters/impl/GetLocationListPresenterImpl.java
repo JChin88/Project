@@ -1,25 +1,20 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
-import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationListInteractor;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.GetLocationListPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.GetLocationListPresenter;
 
-/**
- * @author Hoa V Luu
- */
-public class GetLocationListPresenterImpl extends AbstractPresenter
-        implements GetLocationListPresenter,
-        GetLocationListInteractor.Callback {
+public class GetLocationListPresenterImpl implements GetLocationListPresenter{
 
-    /**
-     * Presenter constructor
-     * @param executor background thread
-     * @param mainThread main thread
-     */
-    public GetLocationListPresenterImpl(Executor executor, MainThread mainThread) {
-        super(executor, mainThread);
+    GetLocationListPresenter.LocationListView locationListView;
+    GetLocationListInteractor getLocationListInteractor;
+
+    @Inject
+    public GetLocationListPresenterImpl(GetLocationListInteractor getLocationListInteractor) {
+        this.getLocationListInteractor = getLocationListInteractor;
     }
 
     @Override
@@ -43,12 +38,11 @@ public class GetLocationListPresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void onLocationListRetrieved() {
-
+    public void setView(LocationListView locationListView) {
+        this.locationListView = locationListView;
     }
 
     @Override
-    public void onLocationListRetrievedFail() {
-
+    public void getLocationList() {
     }
 }

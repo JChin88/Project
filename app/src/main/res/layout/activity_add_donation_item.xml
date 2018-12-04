@@ -68,8 +68,4 @@
         android:inputType="text"
         android:importantForAutofill="no" />
 
-
-
-
-
 </LinearLayout>

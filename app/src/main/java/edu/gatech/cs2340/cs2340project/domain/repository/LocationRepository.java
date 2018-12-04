@@ -1,33 +1,16 @@
 package edu.gatech.cs2340.cs2340project.domain.repository;
 
 import java.io.InputStream;
-import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
+import java.util.List;
 
-/**
- * @author Hoa V Luu
- */
+import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
+import io.reactivex.Observable;
+
 public interface LocationRepository {
 
-    /**
-     * Set interactor for the repository to pass the data back
-     * @param interactor interactor for next action
-     */
-    void setInteractor(Interactor interactor);
+    Observable<DonationLocation> getLocation(String key);
 
-    /**
-     *
-     * @param key key of location wanted to get
-     */
-    void getLocation(String key);
-
-    /**
-     * add location to database with location file
-     * @param locationDataFile location file want to add
-     */
     void addLocations(InputStream locationDataFile);
 
-    /**
-     * get location list
-     */
-    void getLocationList();
+    Observable<List<DonationLocation>> getLocationList();
 }

@@ -1,50 +1,31 @@
 package edu.gatech.cs2340.cs2340project.domain.repository;
 
-import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
-import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
+import java.util.List;
 
-/**
- * @author Hoa V Luu
- */
+import edu.gatech.cs2340.cs2340project.domain.model.User;
+import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
+import io.reactivex.Observable;
+
 public interface UserRepository {
 
-    /**
-     * Add user to fire store
-     * @param userName user name
-     * @param userEmail user email
-     * @param userPassword user password
-     * @param userRights user rights
-     */
-    void addUser(String userName, String userEmail, String userPassword, UserRights userRights);
+    Observable<String> addUser(String userName, String userEmail, String userPassword, UserRights userRights);
 
-    /**
-     * get current user from firestore
-     */
-    void getCurrentUser();
+    String getCurrentUserID();
 
-    /**
-     *
-     * @param id id of user wanted to get
-     */
-    void getUser(String id);
-
-    /**
-     * login to firestore
-     * @param email user email
-     * @param password user password
-     */
-    void login(String email, String password);
+    Observable<User> getUser(String id);
 
     //void addUser(User user);
 
-    /**
-     * Get all users from firestore
-     */
-    void getUsers();
+    Observable<List<User>> getUsers();
 
     /**
-     * Set interactor / indicate next action
-     * @param interactor next action
+     * Login
+     * Get an {@link Observable} which will emit a {@link User}.
+     *
+     * @param email The email used to sign in.
+     * @param password The passwrod used to sign in.
      */
-    void setInteractor(Interactor interactor);
+    Observable<String> login(final String email, final String password);
+
+    User getCurrentUser();
 }

@@ -21,7 +21,7 @@ import java.util.List;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationData;
-import edu.gatech.cs2340.cs2340project.domain.model.Location;
+import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
 
 /**
  * @author Hoa V Luu
@@ -40,12 +40,12 @@ public class LocationList extends AppCompatActivity {
 
         //
         List<String> locationNameList = new ArrayList<>();
-        for (Location location: LocationData.getLocationList()) {
+        for (DonationLocation location: LocationData.getLocationList()) {
             locationNameList.add(location.getName());
         }
 
 //
-//        for (Location location: LocationData.getLocationList()) {
+//        for (DonationLocation location: LocationData.getLocationList()) {
 //            db.collection("Donation Locations").add(location)
 //                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 //                        @Override
@@ -95,7 +95,7 @@ public class LocationList extends AppCompatActivity {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] part = line.split(",");
-                Location tempLocation = new Location();
+                DonationLocation tempLocation = new DonationLocation();
 
                 //Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
                 // 0    1   2       3           4               5   6   7   8       9   10

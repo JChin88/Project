@@ -12,13 +12,13 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.domain.model.Location;
+import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
 
 /**
  * Main adapter for list of donation item
  */
 public class DonationLocationAdapter
-        extends FirestoreRecyclerAdapter<Location, DonationLocationAdapter.DonationLocationHolder> {
+        extends FirestoreRecyclerAdapter<DonationLocation, DonationLocationAdapter.DonationLocationHolder> {
 
     private OnItemClickListener listener;
 
@@ -28,13 +28,13 @@ public class DonationLocationAdapter
      *
      * @param options the firestore options
      */
-    public DonationLocationAdapter(@NonNull FirestoreRecyclerOptions<Location> options) {
+    public DonationLocationAdapter(@NonNull FirestoreRecyclerOptions<DonationLocation> options) {
         super(options);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull DonationLocationHolder holder, int position,
-                                    @NonNull Location model) {
+                                    @NonNull DonationLocation model) {
         holder.donationLocationName.setText(model.getName());
         holder.donationLocationType.setText(model.getType());
     }

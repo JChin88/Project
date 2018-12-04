@@ -47,7 +47,7 @@ public class AddDonationItem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_donation_item);
         Intent intent = getIntent();
-        String locationName = intent.getStringExtra("Location Name");
+        String locationName = intent.getStringExtra("DonationLocation Name");
         textViewTimeStamp = findViewById(R.id.text_view_donation_item_time_stamp);
         editTextDonationItemName = findViewById(R.id.edit_text_donation_item_name);
         textViewLocationName = findViewById(R.id.text_view_donation_item_location_name);
@@ -109,7 +109,7 @@ public class AddDonationItem extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu__new_donation_item, menu);
+        menuInflater.inflate(R.menu.menu_new_donation_item, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

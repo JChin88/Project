@@ -2,30 +2,29 @@ package edu.gatech.cs2340.cs2340project.domain.interactor;
 
 import com.google.firebase.firestore.CollectionReference;
 
-import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
+import java.util.List;
 
-/**
- * Interactor to get donation item
- */
-public interface GetDonationItemListInteractor extends Interactor {
+import javax.inject.Inject;
 
-    /**
-     * callback for this use case
-     */
-    interface Callback {
+import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import edu.gatech.cs2340.cs2340project.domain.executor.ThreadExecutor;
+import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
+import edu.gatech.cs2340.cs2340project.domain.repository.DonationItemRepository;
+import io.reactivex.Observable;
 
-        /**
-         * next action when retrieve a collection success
-         * @param collectionReference collection holds donation items
-         */
-        void onRetrievedCollectionRef(CollectionReference collectionReference);
+public class GetDonationItemListInteractor extends UseCase<List<DonationItem>, Void> {
 
-        /**
-         * next action when retrieve a collection failed
-         * @param erroMessage error message wnat to display
-         */
-        void onRetrievedCollectionRefFailed(String erroMessage);
+    private final DonationItemRepository donationItemRepository;
 
+    @Inject
+    public GetDonationItemListInteractor(ThreadExecutor threadExecutor, MainThread mainThread,
+                                         DonationItemRepository donationItemRepository) {
+        super(threadExecutor, mainThread);
+        this.donationItemRepository = donationItemRepository;
     }
 
+    @Override
+    Observable<List<DonationItem>> buildUseCaseObservable(Void aVoid) {
+        return donationItemRepository.getDonationItemList();
+    }
 }

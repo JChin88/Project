@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationData;
-import edu.gatech.cs2340.cs2340project.domain.model.Location;
+import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
 import edu.gatech.cs2340.cs2340project.presentation.view.activities.DonationItemListActivities;
 
 /**
@@ -54,7 +54,7 @@ public class LocationInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LocationInfo.this, DonationItemListActivities.class);
-                intent.putExtra("Location Name", mLocationName);
+                intent.putExtra("DonationLocation Name", mLocationName);
                 LocationInfo.this.startActivity(intent);
             }
         });
@@ -66,16 +66,16 @@ public class LocationInfo extends AppCompatActivity {
     }
 
     private void setTextWithKey(Integer key) {
-        Location tempLocation = LocationData.getLocation(key);
+        DonationLocation tempLocation = LocationData.getLocation(key);
         mLocationName = tempLocation.getName();
-        locationName.setText("Location Name: \t" + tempLocation.getName());
-        locationLatitude.setText("Location Latitude: \t" + Double
+        locationName.setText("DonationLocation Name: \t" + tempLocation.getName());
+        locationLatitude.setText("DonationLocation Latitude: \t" + Double
                 .toString(tempLocation.getLatitude()));
-        locationLongtitude.setText("Location Longtitude: \t" + Double
+        locationLongtitude.setText("DonationLocation Longtitude: \t" + Double
                 .toString(tempLocation.getLongitude()));
-        locationAddress.setText("Location Address: \t" + tempLocation.getAddress());
-        locationType.setText("Location Type: \t" + tempLocation.getType());
-        locationPhone.setText("Location Phone Number: \t" + tempLocation.getPhoneNumber());
-        locationWebsite.setText("Location Website: \t" + tempLocation.getWebsite());
+        locationAddress.setText("DonationLocation Address: \t" + tempLocation.getAddress());
+        locationType.setText("DonationLocation Type: \t" + tempLocation.getType());
+        locationPhone.setText("DonationLocation Phone Number: \t" + tempLocation.getPhoneNumber());
+        locationWebsite.setText("DonationLocation Website: \t" + tempLocation.getWebsite());
     }
 }

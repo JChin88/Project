@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,35 +11,40 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Objects;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.ErrorCodes;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.LoginPresenter.LoginView;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.base.BasePresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.LoginPresenterImpl;
-import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LoginPresenter;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LoginPresenter.LoginView;
 
-/**
- * @author Hoa V Luu
- */
-public class LoginActivity extends AppCompatActivity implements LoginView {
+public class LoginActivity extends DaggerAppCompatActivity implements LoginView {
 
-    //@BindView fields must not be private or static.
+    private static final int RC_SIGN_IN = 123;
+//    private static final Object TAG = ;
+    @BindView(R.id.welcomeMessage)
+    TextView textViewWelcomeMessage;
+
     @BindView(R.id.login_email)
     AutoCompleteTextView mEmailView;
 
     @BindView(R.id.login_password)
     EditText mPasswordView;
-
-    @BindView(R.id.login_progress)
-    ProgressBar mProgressBar;
 
     @BindView(R.id.login_linear_layout)
     LinearLayout linearLayout;
@@ -51,31 +55,58 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.login_register_btn)
     Button registerButton;
 
+    @BindView(R.id.relativeLayout_progress)
+    RelativeLayout relativeLayoutProgress;
+
+    @Inject
+    LoginPresenter mPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Hide the keyboard
-                InputMethodManager inputMethodManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                Objects.requireNonNull(inputMethodManager)
-                        .hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus())
-                                        .getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-                onLoginPress();
-            }
-        });
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRegisterPress();
-            }
-        });
-        setTitle("Login");
+        Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
+                .setAvailableProviders(Arrays.asList(
+                        new AuthUI.IdpConfig.GoogleBuilder().build(),
+                        new AuthUI.IdpConfig.EmailBuilder().build(),
+                        new AuthUI.IdpConfig.AnonymousBuilder().build()))
+                .enableAnonymousUsersAutoUpgrade()
+                .setIsSmartLockEnabled(false)
+                .build();
+        startActivityForResult(intent, RC_SIGN_IN);
+//        mPresenter.setView(this);
+//        //
+//        loginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Hide the keyboard
+//                InputMethodManager inputMethodManager = (InputMethodManager)
+//                        getSystemService(Context.INPUT_METHOD_SERVICE);
+//                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+//                        InputMethodManager.HIDE_NOT_ALWAYS);
+//                //
+//                hideViewRetry();
+//                showProgress();
+//                String userEmail = mEmailView.getText().toString().trim();
+//                String userPassword = mPasswordView.getText().toString().trim();
+//                if (isInputValid(userEmail, userPassword)) {
+//                    mPresenter.login(userEmail, userPassword);
+//                } else {
+//                    hideProgress();
+//                    showViewRetry();
+//                }
+//            }
+//        });
+//        registerButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent moveToRegister = new Intent(LoginActivity.this,
+//                        RegisterUserActivity.class);
+//                LoginActivity.this.startActivity(moveToRegister);
+//            }
+//        });
+//        setTitle("Login");
     }
 
     @Override
@@ -84,13 +115,56 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // RC_SIGN_IN is the request code you passed into startActivityForResult(...) when starting the sign in flow.
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            // Successfully signed in
+            if (resultCode == RESULT_OK) {
+                IdpResponse idpResponse = IdpResponse.fromResultIntent(data);
+                String idp = idpResponse.getIdpToken();
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                String id = mAuth.getCurrentUser().getUid();
+                Toast.makeText(LoginActivity.this, "User IDP " + id, Toast.LENGTH_LONG ).show();
+                moveToUserHomeActivity(id);
+//                startActivity(new Intent(this, WelcomeBackActivity.class)
+//                        .putExtra("my_token", idpResponse.getIdpToken()));
+//                finish();
+            } else {
+                // Sign in failed
+                if (response == null) {
+                    // User pressed back button
+//                    showSnackbar(R.string.sign_in_cancelled);
+                    return;
+                }
+
+                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+//                    showSnackbar(R.string.no_internet_connection);
+                    return;
+                }
+
+//                showSnackbar(R.string.unknown_error);
+//                Log.e(TAG, "Sign-in error: ", response.getError());
+            }
+        }
+    }
+
+    @Override
     public void showProgress() {
-        mProgressBar.setVisibility(android.view.View.VISIBLE);
+        textViewWelcomeMessage.setVisibility(View.VISIBLE);
+        relativeLayoutProgress.setVisibility(View.VISIBLE);
+        setProgressBarIndeterminateVisibility(true);
+//        mProgressBar.setVisibility(android.view.View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        mProgressBar.setVisibility(android.view.View.GONE);
+        textViewWelcomeMessage.setVisibility(View.GONE);
+        relativeLayoutProgress.setVisibility(View.GONE);
+        setProgressBarIndeterminateVisibility(false);
+//        mProgressBar.setVisibility(android.view.View.GONE);
     }
 
     @Override
@@ -145,29 +219,4 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return true;
     }
 
-    private void onLoginPress() {
-        hideViewRetry();
-        showProgress();
-        String userEmail = mEmailView.getText().toString().trim();
-        String userPassword = mPasswordView.getText().toString().trim();
-        if (isInputValid(userEmail, userPassword)) {
-            BasePresenter mPresenter = new LoginPresenterImpl(userEmail,
-                    userPassword,
-                    ThreadExecutor.getInstance(),
-                    MainThreadImpl.getInstance(),
-                    this,
-                    new UserDataRepository());
-            mPresenter.resume();
-        } else {
-            hideProgress();
-            showViewRetry();
-        }
-
-    }
-
-    private void onRegisterPress() {
-            Intent moveToRegister = new Intent(LoginActivity.this,
-                    RegisterUserActivity.class);
-            LoginActivity.this.startActivity(moveToRegister);
-    }
 }

@@ -2,37 +2,50 @@ package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationItemsAdapter;
+import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationItemsAdapter2;
 
-/**
- * List of donation items activities
- */
 public class DonationItemListActivities extends AppCompatActivity {
-    private static final int ADD_DONATION_ITEM_REQUEST = 1;
-    private static final int EDIT_DONATION_ITEM_REQUEST = 2;
+    public static final int ADD_DONATION_ITEM_REQUEST = 1;
+    public static final int EDIT_DONATION_ITEM_REQUEST = 2;
 
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference donationItemRef = db.collection("Donation Items");
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference donationItemRef = db.collection("Donation Items");
 
     private RecyclerView recyclerView;
     private DonationItemsAdapter adapter;
-//    private DonationItemsAdapter2 adapter2;
-//    private List<DonationItem> listDI;
+    private DonationItemsAdapter searchAdapter;
+    private DonationItemsAdapter2 adapter2;
+    private List<DonationItem> listDI;
+    Query query;
+    FirestoreRecyclerOptions<DonationItem> options;
+
+    int number = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +54,7 @@ public class DonationItemListActivities extends AppCompatActivity {
 
         FloatingActionButton buttonAddNote = findViewById(R.id.add_donation_item_button);
         Intent tempIntent = getIntent();
-        final String locationName = tempIntent.getStringExtra("Location Name");
+        final String locationName = tempIntent.getStringExtra("DonationLocation Name");
 
         recyclerView = findViewById(R.id.donation_item_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -50,12 +63,20 @@ public class DonationItemListActivities extends AppCompatActivity {
         buttonAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DonationItemListActivities.this, AddDonationItem.class);
-                intent.putExtra("Location Name", locationName);
-                intent.putExtra("Request", ADD_DONATION_ITEM_REQUEST);
-                DonationItemListActivities.this.startActivity(intent);
-                //DonationItemListActivities.this.startActivityForResult(intent,
-                // ADD_DONATION_ITEM_REQUEST);
+                adapter.stopListening();
+                Query query = donationItemRef.orderBy(("donationItemName"), Query.Direction.DESCENDING).limit(number);
+                FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+                        .setQuery(query, DonationItem.class)
+                        .build();
+                searchAdapter = new DonationItemsAdapter(options);
+                searchAdapter.startListening();
+                recyclerView.setAdapter(searchAdapter);
+                number++;
+//                Intent intent = new Intent(DonationItemListActivities.this, AddDonationItem.class);
+//                intent.putExtra("DonationLocation Name", locationName);
+//                intent.putExtra("Request", ADD_DONATION_ITEM_REQUEST);
+//                DonationItemListActivities.this.startActivity(intent);
+//                //DonationItemListActivities.this.startActivityForResult(intent, ADD_DONATION_ITEM_REQUEST);
             }
         });
         setTitle("Donation Items");
@@ -63,14 +84,12 @@ public class DonationItemListActivities extends AppCompatActivity {
     }
 
 
-    private void setUpRecyclerView() {
-        Query query = donationItemRef.orderBy(("donationItemName"), Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions.Builder<DonationItem> donationItemBuilder =
-                new FirestoreRecyclerOptions.Builder<>();
-        donationItemBuilder.setQuery(query, DonationItem.class);
-        FirestoreRecyclerOptions<DonationItem> options = donationItemBuilder.build();
+    public void setUpRecyclerView() {
+        query = donationItemRef.orderBy(("donationItemName"), Query.Direction.ASCENDING);
+        options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+                .setQuery(query, DonationItem.class)
+                .build();
         adapter = new DonationItemsAdapter(options);
-
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new DonationItemsAdapter.OnItemClickListener() {
             @Override
@@ -79,8 +98,7 @@ public class DonationItemListActivities extends AppCompatActivity {
                 String id = documentSnapshot.getId();
                 String message = "Position: " + position + "ID: " + id;
                 //Pass the id into the next info
-                Toast
-                        .makeText(DonationItemListActivities.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(DonationItemListActivities.this, message, Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(DonationItemListActivities.this, AddDonationItem.class);
                 intent.putExtra(AddDonationItem.EXTRA_ID, id);

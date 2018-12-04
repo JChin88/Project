@@ -3,7 +3,6 @@ package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,26 +13,17 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.Objects;
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 import edu.gatech.cs2340.cs2340project.R;
-import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
-import edu.gatech.cs2340.cs2340project.domain.executor.Impl.ThreadExecutor;
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.AddUserPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.base.BasePresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.impl.AddUserPresenterImpl;
-import edu.gatech.cs2340.cs2340project.threading.MainThreadImpl;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.AddUserPresenter;
 
-/**
- * @author Hoa v Luu
- */
-public class RegisterUserActivity extends AppCompatActivity
-        implements AddUserPresenter.RegisterView {
+public class RegisterUserActivity extends DaggerAppCompatActivity implements AddUserPresenter.RegisterView {
 
-    //@BindView fields must not be private or static.
     @BindView(R.id.register_user_name_edit_text)
     TextInputEditText userNameView;
 
@@ -61,11 +51,15 @@ public class RegisterUserActivity extends AppCompatActivity
     @BindView(R.id.register_linear_layout)
     LinearLayout registerLL;
 
+    @Inject
+    AddUserPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         ButterKnife.bind(this);
+        mPresenter.setView(this);
         /*
             Set up the adapter user types to display the allowable user types in the spinner
          */
@@ -74,13 +68,26 @@ public class RegisterUserActivity extends AppCompatActivity
         adapterUserType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userTypeSpinner.setAdapter(adapterUserType);
 
+        //
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onRegisterPress();
+                showProgress();
+                hideViewRetry();
+                String userName = userNameView.getText().toString().trim();
+                String userEmail = userEmailView.getText().toString().trim();
+                String userPassword = userPasswordView.getText().toString().trim();
+                UserRights userRights = UserRights.valueOf(userTypeSpinner.getSelectedItem().toString());
+                if (isInputValid(userName, userEmail, userPassword)) {
+                    mPresenter.addUser(userName, userEmail, userPassword, userRights);
+                } else {
+                    hideProgress();
+                    showViewRetry();
+                }
             }
         });
 
+        //
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,26 +173,4 @@ public class RegisterUserActivity extends AppCompatActivity
         return true;
     }
 
-    private void onRegisterPress() {
-        showProgress();
-        hideViewRetry();
-        String userName = Objects.requireNonNull(userNameView.getText()).toString().trim();
-        String userEmail = Objects.requireNonNull(userEmailView.getText()).toString().trim();
-        String userPassword = userPasswordView.getText().toString().trim();
-        UserRights userRights = UserRights.valueOf(userTypeSpinner.getSelectedItem().toString());
-        if (isInputValid(userName, userEmail, userPassword)) {
-            BasePresenter mPresenter = new AddUserPresenterImpl(ThreadExecutor.getInstance(),
-                    MainThreadImpl.getInstance(),
-                    this,
-                    new UserDataRepository(),
-                    userName,
-                    userEmail,
-                    userPassword,
-                    userRights);
-            mPresenter.resume();
-        } else {
-            hideProgress();
-            showViewRetry();
-        }
-    }
 }

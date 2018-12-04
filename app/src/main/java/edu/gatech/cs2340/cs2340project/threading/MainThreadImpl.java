@@ -3,16 +3,25 @@ package edu.gatech.cs2340.cs2340project.threading;
 import android.os.Handler;
 import android.os.Looper;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * This class makes sure that the runnable we provide will be run on the main UI thread.
  */
-public final class MainThreadImpl implements MainThread {
+@Singleton
+public class MainThreadImpl implements MainThread {
 
-    private final Handler mHandler;
+    private static MainThread sMainThread;
 
-    private MainThreadImpl() {
+    private Handler mHandler;
+
+    @Inject
+    MainThreadImpl() {
         mHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -21,16 +30,16 @@ public final class MainThreadImpl implements MainThread {
         mHandler.post(runnable);
     }
 
-    private static class SMainThreadHolder {
-        private static final MainThread sMainThread = new MainThreadImpl();
+    public static MainThread getInstance() {
+        if (sMainThread == null) {
+            sMainThread = new MainThreadImpl();
+        }
+
+        return sMainThread;
     }
 
-    /**
-     *
-     * @return main thread of the ui
-     */
-    public static MainThread getInstance() {
-
-        return SMainThreadHolder.sMainThread;
+    @Override
+    public Scheduler getScheduler() {
+        return AndroidSchedulers.mainThread();
     }
 }

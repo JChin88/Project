@@ -1,24 +1,28 @@
 package edu.gatech.cs2340.cs2340project.domain.interactor;
 
-/**
- * @author Hoa V Luu
- */
-public interface GetLocationListInteractor {
+import java.util.List;
 
-    /**
-     * callback for next action
-     */
-    interface Callback {
+import javax.inject.Inject;
 
-        /**
-         * next action when get location success
-         */
-        void onLocationListRetrieved();
+import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import edu.gatech.cs2340.cs2340project.domain.executor.ThreadExecutor;
+import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
+import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
+import io.reactivex.Observable;
 
-        /**
-         *  next action when get location failed
-         */
-        void onLocationListRetrievedFail();
+public class GetLocationListInteractor extends UseCase<List<DonationLocation>, Void> {
 
+    private final LocationRepository locationRepository;
+
+    @Inject
+    public GetLocationListInteractor(ThreadExecutor threadExecutor, MainThread mainThread,
+                                     LocationRepository locationRepository) {
+        super(threadExecutor, mainThread);
+        this.locationRepository = locationRepository;
+    }
+
+    @Override
+    Observable<List<DonationLocation>> buildUseCaseObservable(Void aVoid) {
+        return locationRepository.getLocationList();
     }
 }

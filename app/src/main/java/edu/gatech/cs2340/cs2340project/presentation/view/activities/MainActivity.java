@@ -2,6 +2,7 @@ package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,46 +12,65 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Objects;
+import javax.inject.Inject;
 
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 import edu.gatech.cs2340.cs2340project.R;
+import edu.gatech.cs2340.cs2340project.domain.model.User;
+import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.mvc.controller.LocationList;
+import edu.gatech.cs2340.cs2340project.presentation.view.activities.util.IntentUtil;
 
-/**
- * @author Hoa V Luu
- */
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends DaggerAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String ARGUMENT_CURRENT_USER_ID = "CURRENT_USER_ID";
 
-    private DrawerLayout userHomeDrawerLayout;
-    private ActionBarDrawerToggle toggle;
-//    private TextView welcomeM;
+    @BindView(R.id.user_drawer_layout)
+    DrawerLayout userHomeDrawerLayout;
+    @BindView(R.id.user_tool_bar)
+    Toolbar toolbar;
+
+    ActionBarDrawerToggle toggle;
+
+    private String userID;
+    private String userName;
+
+    @Inject
+    @Nullable
+    User currentUser;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (currentUser == null) {
+            IntentUtil.moveBackLogin(this);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         setTitle("Home Page");
-        Toolbar toolbar = findViewById(R.id.user_tool_bar);
         setSupportActionBar(toolbar);
 
-        userHomeDrawerLayout = findViewById(R.id.user_drawer_layout);
-
         toggle = new ActionBarDrawerToggle(this, userHomeDrawerLayout,
-                toolbar, R.string.user_navigation_drawer_open,
-                R.string.user_navigation_drawer_close);
+                toolbar, R.string.user_navigation_drawer_open, R.string.user_navigation_drawer_close);
         userHomeDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         userHomeDrawerLayout.bringToFront();
 
-//        welcomeM = findViewById(R.id.welcomeMessage);
         Intent tempIntent = getIntent();
-        String userID = tempIntent.getStringExtra("userID");
-        String userName = tempIntent.getStringExtra("userName");
+        userID = tempIntent.getStringExtra("userID");
+        userName = tempIntent.getStringExtra("userName");
 
         String welcomeMessage = userName + " welcome to your application activity screen!";
         //welcomeM.setText(welcomeMessage);
@@ -62,8 +82,7 @@ public class MainActivity extends AppCompatActivity
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.my_nav_host_fragment);
-        NavigationUI.setupWithNavController(bottomNavigationView,
-                Objects.requireNonNull(navHostFragment).getNavController());
+        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
     }
 
     @Override
@@ -74,9 +93,10 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void logout() {
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        MainActivity.this.startActivity(intent);
+    public void logout() {
+        IntentUtil.moveBackLogin(MainActivity.this);
+//        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//        MainActivity.this.startActivity(intent);
         finish();
     }
 

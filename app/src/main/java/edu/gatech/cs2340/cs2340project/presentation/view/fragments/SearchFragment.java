@@ -7,7 +7,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,60 +30,60 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+import butterknife.ButterKnife;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationData;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
-import edu.gatech.cs2340.cs2340project.domain.model.Location;
-import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationItemsAdapter2;
+import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
+import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationItemsAdapter;
 
-/**
- * @author Hoa V Luu
- */
 public class SearchFragment extends Fragment {
 
-    private FirebaseFirestore db;
-//    private CollectionReference donationLocationRef;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();;
+    private CollectionReference donationItemRef = db.collection("Donation Items");;
+    private CollectionReference donationLocationRef;
 
-    private DonationItemsAdapter2 adapter;
+    private DonationItemsAdapter defaultAdapter;
+    private DonationItemsAdapter searchAdapter;
 
+    private ImageButton searchBtn;
     private TextInputEditText searchWord;
     private View RL;
-    private List<DonationItem> listDI;
+
+    RecyclerView recyclerView;
+    List<String> listLocationName;
+    List<DonationItem> listDI;
 
     private ProgressBar progressBar;
 
-    private RadioGroup radioGroup;
-    private RadioButton radioButton;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
 
     private Spinner locationSpinner;
     private Spinner categorySpinner;
 
-    private ListenerRegistration listen;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+    ListenerRegistration listen;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final View fragmentView = inflater.inflate(R.layout.fragment_search, container, false);
+        ButterKnife.bind(this, fragmentView);
+        return fragmentView;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        recyclerView = view.findViewById(R.id.test_recycler_view123);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         readLocationData();
-        db = FirebaseFirestore.getInstance();
-        ImageButton searchBtn = view.findViewById(R.id.search_btn);
+        searchBtn = view.findViewById(R.id.search_btn);
         searchWord = view.findViewById(R.id.edit_text_search);
         radioGroup = view.findViewById(R.id.radio_group_btn);
-        progressBar = view.findViewById(R.id.search_progressbar);
         radioGroup.check(R.id.radio_btn_location_name);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -107,20 +103,17 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        List<String> listLocationName = new ArrayList<>();
-        for (Location location: LocationData.getLocationList()) {
+        listLocationName  = new ArrayList<>();
+        for (DonationLocation location: LocationData.getLocationList()) {
             listLocationName.add(location.getName());
         }
         listLocationName.add(0, "ALL");
-        ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(Objects
-                .requireNonNull(getContext()),
-                android.R.layout.simple_spinner_item, listLocationName);
+        ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, listLocationName);
         adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationSpinner = view.findViewById(R.id.spinner_DI_location_search);
         locationSpinner.setAdapter(adapterLocation);
 
-        ArrayAdapter<DonationItem.DonationItemCategory> adapterCategory
-                = new ArrayAdapter<>(getContext(),
+        ArrayAdapter<DonationItem.DonationItemCategory> adapterCategory = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, DonationItem.DonationItemCategory.values());
         adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner = view.findViewById(R.id.spinner_DI_category_search);
@@ -129,78 +122,44 @@ public class SearchFragment extends Fragment {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String searchText = Objects.requireNonNull(searchWord.getText()).toString().trim();
-                setUpRecyclerView(searchText);
-
+                String searchText = searchWord.getText().toString().trim();
+                defaultAdapter.stopListening();
+                Query query = searchQuery(searchText);
+                FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+                        .setQuery(query, DonationItem.class)
+                        .build();
+                searchAdapter = new DonationItemsAdapter(options);
+                searchAdapter.startListening();
+                recyclerView.setAdapter(searchAdapter);
             }
         });
-        listDI = new ArrayList<>();
         RL = view;
-        RecyclerView recyclerView = view.findViewById(R.id.donation_item_recycler_view_search);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new DonationItemsAdapter2(Objects.requireNonNull(getActivity()), listDI);
-        recyclerView.setAdapter(adapter);
-        setUpRecyclerView("");
-//        donationLocationRef.orderBy("name", Query.Direction.ASCENDING)
-//                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                for (DocumentSnapshot querySnapshot: task.getResult()) {
-//                    listLocationName.add(querySnapshot.toObject(Location.class).getName());
-//                }
-//                listLocationName.add(0, "ALL");
-//                ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(getContext(),
-// android.R.layout.simple_spinner_item, listLocationName);
-//                adapterLocation.setDropDownViewResource(android.R.layout
-// .simple_spinner_dropdown_item);
-//                locationSpinner.setAdapter(adapterLocation);
-//
-//                setUpRecyclerView("");
-//            }
-//        });
-
+        setUpRecyclerView();
     }
 
-    private void checkRadioButton() {
+    public void checkRadioButton() {
         int radioID = radioGroup.getCheckedRadioButtonId();
         radioButton = RL.findViewById(radioID);
     }
 
-    //public void fireStoreSeac
+    public void setUpRecyclerView() {
+        Query query = donationItemRef.orderBy(("donationItemName"), Query.Direction.ASCENDING);
+        FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<DonationItem>()
+                .setQuery(query, DonationItem.class)
+                .build();
+        defaultAdapter = new DonationItemsAdapter(options);
+        recyclerView.setAdapter(defaultAdapter);
+    }
 
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_search_donation_item, menu);
-//        MenuItem searchMI = menu.findItem(R.id.search_donation_item_btn);
-//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMI);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                return false;
-//            }
-//        });
-//        searchMI.setVisible(false);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-
-    private void setUpRecyclerView(String searchText) {
+    public Query searchQuery(String searchText) {
         checkRadioButton();
-        progressBar.setVisibility(View.VISIBLE);
-        CollectionReference donationItemRef = db.collection("Donation Items");
         String typeSearch = radioButton.getText().toString();
         String location = locationSpinner.getSelectedItem().toString();
         String category = categorySpinner.getSelectedItem().toString();
         Query query = donationItemRef.orderBy("donationItemName", Query.Direction.ASCENDING);
-        if ("Location Name".equals(typeSearch)) {
-            if (!searchText.isEmpty()) {
-                if ("ALL".equals(location)) {
+        if (typeSearch.equals("DonationLocation Name")) {
+            if (searchText.length() > 0) {
+                if (location.equals("ALL")) {
                     query = donationItemRef.whereEqualTo("donationItemName", searchText)
                             .orderBy("donationItemName", Query.Direction.ASCENDING);
                 } else {
@@ -209,130 +168,56 @@ public class SearchFragment extends Fragment {
                             .orderBy("donationItemName", Query.Direction.ASCENDING);
                 }
             } else {
-                if ("ALL".equals(location)) {
-                    query =  donationItemRef.orderBy("donationItemName", Query.Direction.ASCENDING);
+                if (location.equals("ALL")) {
+                    query = donationItemRef.orderBy("donationItemName", Query.Direction.ASCENDING);
                 } else {
                     query = donationItemRef.whereEqualTo("locationName", location)
                             .orderBy("donationItemName", Query.Direction.ASCENDING);
                 }
             }
-        } else if ("Category".equals(typeSearch)) {
+        } else if (typeSearch.equals("Category")) {
             query = db.collection("Donation Items").whereEqualTo("category", category)
                     .orderBy("donationItemName", Query.Direction.ASCENDING);
-            if (!Objects.requireNonNull(searchWord.getText()).toString().trim().isEmpty()) {
+            if (searchWord.getText().toString().trim().length() > 0) {
                 searchWord.setText("");
             }
         }
-//        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                listDI.clear();
-//                if (task.isSuccessful()) {
-//                    //listDI = queryDocumentSnapshots.toObjects(DonationItem.class);
-//                    for (DocumentSnapshot documentSnapshot: task.getResult()) {
-//                        listDI.add(documentSnapshot.toObject(DonationItem.class));
-//                    }
-//                }
-//                adapter.notifyDataSetChanged();
-//
-//                //adapter = new DonationItemsAdapter2(getActivity(), listDI);
-//                //recyclerView.setAdapter(adapter);
-//                progressBar.setVisibility(View.GONE);
-//            }
-//        });
-         listen = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots,
-                                @javax.annotation.Nullable FirebaseFirestoreException e) {
-                Log.d("Test", "Search btn");
-                listDI.clear();
-                if (e == null) {
-                    //listDI = queryDocumentSnapshots.toObjects(DonationItem.class);
-                    listDI.addAll(Objects.requireNonNull(queryDocumentSnapshots)
-                            .toObjects(DonationItem.class));
-                } else {
-                    Toast.makeText(getActivity(), "No Items Match the Search",
-                            Toast.LENGTH_LONG).show();
-                }
-                adapter.notifyDataSetChanged();
-
-                if (listen != null) {
-                    listen.remove();
-                }
-
-                //adapter = new DonationItemsAdapter2(getActivity(), listDI);
-                //recyclerView.setAdapter(adapter);
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-
-////        DonationItem.DonationItemCategory category
-// = DonationItem.DonationItemCategory.valueOf("CLOTHES");
-////        query = searchByCategory(category);
-//
-//        FirestoreRecyclerOptions<DonationItem> options
-// = new FirestoreRecyclerOptions.Builder<DonationItem>()
-//                .setQuery(query, DonationItem.class)
-//                .build();
-//        adapter = new DonationItemsAdapter(options);
-//
-//        RecyclerView recyclerView = view.findViewById(R.id.donation_item_recycler_view_search);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(adapter);
-//
-//        adapter.setOnItemClickListener(new DonationItemsAdapter.OnItemClickListener() {
-//            @Override
-//            public void OnItemClick(DocumentSnapshot documentSnapshot, int position) {
-//                DonationItem donationItem = documentSnapshot.toObject(DonationItem.class);
-//                String id = documentSnapshot.getId();
-//                String message = "Position: " + position + "ID: " + id;
-//                //Pass the id into the next info
-//                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-//
-//                Intent intent = new Intent(getActivity(), AddDonationItem.class);
-//                intent.putExtra(AddDonationItem.EXTRA_ID, id);
-////                intent.putExtra("Request", EDIT_DONATION_ITEM_REQUEST);
-//                startActivity(intent);
-//            }
-//        });
-
+        return query;
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        adapter.startListening();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        if (adapter != null) {
-//            adapter.stopListening();
-//        }
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        defaultAdapter.startListening();
+    }
 
-    private void readLocationData() {
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (defaultAdapter != null) {
+            defaultAdapter.stopListening();
+        }
+    }
+
+    public void readLocationData() {
         InputStream locationDataFile = getResources().openRawResource(R.raw.location_data);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(locationDataFile, Charset.forName("UTF-8"))
         );
 
-        String line;
+        String line = "";
         try {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] part = line.split(",");
-                Location tempLocation = new Location();
+                DonationLocation tempLocation = new DonationLocation();
 
                 //Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
                 // 0    1   2       3           4               5   6   7   8       9   10
                 tempLocation.setName(part[1]);
                 tempLocation.setLatitude(Double.parseDouble(part[2]));
                 tempLocation.setLongitude(Double.parseDouble(part[3]));
-                tempLocation.setAddress(part[4] + ", " + part[5] +  ", "
-                        + part[6] + ", " + part[7]);
+                tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6] + ", " + part[7]);
                 tempLocation.setType(part[8]);
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));
                 tempLocation.setPhoneNumber(part[9]);
