@@ -2,5 +2,9 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+<<<<<<< HEAD
     <color name="colorAccent">#FF4081</color>
+=======
+    <color name="colorAccent">#ff404a</color>
+>>>>>>> 3ad50de6ce4698a0e53613b1e3474ea7b840570f
 </resources>

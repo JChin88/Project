@@ -8,10 +8,15 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
+<<<<<<< HEAD
+=======
+    android:paddingTop="@dimen/activity_vertical_margin"
+>>>>>>> 3ad50de6ce4698a0e53613b1e3474ea7b840570f
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".presentation.view.activities.LoginActivity">
 
+<<<<<<< HEAD
     <!-- Login progress -->
     <ProgressBar
         android:id="@+id/login_progress"
@@ -23,16 +28,41 @@
 
     <ScrollView
         android:id="@+id/login_form"
+=======
+    <include layout="@layout/view_progress"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:text="Welcome to Donation Tracker"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:id="@+id/login_linear_layout"
+>>>>>>> 3ad50de6ce4698a0e53613b1e3474ea7b840570f
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+<<<<<<< HEAD
         <LinearLayout
             android:id="@+id/email_login_form"
+=======
+        <android.support.design.widget.TextInputLayout
+>>>>>>> 3ad50de6ce4698a0e53613b1e3474ea7b840570f
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+<<<<<<< HEAD
             <android.support.design.widget.TextInputLayout
+=======
+            <AutoCompleteTextView
+                android:id="@+id/login_email"
+>>>>>>> 3ad50de6ce4698a0e53613b1e3474ea7b840570f
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:passwordToggleEnabled="false">
@@ -46,6 +76,7 @@
                     android:maxLines="1"
                     android:singleLine="true" />
 
+<<<<<<< HEAD
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -82,6 +113,50 @@
                 android:layout_weight="1"
                 android:onClick="onCancelPress"
                 android:text="Cancel" />
+=======
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <EditText
+                android:id="@+id/login_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Password"
+                android:imeActionId="6"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="18sp"
+                android:importantForAutofill="no" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/sign_in_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/login_btn_text"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/login_register_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_btn_text"
+            tools:textColor="@color/colorAccent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+    </LinearLayout>
+>>>>>>> 3ad50de6ce4698a0e53613b1e3474ea7b840570f
 
         </LinearLayout>
     </ScrollView>

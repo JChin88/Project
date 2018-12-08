@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.cs2340project.mvc.controller;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedReader;
@@ -30,21 +23,23 @@ import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.data.LocationData;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
+/**
+ * @author Hoa V Luu
+ */
 public class LocationList extends AppCompatActivity {
 
-    TextView locationInfo;
-    FirebaseFirestore db;
+    private TextView locationInfo;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_list);
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         readLocationData();
 
         //
-        List<String> locationNameList = new ArrayList<String>();
+        List<String> locationNameList = new ArrayList<>();
         for (Location location: LocationData.getLocationList()) {
             locationNameList.add(location.getName());
         }
@@ -56,7 +51,8 @@ public class LocationList extends AppCompatActivity {
 //                        @Override
 //                        public void onSuccess(DocumentReference documentReference) {
 ////                            Toast.makeText(LocationList.this,
-////                                    "Add a list of location success!!", Toast.LENGTH_LONG).show();
+////                                    "Add a list of location success!!",
+// Toast.LENGTH_LONG).show();
 //                        }
 //                    }).addOnFailureListener(new OnFailureListener() {
 //                @Override
@@ -67,7 +63,7 @@ public class LocationList extends AppCompatActivity {
 //            });
 //        }
 
-        ListAdapter locationAdapter = new ArrayAdapter<String>(this,
+        ListAdapter locationAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, locationNameList);
         ListView locationListView = findViewById(R.id._locationList);
         locationListView.setAdapter(locationAdapter);
@@ -75,9 +71,11 @@ public class LocationList extends AppCompatActivity {
         locationListView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
                         int locationClickparent = position + 1 ;
-                        Intent moveToLocationInfo = new Intent(LocationList.this, LocationInfo.class);
+                        Intent moveToLocationInfo = new Intent(LocationList.this,
+                                LocationInfo.class);
                         moveToLocationInfo.putExtra("key", locationClickparent + "");
                         LocationList.this.startActivity(moveToLocationInfo);
                     }
@@ -86,13 +84,13 @@ public class LocationList extends AppCompatActivity {
 
     }
 
-    public void readLocationData() {
+    private void readLocationData() {
         InputStream locationDataFile = getResources().openRawResource(R.raw.location_data);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(locationDataFile, Charset.forName("UTF-8"))
         );
 
-        String line = "";
+        String line;
         try {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
@@ -103,8 +101,14 @@ public class LocationList extends AppCompatActivity {
                 // 0    1   2       3           4               5   6   7   8       9   10
                 tempLocation.setName(part[1]);
                 tempLocation.setLatitude(Double.parseDouble(part[2]));
+<<<<<<< HEAD
                 tempLocation.setLongtitude(Double.parseDouble(part[3]));
                 tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6] + ", " + part[7]);
+=======
+                tempLocation.setLongitude(Double.parseDouble(part[3]));
+                tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6]
+                        + ", " + part[7]);
+>>>>>>> 3ad50de6ce4698a0e53613b1e3474ea7b840570f
                 tempLocation.setType(part[8]);
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));
                 tempLocation.setPhoneNumber(part[9]);

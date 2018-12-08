@@ -16,6 +16,7 @@
     <TextView
         android:id="@+id/_locationName"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="20dp"/>
@@ -55,6 +56,70 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="20dp"/>
+=======
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linear_layout_donation_location_details">
+
+        <TextView
+            android:id="@+id/_locationName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationLongitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/_locationWebsite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+
+        <Button
+            android:id="@+id/inventory_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inventory" />
+
+    </LinearLayout>
+
+>>>>>>> 3ad50de6ce4698a0e53613b1e3474ea7b840570f
 
     <Button
         android:id="@+id/inventory_btn"

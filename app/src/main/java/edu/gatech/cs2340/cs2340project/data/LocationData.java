@@ -7,21 +7,23 @@ import java.util.List;
 import edu.gatech.cs2340.cs2340project.domain.model.Location;
 
 
+/**
+ * @author Hoa V Luu
+ */
 public class LocationData {
-    private static HashMap<Integer, Location> locationData = new HashMap<>();
+    private static final HashMap<Integer, Location> locationData = new HashMap<>();
 
-    public static HashMap<Integer, Location> getLocationData() {
+    private static HashMap<Integer, Location> getLocationData() {
         return locationData;
     }
 
     /**
      * Adds a new location to the database
+     * @param key key want to get
      * @param location the location to be added
-     * @return if the location was successfully added
      */
-    public static boolean addLocation(Integer key, Location location){
+    public static void addLocation(Integer key, Location location){
         locationData.put(key, location);
-        return false;
     }
 
     /**
@@ -33,8 +35,11 @@ public class LocationData {
         return locationData.get(key);
     }
 
+    /**
+     * Get location list
+     * @return list of location
+     */
     public static List<Location> getLocationList() {
-        List<Location> locationList = new ArrayList<>(locationData.values());
-        return locationList;
+        return new ArrayList<>(locationData.values());
     }
 }

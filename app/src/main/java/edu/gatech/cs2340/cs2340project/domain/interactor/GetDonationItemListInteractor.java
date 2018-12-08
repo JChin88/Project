@@ -2,16 +2,29 @@ package edu.gatech.cs2340.cs2340project.domain.interactor;
 
 import com.google.firebase.firestore.CollectionReference;
 
-import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
+import java.util.List;
 
-public interface GetDonationItemListInteractor extends Interactor {
+import javax.inject.Inject;
 
-    interface Callback {
+import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
+import edu.gatech.cs2340.cs2340project.domain.executor.ThreadExecutor;
+import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
+import edu.gatech.cs2340.cs2340project.domain.repository.DonationItemRepository;
+import io.reactivex.Observable;
 
-        void onRetrievedCollectionRef(CollectionReference collectionReference);
+public class GetDonationItemListInteractor extends UseCase<List<DonationItem>, Void> {
 
-        void onRetrievedCollectionRefFailed(String erroMessage);
+    private final DonationItemRepository donationItemRepository;
 
+    @Inject
+    public GetDonationItemListInteractor(ThreadExecutor threadExecutor, MainThread mainThread,
+                                         DonationItemRepository donationItemRepository) {
+        super(threadExecutor, mainThread);
+        this.donationItemRepository = donationItemRepository;
     }
 
+    @Override
+    Observable<List<DonationItem>> buildUseCaseObservable(Void aVoid) {
+        return donationItemRepository.getDonationItemList();
+    }
 }

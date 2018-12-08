@@ -1,47 +1,36 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import android.widget.Toast;
+import javax.inject.Inject;
 
-import edu.gatech.cs2340.cs2340project.domain.executor.Executor;
-import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.interactor.AddUserInteractor;
-import edu.gatech.cs2340.cs2340project.domain.interactor.Impl.AddUserInteractorImpl;
-import edu.gatech.cs2340.cs2340project.domain.interactor.base.Interactor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.AddUserPresenter;
-import edu.gatech.cs2340.cs2340project.presentation.presenters.base.AbstractPresenter;
+import edu.gatech.cs2340.cs2340project.domain.interactor.base.DefaultObserver;
+import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
+import edu.gatech.cs2340.cs2340project.presentation.dagger.module.Scoped.ActivityScoped;
+import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.AddUserPresenter;
 
-public class AddUserPresenterImpl extends AbstractPresenter implements AddUserPresenter,
-        AddUserInteractor.Callback {
+public class AddUserPresenterImpl implements AddUserPresenter {
 
+    private AddUserInteractor addUserInteractor;
+    private AddUserPresenter.RegisterView registerView;
 
-    private Interactor mInteractor;
-    private AddUserPresenter.RegisterView mView;
-    private UserRepository mUserRepository;
-    private String userName;
-    private String userEmail;
-    private String userPassword;
-    private User.AccountType userType;
+    @Inject
+    public AddUserPresenterImpl(AddUserInteractor addUserInteractor) {
+        this.addUserInteractor = addUserInteractor;
+    }
 
-    public AddUserPresenterImpl(Executor executor, MainThread mainThread, RegisterView mView,
-                                UserRepository mUserRepository, String userName, String userEmail,
-                                String userPassword, User.AccountType userType) {
-        super(executor, mainThread);
-        this.mView = mView;
-        this.mUserRepository = mUserRepository;
-        this.userName = userName;
-        this.userEmail = userEmail;
-        this.userPassword = userPassword;
-        this.userType = userType;
-        mInteractor = new AddUserInteractorImpl(executor, mainThread, this, mUserRepository,
-                userName, userEmail, userPassword, userType);
-        mUserRepository.setInteractor(mInteractor);
+    @Override
+    public void addUser(String name, String email, String password, UserRights userRights) {
+        addUserInteractor.execute(new AddUserObserver(),
+                AddUserInteractor.Params.addUser(name, email, password, userRights));
+    }
+
+    @Override
+    public void setView(RegisterView registerView) {
+     this.registerView = registerView;
     }
 
     @Override
     public void resume() {
-        mInteractor.execute();
     }
 
     @Override
@@ -59,18 +48,26 @@ public class AddUserPresenterImpl extends AbstractPresenter implements AddUserPr
 
     }
 
-    @Override
-    public void onAddUser(String successMessage) {
-        mView.hideProgress();
-        mView.showViewRetry();
-        mView.showSuccessMessage(successMessage);
-        mView.moveToLogin();
-    }
+    private final class AddUserObserver extends DefaultObserver<String> {
 
-    @Override
-    public void onAddUserFailed(String errorMessage) {
-        mView.hideProgress();
-        mView.showViewRetry();
-        mView.showError(errorMessage);
+        @Override
+        public void onNext(String successMessage) {
+            registerView.hideProgress();
+            registerView.showViewRetry();
+            registerView.showSuccessMessage(successMessage);
+            registerView.moveToLogin();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            registerView.hideProgress();
+            registerView.showViewRetry();
+            registerView.showError(e.getMessage());
+        }
+
+        @Override
+        public void onComplete() {
+            registerView.hideProgress();
+        }
     }
 }
