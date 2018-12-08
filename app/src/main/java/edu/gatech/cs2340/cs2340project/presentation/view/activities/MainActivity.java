@@ -12,12 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.firebase.ui.auth.AuthUI;
-
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -33,7 +28,6 @@ import edu.gatech.cs2340.cs2340project.presentation.view.activities.util.IntentU
 public class MainActivity extends DaggerAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final String ARGUMENT_CURRENT_USER_ID = "CURRENT_USER_ID";
-    private static final int RC_SIGN_IN = 123;
 
     @BindView(R.id.user_drawer_layout)
     DrawerLayout userHomeDrawerLayout;
@@ -51,7 +45,6 @@ public class MainActivity extends DaggerAppCompatActivity
         super.onStart();
         if (currentUser == null) {
             IntentUtil.moveBackLogin(this);
-//            loginAuthUI();
         }
     }
 
@@ -59,9 +52,6 @@ public class MainActivity extends DaggerAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        if (currentUser == null) {
-//            loginAuthUI();
-//        }
         ButterKnife.bind(this);
         setTitle("Home Page");
         setSupportActionBar(toolbar);
@@ -79,18 +69,6 @@ public class MainActivity extends DaggerAppCompatActivity
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.my_nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
-    }
-
-    public void loginAuthUI() {
-        Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
-                .setAvailableProviders(Arrays.asList(
-                        new AuthUI.IdpConfig.GoogleBuilder().build(),
-                        new AuthUI.IdpConfig.EmailBuilder().build(),
-                        new AuthUI.IdpConfig.AnonymousBuilder().build()))
-                .enableAnonymousUsersAutoUpgrade()
-                .setIsSmartLockEnabled(false)
-                .build();
-        startActivityForResult(intent, RC_SIGN_IN);
     }
 
     @Override

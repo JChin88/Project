@@ -35,7 +35,6 @@
         <activity
             android:name=".presentation.view.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
-
         </activity>
         <activity
             android:name=".presentation.view.activities.RegisterUserActivity"
