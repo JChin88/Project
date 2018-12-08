@@ -11,11 +11,13 @@ import dagger.android.support.AndroidSupportInjectionModule;
 import edu.gatech.cs2340.cs2340project.AndroidApplication;
 import edu.gatech.cs2340.cs2340project.presentation.dagger.module.ActivityBindingModule;
 import edu.gatech.cs2340.cs2340project.presentation.dagger.module.ApplicationModule;
+import edu.gatech.cs2340.cs2340project.presentation.dagger.module.ViewModelModule;
 
 @Singleton
 
 @Component(modules = {ApplicationModule.class,
         ActivityBindingModule.class,
+        ViewModelModule.class,
         AndroidSupportInjectionModule.class})
 public interface AppComponent extends AndroidInjector<AndroidApplication> {
 

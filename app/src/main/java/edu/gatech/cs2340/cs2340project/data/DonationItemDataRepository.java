@@ -1,12 +1,16 @@
 package edu.gatech.cs2340.cs2340project.data;
 
+import android.support.annotation.NonNull;
+
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -78,5 +82,42 @@ public class DonationItemDataRepository implements DonationItemRepository {
 //        } else {
 //            interactor.onError("Retrieved the collection of donation items failed");
 //        }
+    }
+
+    @Override
+    public Observable<String> addDonationItem(DonationItem donationItem) {
+        return Observable.create(emitter -> {
+            donationItemRef.add(donationItem).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    emitter.onNext("Add Donation Item Succeed");
+                    emitter.onComplete();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    emitter.onError(e);
+                }
+            });
+        });
+    }
+
+    @Override
+    public Observable<String> editDonationItem(String donationItemID, DonationItem donationItem) {
+        return Observable.create(emitter -> {
+            donationItemRef.document(donationItemID).set(donationItem, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            emitter.onNext("Edit Donation Item Succeed");
+                            emitter.onComplete();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    emitter.onError(e);
+                }
+            });
+        });
     }
 }

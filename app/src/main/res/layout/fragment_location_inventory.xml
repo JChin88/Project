@@ -6,6 +6,8 @@
 
     <include layout="@layout/view_progress"/>
 
+    <include layout="@layout/view_retry" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/location_inventory_donation_item_recycler_view"
         android:layout_width="match_parent"

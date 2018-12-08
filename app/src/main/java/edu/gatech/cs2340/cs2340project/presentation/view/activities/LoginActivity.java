@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +21,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import javax.inject.Inject;
 
@@ -30,15 +30,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 import edu.gatech.cs2340.cs2340project.R;
+import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LoginPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LoginPresenter.LoginView;
+import edu.gatech.cs2340.cs2340project.presentation.view_models.UserViewModel;
 
 public class LoginActivity extends DaggerAppCompatActivity implements LoginView {
 
     private static final int RC_SIGN_IN = 123;
-//    private static final Object TAG = ;
-    @BindView(R.id.welcomeMessage)
-    TextView textViewWelcomeMessage;
+    //    private static final Object TAG = ;
 
     @BindView(R.id.login_email)
     AutoCompleteTextView mEmailView;
@@ -61,11 +61,38 @@ public class LoginActivity extends DaggerAppCompatActivity implements LoginView 
     @Inject
     LoginPresenter mPresenter;
 
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
+    private UserViewModel userViewModel;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        userViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
+        userViewModel.response().observe(this, response -> {
+            switch (response.status) {
+                case LOADING:
+                    hideViewRetry();
+                    showProgress();
+                    break;
+
+                case SUCCESS:
+                    hideProgress();
+                    moveToUserHomeActivity(((User)response.data).getUserID());
+//                finish();
+                    break;
+
+                case ERROR:
+                    hideProgress();
+                    showError(response.error.getMessage());
+                    showViewRetry();
+                    break;
+            }
+        });
         Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
                 .setAvailableProviders(Arrays.asList(
                         new AuthUI.IdpConfig.GoogleBuilder().build(),
@@ -75,43 +102,48 @@ public class LoginActivity extends DaggerAppCompatActivity implements LoginView 
                 .setIsSmartLockEnabled(false)
                 .build();
         startActivityForResult(intent, RC_SIGN_IN);
-//        mPresenter.setView(this);
-//        //
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Hide the keyboard
-//                InputMethodManager inputMethodManager = (InputMethodManager)
-//                        getSystemService(Context.INPUT_METHOD_SERVICE);
-//                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-//                        InputMethodManager.HIDE_NOT_ALWAYS);
-//                //
-//                hideViewRetry();
-//                showProgress();
-//                String userEmail = mEmailView.getText().toString().trim();
-//                String userPassword = mPasswordView.getText().toString().trim();
-//                if (isInputValid(userEmail, userPassword)) {
-//                    mPresenter.login(userEmail, userPassword);
-//                } else {
-//                    hideProgress();
-//                    showViewRetry();
-//                }
-//            }
-//        });
-//        registerButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent moveToRegister = new Intent(LoginActivity.this,
-//                        RegisterUserActivity.class);
-//                LoginActivity.this.startActivity(moveToRegister);
-//            }
-//        });
-//        setTitle("Login");
+
+        //
+        mPresenter.setView(this);
+        //
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Hide the keyboard
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null) {
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+                //
+                hideViewRetry();
+                showProgress();
+                String userEmail = mEmailView.getText().toString().trim();
+                String userPassword = mPasswordView.getText().toString().trim();
+                if (isInputValid(userEmail, userPassword)) {
+                    mPresenter.login(userEmail, userPassword);
+                } else {
+                    hideProgress();
+                    showViewRetry();
+                }
+            }
+        });
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveToRegister = new Intent(LoginActivity.this,
+                        RegisterUserActivity.class);
+                LoginActivity.this.startActivity(moveToRegister);
+            }
+        });
+        setTitle("Login");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     @Override
@@ -124,11 +156,17 @@ public class LoginActivity extends DaggerAppCompatActivity implements LoginView 
             // Successfully signed in
             if (resultCode == RESULT_OK) {
                 IdpResponse idpResponse = IdpResponse.fromResultIntent(data);
-                String idp = idpResponse.getIdpToken();
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                String id = mAuth.getCurrentUser().getUid();
-                Toast.makeText(LoginActivity.this, "User IDP " + id, Toast.LENGTH_LONG ).show();
-                moveToUserHomeActivity(id);
+                if (idpResponse.isNewUser()) {
+                    Intent intent = new Intent(this, UpdateNewUserRights.class);
+                    startActivity(intent);
+                } else {
+                    userViewModel.getCurrentUser();
+                }
+//                String idp = idpResponse.getIdpToken();
+//                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//                String id = mAuth.getCurrentUser().getUid();
+//                Toast.makeText(LoginActivity.this, "User IDP " + id, Toast.LENGTH_LONG).show();
+//                moveToUserHomeActivity(id);
 //                startActivity(new Intent(this, WelcomeBackActivity.class)
 //                        .putExtra("my_token", idpResponse.getIdpToken()));
 //                finish();
@@ -151,9 +189,21 @@ public class LoginActivity extends DaggerAppCompatActivity implements LoginView 
         }
     }
 
+    //Login
+    public void loginAuthUI() {
+                Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
+                .setAvailableProviders(Arrays.asList(
+                        new AuthUI.IdpConfig.GoogleBuilder().build(),
+                        new AuthUI.IdpConfig.EmailBuilder().build(),
+                        new AuthUI.IdpConfig.AnonymousBuilder().build()))
+                .enableAnonymousUsersAutoUpgrade()
+                .setIsSmartLockEnabled(false)
+                .build();
+        startActivityForResult(intent, RC_SIGN_IN);
+    }
+
     @Override
     public void showProgress() {
-        textViewWelcomeMessage.setVisibility(View.VISIBLE);
         relativeLayoutProgress.setVisibility(View.VISIBLE);
         setProgressBarIndeterminateVisibility(true);
 //        mProgressBar.setVisibility(android.view.View.VISIBLE);
@@ -161,7 +211,6 @@ public class LoginActivity extends DaggerAppCompatActivity implements LoginView 
 
     @Override
     public void hideProgress() {
-        textViewWelcomeMessage.setVisibility(View.GONE);
         relativeLayoutProgress.setVisibility(View.GONE);
         setProgressBarIndeterminateVisibility(false);
 //        mProgressBar.setVisibility(android.view.View.GONE);
@@ -185,8 +234,7 @@ public class LoginActivity extends DaggerAppCompatActivity implements LoginView 
     @Override
     public void moveToUserHomeActivity(String userID) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra("userID", userID);
-        intent.putExtra("userName", "Henry");
+//        intent.putExtra("userID", userID);
         LoginActivity.this.startActivity(intent);
     }
 

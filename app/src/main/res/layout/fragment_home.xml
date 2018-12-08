@@ -3,6 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/view_progress" />
+
+    <include layout="@layout/view_retry" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/donation_location_recycler_view"
         android:layout_width="match_parent"

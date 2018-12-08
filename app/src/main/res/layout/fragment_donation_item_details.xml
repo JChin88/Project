@@ -1,69 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".presentation.view.fragments.DonationItemDetailsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include layout="@layout/view_progress"/>
+    <data>
 
-    <TextView
-        android:id="@+id/donation_item_time_stamp_text_view"
+        <import type="edu.gatech.cs2340.cs2340project.presentation.view.activities.util.StringUtil" />
+
+        <variable
+            name="donationItem"
+            type="edu.gatech.cs2340.cs2340project.domain.model.DonationItem" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Time Stamp"
-        android:textSize="18sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".presentation.view.fragments.DonationItemDetailsFragment">
 
-    <TextView
-        android:id="@+id/donation_item_name_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Donation Item Name"
-        android:textSize="18sp" />
+        <include layout="@layout/view_progress" />
 
-    <TextView
-        android:id="@+id/donation_item_location_name_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Location Name"
-        android:textSize="18sp" />
+        <include layout="@layout/view_retry" />
 
-    <TextView
-        android:id="@+id/donation_item_short_description_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Short Description"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/donation_item_time_stamp_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Time Stamp: ` + donationItem.timeStamp}"
+            android:textSize="20sp"
+            android:padding="5dp"/>
 
-    <TextView
-        android:id="@+id/donation_item_full_description_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Full Description"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/donation_item_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Donation Item Name: ` + donationItem.donationItemName}"
+            android:textSize="20sp"
+            android:padding="5dp"/>
 
-    <TextView
-        android:id="@+id/donation_item_values_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Donation Item Values"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/donation_item_location_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Location Name: ` + donationItem.locationName}"
+            android:textSize="20sp"
+            android:padding="5dp"/>
 
-    <TextView
-        android:id="@+id/donation_item_category_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Donation Item Category"
-        android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/donation_item_short_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Short Description: ` + donationItem.shortDescription}"
+            android:textSize="20sp"
+            android:padding="5dp"/>
 
-    <TextView
-        android:id="@+id/donation_item_comments_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Donation Item Comments"
-        android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/donation_item_full_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Full Description: ` + donationItem.fullDescription}"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/donation_item_values_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Donation Item Values: ` + StringUtil.convertDoubleToString(donationItem.value)}"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/donation_item_category_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Donation Item Category: ` + donationItem.category.toString()}"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/donation_item_comments_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Donation Item Comments: ` + donationItem.comments}"
+            android:textSize="20sp"
+            android:padding="5dp"/>
 
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

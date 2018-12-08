@@ -32,10 +32,10 @@
             app:destination="@id/locationInventory" />
     </fragment>
     <fragment
-        android:id="@+id/nav_favorite"
-        android:name="edu.gatech.cs2340.cs2340project.presentation.view.fragments.FavoriteFragment"
+        android:id="@+id/nav_map"
+        android:name="edu.gatech.cs2340.cs2340project.presentation.view.fragments.MapFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/locationInventory"
         android:name="edu.gatech.cs2340.cs2340project.presentation.view.fragments.LocationInventoryFragment"

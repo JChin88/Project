@@ -18,4 +18,6 @@
     <string name="google_map_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyCLPpP6dnz357uBlIJDVw3WLEzQatbKVaQ</string>
 
+    <string name="btn_text_retry">Retry</string>
+
 </resources>

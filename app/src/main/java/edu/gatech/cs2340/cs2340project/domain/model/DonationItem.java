@@ -1,5 +1,8 @@
 package edu.gatech.cs2340.cs2340project.domain.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
@@ -10,7 +13,7 @@ import java.util.List;
  * Donation item POJO
  */
 @IgnoreExtraProperties
-public class DonationItem {
+public class DonationItem extends BaseObservable {
 
     public enum DonationItemCategory{
         CLOTHES ("Clothes"), HAT ("Hat"), KITCHEN ("Kitchen"),
@@ -79,6 +82,7 @@ public class DonationItem {
      * Get time stamp
      * @return the time stamp of item
      */
+    @Bindable
     public Date getTimeStamp() {
         return timeStamp;
     }
@@ -95,6 +99,7 @@ public class DonationItem {
      *
      * @return the donation item name
      */
+    @Bindable
     public String getDonationItemName() {
         return donationItemName;
     }
@@ -107,6 +112,7 @@ public class DonationItem {
      *
      * @return the location this donation item belong to
      */
+    @Bindable
     public String getLocationName() {
         return locationName;
     }
@@ -119,6 +125,7 @@ public class DonationItem {
      *
      * @return the short description of item
      */
+    @Bindable
     public String getShortDescription() {
         return shortDescription;
     }
@@ -131,6 +138,7 @@ public class DonationItem {
      *
      * @return the full description of item
      */
+    @Bindable
     public String getFullDescription() {
         return fullDescription;
     }
@@ -143,6 +151,7 @@ public class DonationItem {
      *
      * @return the value of description of item
      */
+    @Bindable
     public double getValue() {
         return value;
     }
@@ -151,6 +160,7 @@ public class DonationItem {
      *
      * @param value value of item
      */
+    @Bindable
     public void setValue(double value) {
         this.value = value;
     }
@@ -159,6 +169,7 @@ public class DonationItem {
      *
      * @return category of item
      */
+    @Bindable
     public DonationItemCategory getCategory() {
         return category;
     }
@@ -175,6 +186,7 @@ public class DonationItem {
      *
      * @return comments of item
      */
+    @Bindable
     public String getComments() {
         return comments;
     }

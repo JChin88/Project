@@ -1,20 +1,22 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
-import java.util.List;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import javax.inject.Inject;
 
-import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationListInteractor;
+import edu.gatech.cs2340.cs2340project.domain.interactor.GetLocationOptionsInteractor;
+import edu.gatech.cs2340.cs2340project.domain.interactor.base.DefaultObserver;
+import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.GetLocationListPresenter;
 
 public class GetLocationListPresenterImpl implements GetLocationListPresenter{
 
-    GetLocationListPresenter.LocationListView locationListView;
-    GetLocationListInteractor getLocationListInteractor;
+    private GetLocationListPresenter.LocationListView locationListView;
+    private GetLocationOptionsInteractor getLocationOptionsInteractor;
 
     @Inject
-    public GetLocationListPresenterImpl(GetLocationListInteractor getLocationListInteractor) {
-        this.getLocationListInteractor = getLocationListInteractor;
+    public GetLocationListPresenterImpl(GetLocationOptionsInteractor getLocationOptionsInteractor) {
+        this.getLocationOptionsInteractor = getLocationOptionsInteractor;
     }
 
     @Override
@@ -44,5 +46,27 @@ public class GetLocationListPresenterImpl implements GetLocationListPresenter{
 
     @Override
     public void getLocationList() {
+        locationListView.showProgress();
+        getLocationOptionsInteractor.execute(new GetLocationListObserver(), null);
+    }
+
+    private final class GetLocationListObserver extends DefaultObserver<FirestoreRecyclerOptions<DonationLocation>> {
+        @Override
+        public void onNext(FirestoreRecyclerOptions<DonationLocation> options) {
+            super.onNext(options);
+            locationListView.hideProgress();
+            locationListView.displayLocationList(options);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+        }
+
+        @Override
+        public void onComplete() {
+            super.onComplete();
+            locationListView.hideProgress();
+        }
     }
 }

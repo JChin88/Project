@@ -1,9 +1,12 @@
 package edu.gatech.cs2340.cs2340project.domain.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 /**
  * @author Hoa V Luu
  */
-public class User {
+public class User extends BaseObservable {
 
     private String userID;
     private String name;
@@ -50,6 +53,7 @@ public class User {
      *
      * @return user id
      */
+    @Bindable
     public String getUserID() {
         return userID;
     }
@@ -66,6 +70,7 @@ public class User {
      *
      * @return user name
      */
+    @Bindable
     public String getName() {
         return name;
     }
@@ -82,6 +87,7 @@ public class User {
      *
      * @return user email
      */
+    @Bindable
     public String getEmail() {
         return email;
     }
@@ -98,6 +104,7 @@ public class User {
      *
      * @return manage location that user manage
      */
+    @Bindable
     public String getManageLocationName() {
         return manageLocationName;
     }
@@ -114,6 +121,7 @@ public class User {
      *
      * @return user rights
      */
+    @Bindable
     public UserRights getUserRights() {
         return userRights;
     }
@@ -130,6 +138,7 @@ public class User {
      *
      * @return can user update inventories
      */
+    @Bindable
     public boolean isCanUpdateInventories() {
         return userRights.isCanUpdateInventories();
     }
@@ -138,6 +147,7 @@ public class User {
      *
      * @return can user add location
      */
+    @Bindable
     public boolean isCanAddLocation() {
         return userRights.isCanAddLocation();
     }
@@ -146,6 +156,7 @@ public class User {
      *
      * @return can user remove location
      */
+    @Bindable
     public boolean isCanRemoveLocation() {
         return userRights.isCanRemoveLocation();
     }
@@ -154,6 +165,7 @@ public class User {
      *
      * @return can user add user
      */
+    @Bindable
     public boolean isCanAddUser() {
         return userRights.isCanAddUser();
     }
@@ -162,6 +174,7 @@ public class User {
      *
      * @return can user remove user
      */
+    @Bindable
     public boolean isCanRemoveUser() {
         return userRights.isCanRemoveUser();
     }
@@ -170,6 +183,7 @@ public class User {
      *
      * @return can user unlock user
      */
+    @Bindable
     public boolean isCanUnlockUser() {
         return userRights.isCanUnlockUser();
     }
@@ -178,6 +192,7 @@ public class User {
      *
      * @return can user lock user
      */
+    @Bindable
     public boolean isCanLockUser() {
         return userRights.isCanLockUser();
     }

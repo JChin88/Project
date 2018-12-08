@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.cs2340project.presentation.view.fragments;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -17,43 +18,27 @@ import javax.inject.Inject;
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.support.DaggerFragment;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.databinding.FragmentLocationInfoBinding;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
+import edu.gatech.cs2340.cs2340project.presentation.view.BaseView;
+import edu.gatech.cs2340.cs2340project.presentation.view_models.LocationInfoViewModel;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.LocationInfoPresenter;
 
 
-public class LocationInfoFragment extends DaggerFragment implements LocationInfoPresenter.LocationInfoView {
-
-
-    //Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
-    // 0    1   2       3           4               5   6   7   8       9   10
-
-    @BindView(R.id.location_name_text_view)
-    TextView locationName;
-
-    @BindView(R.id.location_latitude_text_view)
-    TextView locationLatitude;
-
-    @BindView(R.id.location_longitude_text_view)
-    TextView locationLongitude;
-
-    @BindView(R.id.location_address_text_view)
-    TextView locationAddress;
-
-    @BindView(R.id.location_type_text_view)
-    TextView locationType;
-
-    @BindView(R.id.location_phone_text_view)
-    TextView locationPhone;
-
-    @BindView(R.id.location_website_text_view)
-    TextView locationWebsite;
+public class LocationInfoFragment extends DaggerFragment implements BaseView {
 
     @BindView(R.id.relativeLayout_progress)
     RelativeLayout rl_progress;
+
+    @BindView(R.id.relativeLayout_retry)
+    RelativeLayout rl_retry;
+
+    @BindView(R.id.btn_retry)
+    Button btn_retry;
 
     @BindView(R.id.location_inventory_btn)
     Button inventoryBtn;
@@ -61,41 +46,63 @@ public class LocationInfoFragment extends DaggerFragment implements LocationInfo
     @Inject
     LocationInfoPresenter mPresenter;
 
-    private String locationNameString;
+    private String locationName;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     @Inject
     @Nullable
     User currentUser;
 
-    FragmentLocationInfoBinding binding;
+    private LocationInfoViewModel locationInfoViewModel;
+
+    private String key;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        final View fragmentView = inflater.inflate(R.layout.fragment_location_info, container, false);
-//        ButterKnife.bind(this, fragmentView);
-//        mPresenter.setView(this);
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_location_info, container, false);
+        FragmentLocationInfoBinding binding
+                = DataBindingUtil.inflate(inflater, R.layout.fragment_location_info, container, false);
+        locationInfoViewModel = ViewModelProviders.of(this, viewModelFactory).get(LocationInfoViewModel.class);
+        locationInfoViewModel.response().observe(this, response -> {
+            switch (response.status) {
+                case LOADING:
+                    hideViewRetry();
+                    showProgress();
+                    break;
+
+                case SUCCESS:
+                    hideProgress();
+                    binding.setDonationLocation((DonationLocation) response.data);
+                    locationName = ((DonationLocation) response.data).getName();
+                    break;
+
+                case ERROR:
+                    hideProgress();
+                    showError(response.error.getMessage());
+                    showViewRetry();
+                    break;
+            }
+        });
+        key = LocationInfoFragmentArgs.fromBundle(getArguments()).getLocationID();
+        locationInfoViewModel.getLocationInfo(key);
         final View fragmentView = binding.getRoot();
         ButterKnife.bind(this, fragmentView);
         return fragmentView;
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        getActivity().setTitle("DonationLocation Information");
-        mPresenter.setView(this);
-        String key = LocationInfoFragmentArgs.fromBundle(getArguments()).getLocationID();
-        mPresenter.initialize(key);
 
         inventoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LocationInfoFragmentDirections.ActionLocationInfoToLocationInventory action
                         = LocationInfoFragmentDirections
-                        .actionLocationInfoToLocationInventory(locationNameString);
+                        .actionLocationInfoToLocationInventory(locationName);
                 Navigation.findNavController(getView()).navigate(action);
             }
         });
@@ -104,7 +111,7 @@ public class LocationInfoFragment extends DaggerFragment implements LocationInfo
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.resume();
+//        mPresenter.resume();
     }
 
     @Override
@@ -119,12 +126,12 @@ public class LocationInfoFragment extends DaggerFragment implements LocationInfo
 
     @Override
     public void showViewRetry() {
-//        linearLayout.setVisibility(android.view.View.VISIBLE);
+        this.rl_retry.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideViewRetry() {
-//        linearLayout.setVisibility(android.view.View.GONE);
+        this.rl_retry.setVisibility(View.GONE);
     }
 
     @Override
@@ -132,16 +139,8 @@ public class LocationInfoFragment extends DaggerFragment implements LocationInfo
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
     }
 
-    @Override
-    public void displayLocationInfo(DonationLocation location) {
-        binding.setDonationLocation(location);
-        locationNameString = location.getName();
-//        locationName.setText("DonationLocation Name: \t" + location.getName());
-//        locationLatitude.setText("DonationLocation Latitude: \t" + Double.toString(location.getLatitude()));
-//        locationLongitude.setText("DonationLocation Longitude: \t" + Double.toString(location.getLongitude()));
-//        locationAddress.setText("DonationLocation Address: \t" + location.getAddress());
-//        locationType.setText("DonationLocation Type: \t" + location.getType());
-//        locationPhone.setText("DonationLocation Phone Number: \t" + location.getPhoneNumber());
-//        locationWebsite.setText("DonationLocation Website: \t" + location.getWebsite());
+    @OnClick(R.id.btn_retry)
+    void onButtonRetryClick() {
+        locationInfoViewModel.getLocationInfo(key);
     }
 }

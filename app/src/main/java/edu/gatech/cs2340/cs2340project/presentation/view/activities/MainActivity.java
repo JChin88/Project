@@ -15,6 +15,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+
+import java.util.Arrays;
+
 import javax.inject.Inject;
 
 import androidx.navigation.fragment.NavHostFragment;
@@ -24,13 +28,12 @@ import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.mvc.controller.LocationList;
 import edu.gatech.cs2340.cs2340project.presentation.view.activities.util.IntentUtil;
 
 public class MainActivity extends DaggerAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final String ARGUMENT_CURRENT_USER_ID = "CURRENT_USER_ID";
+    private static final int RC_SIGN_IN = 123;
 
     @BindView(R.id.user_drawer_layout)
     DrawerLayout userHomeDrawerLayout;
@@ -38,9 +41,6 @@ public class MainActivity extends DaggerAppCompatActivity
     Toolbar toolbar;
 
     ActionBarDrawerToggle toggle;
-
-    private String userID;
-    private String userName;
 
     @Inject
     @Nullable
@@ -51,6 +51,7 @@ public class MainActivity extends DaggerAppCompatActivity
         super.onStart();
         if (currentUser == null) {
             IntentUtil.moveBackLogin(this);
+//            loginAuthUI();
         }
     }
 
@@ -58,22 +59,17 @@ public class MainActivity extends DaggerAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        if (currentUser == null) {
+//            loginAuthUI();
+//        }
         ButterKnife.bind(this);
         setTitle("Home Page");
         setSupportActionBar(toolbar);
-
         toggle = new ActionBarDrawerToggle(this, userHomeDrawerLayout,
                 toolbar, R.string.user_navigation_drawer_open, R.string.user_navigation_drawer_close);
         userHomeDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         userHomeDrawerLayout.bringToFront();
-
-        Intent tempIntent = getIntent();
-        userID = tempIntent.getStringExtra("userID");
-        userName = tempIntent.getStringExtra("userName");
-
-        String welcomeMessage = userName + " welcome to your application activity screen!";
-        //welcomeM.setText(welcomeMessage);
 
         NavigationView user_view = findViewById(R.id.user_nav_view);
         user_view.setNavigationItemSelectedListener(this);
@@ -83,6 +79,18 @@ public class MainActivity extends DaggerAppCompatActivity
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.my_nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
+    }
+
+    public void loginAuthUI() {
+        Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
+                .setAvailableProviders(Arrays.asList(
+                        new AuthUI.IdpConfig.GoogleBuilder().build(),
+                        new AuthUI.IdpConfig.EmailBuilder().build(),
+                        new AuthUI.IdpConfig.AnonymousBuilder().build()))
+                .enableAnonymousUsersAutoUpgrade()
+                .setIsSmartLockEnabled(false)
+                .build();
+        startActivityForResult(intent, RC_SIGN_IN);
     }
 
     @Override
@@ -116,17 +124,9 @@ public class MainActivity extends DaggerAppCompatActivity
             case R.id.nav_profile:
                 Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.nav_donation_list123:
-                Intent goDL = new Intent(MainActivity.this, LocationList.class);
-                startActivity(goDL);
-                break;
             case R.id.nav_map:
                 Intent goToMap = new Intent(MainActivity.this, MapsActivity.class);
                 startActivity(goToMap);
-                break;
-            case R.id.nav_inventory:
-                Intent intent = new Intent(MainActivity.this, DonationItemListActivities.class);
-                startActivity(intent);
                 break;
             case R.id.nav_log_out:
                 logout();

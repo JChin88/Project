@@ -8,8 +8,9 @@
         />
 
     <item
-        android:icon="@drawable/ic_favorite"
-        android:title="Favorite"
+        android:id="@+id/nav_map"
+        android:icon="@drawable/ic_map"
+        android:title="Map"
         />
 
     <item

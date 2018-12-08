@@ -10,6 +10,10 @@ import io.reactivex.Observable;
 
 public interface DonationItemRepository {
 
+    Observable<String> addDonationItem(DonationItem donationItem);
+
+    Observable<String> editDonationItem(String donationItemID, DonationItem donationItem);
+
     Observable<DonationItem> getDonationItem(String donationItemID);
 
     Observable<List<DonationItem>> getDonationItemList();

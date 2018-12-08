@@ -8,6 +8,8 @@ import io.reactivex.Observable;
 
 public interface UserRepository {
 
+    Observable<String> addUser(UserRights userRights);
+
     Observable<String> addUser(String userName, String userEmail, String userPassword, UserRights userRights);
 
     String getCurrentUserID();
@@ -27,5 +29,7 @@ public interface UserRepository {
      */
     Observable<String> login(final String email, final String password);
 
-    User getCurrentUser();
+    Observable<User> getCurrentUser();
+
+    User getUser();
 }

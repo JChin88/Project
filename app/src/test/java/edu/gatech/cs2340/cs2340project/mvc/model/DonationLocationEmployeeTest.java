@@ -2,6 +2,8 @@ package edu.gatech.cs2340.cs2340project.mvc.model;
 
 import org.junit.Test;
 
+import edu.gatech.cs2340.cs2340project.domain.model.LocationEmployee;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 

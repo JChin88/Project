@@ -25,11 +25,12 @@ import dagger.android.support.DaggerFragment;
 import edu.gatech.cs2340.cs2340project.R;
 import edu.gatech.cs2340.cs2340project.domain.model.DonationItem;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
-import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.GetDonationItemFSOptionsPresenter;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.GetDonationItemFSOptionsPresenter.GetDonationItemFSOptionsView;
-import edu.gatech.cs2340.cs2340project.presentation.view.activities.AddDonationItem;
+import edu.gatech.cs2340.cs2340project.presentation.view.activities.AddEditDonationItemActivity;
 import edu.gatech.cs2340.cs2340project.presentation.view.adapters.DonationItemsAdapter;
+
+import static edu.gatech.cs2340.cs2340project.presentation.view.activities.AddEditDonationItemActivity.EXTRA_LOCATION_NAME;
 
 public class LocationInventoryFragment extends DaggerFragment implements GetDonationItemFSOptionsView {
 
@@ -72,8 +73,8 @@ public class LocationInventoryFragment extends DaggerFragment implements GetDona
         addDonationItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddDonationItem.class);
-                intent.putExtra("DonationLocation Name", locationName);
+                Intent intent = new Intent(getContext(), AddEditDonationItemActivity.class);
+                intent.putExtra(EXTRA_LOCATION_NAME, locationName);
                 startActivity(intent);
             }
         });

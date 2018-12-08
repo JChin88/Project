@@ -2,6 +2,7 @@ package edu.gatech.cs2340.cs2340project.data;
 
 import android.support.annotation.NonNull;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -9,6 +10,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -33,9 +35,13 @@ import io.reactivex.Observable;
 public class LocationDataRepository implements LocationRepository {
 
     private FirebaseFirestore db;
+
+    private CollectionReference locationRef;
+
     @Inject
     public LocationDataRepository() {
         db = FirebaseFirestore.getInstance();
+        locationRef = db.collection("Donation Locations");
     }
 
     @Override
@@ -81,7 +87,7 @@ public class LocationDataRepository implements LocationRepository {
                 tempLocation.setName(part[1]);
                 tempLocation.setLatitude(Double.parseDouble(part[2]));
                 tempLocation.setLongitude(Double.parseDouble(part[3]));
-                tempLocation.setAddress(part[4] + ", " + part[5] +  ", " + part[6] + ", " + part[7]);
+                tempLocation.setAddress(part[4] + ", " + part[5] + ", " + part[6] + ", " + part[7]);
                 tempLocation.setType(part[8]);
 //              tempLocation.setPhoneNumber(convertStringPhoneNumber(part[9]));
                 tempLocation.setPhoneNumber(part[9]);
@@ -93,6 +99,18 @@ public class LocationDataRepository implements LocationRepository {
         }
         db.collection("Donation Locations").add(locationCollection);
     }
+
+    @Override
+    public Observable<FirestoreRecyclerOptions<DonationLocation>> getLocationOptions() {
+        return Observable.create(emitter -> {
+            Query query = locationRef.orderBy("name", Query.Direction.ASCENDING);
+            FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<DonationLocation>()
+                    .setQuery(query, DonationLocation.class).build();
+            emitter.onNext(options);
+            emitter.onComplete();
+        });
+    }
+
 
     @Override
     public Observable<List<DonationLocation>> getLocationList() {
@@ -122,7 +140,6 @@ public class LocationDataRepository implements LocationRepository {
             });
         });
     }
-
 
 
 }

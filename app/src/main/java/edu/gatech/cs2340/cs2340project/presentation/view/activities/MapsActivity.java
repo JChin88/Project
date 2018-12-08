@@ -28,7 +28,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        Log.d("Test", "Test");
         Objects.requireNonNull(mapFragment).getMapAsync(this);
     }
 
@@ -51,9 +50,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng pavilionOfHope = new LatLng(33.80129, -84.25537);
         LatLng dAndD = new LatLng(33.71747, -84.2521);
         LatLng keepNorthFultonBeautiful = new LatLng(33.96921, -84.3688);
-        googleMap.addMarker(new MarkerOptions().position(AFDStation4).title("AFD Station 4")
+        googleMap.addMarker(new MarkerOptions().position(AFDStation4)
+                .title("AFD Station 4")
                 .snippet("(404) 555 - 3456"));
-        googleMap.addMarker(new MarkerOptions().position(boysAndGirls).title("Boys and Girls Club")
+        googleMap.addMarker(new MarkerOptions().position(boysAndGirls)
+                .title("Boys and Girls Club")
                 .snippet("(404) 555 - 1234"));
         googleMap.addMarker(new MarkerOptions().position(pathwayUpper).title("Pathway Upper")
                 .snippet("(404) 555 - 5432"));

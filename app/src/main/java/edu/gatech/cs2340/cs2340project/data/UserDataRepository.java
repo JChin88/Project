@@ -47,13 +47,57 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public  User getCurrentUser() {
+    public User getUser() {
         return user;
+    }
+
+    @Override
+    public Observable<User> getCurrentUser() {
+        return Observable.create(emitter -> {
+            String userID = mAuth.getCurrentUser().getUid();
+            db.collection("users").document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    user =  documentSnapshot.toObject(User.class);
+                    emitter.onNext(user);
+                    emitter.onComplete();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    emitter.onError(e);
+                }
+            });
+        });
     }
 
     @Override
     public String getCurrentUserID() {
         return mAuth.getCurrentUser().getUid();
+    }
+
+    @Override
+    public Observable<String> addUser(UserRights userRights) {
+        return Observable.create(emitter -> {
+           FirebaseUser firebaseUser = mAuth.getCurrentUser();
+           User user = new User(firebaseUser.getProviderId(), firebaseUser.getDisplayName(),
+                   firebaseUser.getEmail(), userRights);
+           db.collection("users")
+                   .document(firebaseUser.getUid())
+                   .set(user)
+                   .addOnSuccessListener(new OnSuccessListener<Void>() {
+               @Override
+               public void onSuccess(Void aVoid) {
+                   emitter.onNext("Save user type succeed!");
+                   emitter.onComplete();
+               }
+           }).addOnFailureListener(new OnFailureListener() {
+               @Override
+               public void onFailure(@NonNull Exception e) {
+                   emitter.onError(e);
+               }
+           });
+        });
     }
 
     @Override

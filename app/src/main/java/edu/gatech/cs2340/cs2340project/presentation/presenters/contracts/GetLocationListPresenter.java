@@ -1,5 +1,8 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.contracts;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+
+import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.BasePresenter;
 import edu.gatech.cs2340.cs2340project.presentation.view.BaseView;
 
@@ -14,11 +17,7 @@ public interface GetLocationListPresenter extends BasePresenter {
 
     interface LocationListView extends BaseView {
 
-        /**
-         * show message when get location list success
-         * @param successMessage success message
-         */
-        void showSucessMessage(String successMessage);
+        void displayLocationList(FirestoreRecyclerOptions<DonationLocation> options);
 
     }
 }

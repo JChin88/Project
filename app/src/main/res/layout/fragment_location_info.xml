@@ -15,28 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:padding="16dp"
         tools:context=".presentation.view.fragments.LocationInfoFragment">
 
         <include layout="@layout/view_progress" />
-        <LinearLayout
+
+        <include layout="@layout/view_retry" />
+
+        <TextView
+            android:id="@+id/location_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name: "
-                android:textSize="20sp"/>
-
-            <TextView
-                android:id="@+id/location_name_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@={donationLocation.name}"
-                android:textSize="20sp" />
-        </LinearLayout>
+            android:padding="5dp"
+            android:text="@{`Name: ` + donationLocation.name}"
+            android:textSize="20sp" />
 
 
         <TextView
@@ -44,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@={StringUtil.convertDoubleToString(donationLocation.latitude)}"
+            android:text="@{`Latitude: ` + StringUtil.convertDoubleToString(donationLocation.latitude)}"
             android:textSize="20sp" />
 
         <TextView
@@ -52,40 +44,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@={StringUtil.convertDoubleToString(donationLocation.longitude)}"
-            android:textSize="20dp" />
+            android:text="@{`Longitude: ` + StringUtil.convertDoubleToString(donationLocation.longitude)}"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/location_address_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="TextView"
-            android:textSize="20dp" />
+            android:text="@{`Address: ` + donationLocation.address}"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/location_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="TextView"
-            android:textSize="20dp" />
+            android:text="@{`Type: ` + donationLocation.type}"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/location_phone_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="TextView"
-            android:textSize="20dp" />
+            android:text="@{`Phone Number: ` + donationLocation.phoneNumber}"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/location_website_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="TextView"
-            android:textSize="20dp" />
+            android:text="@{`Website: ` + donationLocation.website}"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/location_inventory_btn"
