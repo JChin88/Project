@@ -30,7 +30,7 @@ public class GetLocationDetailsInteractor
 
         private final String key;
 
-        public Params(String key) {
+        private Params(String key) {
             this.key = key;
         }
 

@@ -8,7 +8,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,11 +33,11 @@ public class UserDataRepository implements UserRepository {
     public static final String LOGIN_SUCCESS = "Login Success!";
     public static final String LOGIN_INVALID_UIDPS = "Incorrect email or password!";
 
-    private FirebaseAuth mAuth;
+    private final FirebaseAuth mAuth;
 
     private FirebaseFirestore db;
 
-    User user;
+    private User user;
     List<User> users;
     @Inject
     public UserDataRepository(FirebaseFirestore firebaseFirestore, FirebaseAuth firebaseAuth) {

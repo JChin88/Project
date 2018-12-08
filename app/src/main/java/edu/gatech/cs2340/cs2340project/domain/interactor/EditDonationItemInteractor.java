@@ -26,11 +26,11 @@ public class EditDonationItemInteractor extends UseCase<String, EditDonationItem
 
     public static final class Params{
 
-        private String donationItemID;
+        private final String donationItemID;
 
         private DonationItem donationItem;
 
-        public Params(String donationItemID, DonationItem donationItem) {
+        private Params(String donationItemID, DonationItem donationItem) {
             this.donationItemID = donationItemID;
             this.donationItem = donationItem;
         }

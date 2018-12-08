@@ -28,7 +28,7 @@ public class LoginInteractor extends UseCase<String, LoginInteractor.Params> {
 
         private final String password;
 
-        public Params(String email, String password) {
+        private Params(String email, String password) {
             this.email = email;
             this.password = password;
         }

@@ -17,7 +17,7 @@ import edu.gatech.cs2340.cs2340project.presentation.view_models.common.Response;
 
 public class DonationLocationViewModel extends ViewModel {
 
-    private GetLocationOptionsInteractor getLocationOptionsInteractor;
+    private final GetLocationOptionsInteractor getLocationOptionsInteractor;
 
     private GetLocationListInteractor getLocationListInteractor;
 

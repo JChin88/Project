@@ -12,7 +12,7 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.GetLoca
 public class GetLocationListPresenterImpl implements GetLocationListPresenter{
 
     private GetLocationListPresenter.LocationListView locationListView;
-    private GetLocationOptionsInteractor getLocationOptionsInteractor;
+    private final GetLocationOptionsInteractor getLocationOptionsInteractor;
 
     @Inject
     public GetLocationListPresenterImpl(GetLocationOptionsInteractor getLocationOptionsInteractor) {

@@ -12,7 +12,7 @@ import edu.gatech.cs2340.cs2340project.presentation.view_models.common.Response;
 
 public class DonationItemDetailsViewModel extends ViewModel {
 
-    private GetDonationItemInteractor getDonationItemInteractor;
+    private final GetDonationItemInteractor getDonationItemInteractor;
 
     private final MutableLiveData<Response> response = new MutableLiveData<>();
 

@@ -13,7 +13,7 @@ import edu.gatech.cs2340.cs2340project.presentation.view_models.common.Response;
 
 public class AddEditDonationItemViewModel extends ViewModel {
 
-    private AddDonationItemInteractor addDonationItemInteractor;
+    private final AddDonationItemInteractor addDonationItemInteractor;
 
     private EditDonationItemInteractor editDonationItemInteractor;
 
@@ -47,9 +47,9 @@ public class AddEditDonationItemViewModel extends ViewModel {
         return response;
     }
 
-    private final class AddEditDonationItemObserver<T> extends DefaultObserver<T> {
+    private final class AddEditDonationItemObserver<T> extends DefaultObserver<String> {
         @Override
-        public void onNext(T successMessage) {
+        public void onNext(String successMessage) {
             response.setValue(Response.success(successMessage));
         }
 

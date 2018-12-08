@@ -34,7 +34,7 @@ import io.reactivex.Observable;
 @Singleton
 public class LocationDataRepository implements LocationRepository {
 
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
 
     private CollectionReference locationRef;
 

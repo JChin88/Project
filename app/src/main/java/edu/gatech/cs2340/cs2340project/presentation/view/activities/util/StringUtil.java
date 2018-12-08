@@ -2,9 +2,6 @@ package edu.gatech.cs2340.cs2340project.presentation.view.activities.util;
 
 import android.databinding.InverseMethod;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class StringUtil {
 
     @InverseMethod("convertStringToDouble")

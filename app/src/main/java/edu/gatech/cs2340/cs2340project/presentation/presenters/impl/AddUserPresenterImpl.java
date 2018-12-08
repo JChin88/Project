@@ -5,12 +5,11 @@ import javax.inject.Inject;
 import edu.gatech.cs2340.cs2340project.domain.interactor.AddUserInteractor;
 import edu.gatech.cs2340.cs2340project.domain.interactor.base.DefaultObserver;
 import edu.gatech.cs2340.cs2340project.domain.model.UserRights;
-import edu.gatech.cs2340.cs2340project.presentation.dagger.module.Scoped.ActivityScoped;
 import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.AddUserPresenter;
 
 public class AddUserPresenterImpl implements AddUserPresenter {
 
-    private AddUserInteractor addUserInteractor;
+    private final AddUserInteractor addUserInteractor;
     private AddUserPresenter.RegisterView registerView;
 
     @Inject

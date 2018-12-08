@@ -11,7 +11,7 @@ import edu.gatech.cs2340.cs2340project.domain.model.DonationLocation;
 import edu.gatech.cs2340.cs2340project.presentation.view_models.common.Response;
 
 public class LocationInfoViewModel extends ViewModel {
-    private GetLocationDetailsInteractor getLocationDetailsInteractor;
+    private final GetLocationDetailsInteractor getLocationDetailsInteractor;
 
     private final MutableLiveData<Response> response = new MutableLiveData<>();
 

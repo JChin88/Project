@@ -53,7 +53,7 @@ public class SearchFragment extends DaggerFragment implements BaseView {
     Button btn_retry;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference donationItemRef = db.collection("Donation Items");
+    private final CollectionReference donationItemRef = db.collection("Donation Items");
     private CollectionReference donationLocationRef;
 
     private DonationItemsAdapter defaultAdapter;
@@ -196,7 +196,7 @@ public class SearchFragment extends DaggerFragment implements BaseView {
         recyclerView.setAdapter(defaultAdapter);
     }
 
-    public Query searchQuery(String searchText) {
+    private Query searchQuery(String searchText) {
         checkRadioButton();
         String typeSearch = radioButton.getText().toString();
         String location = locationSpinner.getSelectedItem().toString();

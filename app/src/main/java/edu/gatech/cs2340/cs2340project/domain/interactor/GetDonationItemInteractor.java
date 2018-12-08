@@ -28,7 +28,7 @@ public class GetDonationItemInteractor extends UseCase<DonationItem, GetDonation
 
         private final String donationItemID;
 
-        public Params(String donationItemID) {
+        private Params(String donationItemID) {
             this.donationItemID = donationItemID;
         }
 

@@ -52,7 +52,7 @@ public class DonationItemDetailsFragment extends DaggerFragment implements BaseV
     private String locationName;
 
 
-    FragmentDonationItemDetailsBinding binding;
+    private FragmentDonationItemDetailsBinding binding;
 
     public DonationItemDetailsFragment() {
         // Required empty public constructor

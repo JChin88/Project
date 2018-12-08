@@ -24,7 +24,7 @@ public class JobExecutor implements ThreadExecutor {
     private static final int                     MAX_POOL_SIZE   = 5;
     private static final int                     KEEP_ALIVE_TIME = 10;
     private static final TimeUnit                TIME_UNIT       = TimeUnit.SECONDS;
-    private static final BlockingQueue<Runnable> WORK_QUEUE      = new LinkedBlockingQueue<Runnable>();
+    private static final BlockingQueue<Runnable> WORK_QUEUE      = new LinkedBlockingQueue<>();
 
     @Inject
     public JobExecutor() {

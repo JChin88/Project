@@ -2,7 +2,6 @@ package edu.gatech.cs2340.cs2340project.presentation.dagger.module;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,7 +17,6 @@ import edu.gatech.cs2340.cs2340project.data.UserDataRepository;
 import edu.gatech.cs2340.cs2340project.domain.executor.Impl.JobExecutor;
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;
 import edu.gatech.cs2340.cs2340project.domain.executor.ThreadExecutor;
-import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.DonationItemRepository;
 import edu.gatech.cs2340.cs2340project.domain.repository.LocationRepository;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;

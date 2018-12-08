@@ -46,7 +46,7 @@ public class LocationInventoryFragment extends DaggerFragment implements GetDona
     @Inject
     GetDonationItemFSOptionsPresenter getDonationItemFSOptionsPresenter;
 
-    DonationItemsAdapter donationItemsAdapter;
+    private DonationItemsAdapter donationItemsAdapter;
 
     @Inject
     @Nullable
@@ -100,6 +100,12 @@ public class LocationInventoryFragment extends DaggerFragment implements GetDona
         if (donationItemsAdapter != null) {
             donationItemsAdapter.stopListening();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getDonationItemFSOptionsPresenter.destroy();
     }
 
     @Override

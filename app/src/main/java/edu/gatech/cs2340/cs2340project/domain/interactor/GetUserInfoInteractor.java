@@ -28,7 +28,7 @@ public class GetUserInfoInteractor extends UseCase<User, GetUserInfoInteractor.P
 
         private final String id;
 
-        public Params(String id) {
+        private Params(String id) {
             this.id = id;
         }
 

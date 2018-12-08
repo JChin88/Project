@@ -2,8 +2,6 @@ package edu.gatech.cs2340.cs2340project.domain.interactor;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import edu.gatech.cs2340.cs2340project.domain.executor.MainThread;

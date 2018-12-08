@@ -94,7 +94,7 @@ public class HomeFragment extends DaggerFragment implements BaseView {
         }
     }
 
-    public void displayLocationList(FirestoreRecyclerOptions<DonationLocation> options) {
+    private void displayLocationList(FirestoreRecyclerOptions<DonationLocation> options) {
         adapter = new DonationLocationAdapter(options);
         recyclerView.setAdapter(adapter);
         adapter.startListening();

@@ -1,7 +1,5 @@
 package edu.gatech.cs2340.cs2340project.domain.interactor;
 
-import com.google.firebase.firestore.CollectionReference;
-
 import java.util.List;
 
 import javax.inject.Inject;

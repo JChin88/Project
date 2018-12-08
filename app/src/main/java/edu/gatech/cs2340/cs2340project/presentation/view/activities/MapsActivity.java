@@ -3,7 +3,6 @@ package edu.gatech.cs2340.cs2340project.presentation.view.activities;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

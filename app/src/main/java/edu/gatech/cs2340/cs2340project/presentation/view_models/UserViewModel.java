@@ -14,7 +14,7 @@ import edu.gatech.cs2340.cs2340project.presentation.view_models.common.Response;
 
 public class UserViewModel extends ViewModel {
 
-    private AddUserWURInteractor addUserWURInteractor;
+    private final AddUserWURInteractor addUserWURInteractor;
 
     private GetCurrentUserInteractor getCurrentUserInteractor;
 

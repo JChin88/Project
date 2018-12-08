@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.cs2340project.presentation.presenters.impl;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.Query;
 
 import javax.inject.Inject;
 
@@ -12,8 +11,8 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.GetDona
 
 public class GetDonationItemFSOptionsPresenterImpl implements GetDonationItemFSOptionsPresenter {
 
-    GetDonationItemFSOptionsInteractor getDonationItemQueryInteractor;
-    GetDonationItemFSOptionsPresenter.GetDonationItemFSOptionsView getDonationItemFSOptionsView;
+    private final GetDonationItemFSOptionsInteractor getDonationItemQueryInteractor;
+    private GetDonationItemFSOptionsPresenter.GetDonationItemFSOptionsView getDonationItemFSOptionsView;
 
     @Inject
     public GetDonationItemFSOptionsPresenterImpl(GetDonationItemFSOptionsInteractor getDonationItemQueryInteractor) {

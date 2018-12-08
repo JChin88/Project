@@ -26,9 +26,9 @@ public class AddDonationItemInteractor extends UseCase<String, AddDonationItemIn
 
     public static final class Params {
 
-        private DonationItem donationItem;
+        private final DonationItem donationItem;
 
-        public Params(DonationItem donationItem) {
+        Params(DonationItem donationItem) {
             this.donationItem = donationItem;
         }
 

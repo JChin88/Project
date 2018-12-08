@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.cs2340project.domain.repository;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.Query;
 
 import java.util.List;
 

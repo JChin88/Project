@@ -9,7 +9,7 @@ import edu.gatech.cs2340.cs2340project.presentation.presenters.contracts.UserInf
 
 public class UserInfoPresenterImpl implements UserInfoPresenter{
 
-    private GetUserInfoInteractor getUserInfoInteractor;
+    private final GetUserInfoInteractor getUserInfoInteractor;
     private UserInfoPresenter.UserInfoView userInfoView;
 
     @Inject

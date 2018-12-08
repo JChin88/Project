@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.cs2340project.domain.interactor;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.Query;
 
 import javax.inject.Inject;
 
@@ -13,7 +12,7 @@ import io.reactivex.Observable;
 
 public class GetDonationItemFSOptionsInteractor extends UseCase<FirestoreRecyclerOptions<DonationItem>, GetDonationItemFSOptionsInteractor.Params> {
 
-    private DonationItemRepository donationItemRepository;
+    private final DonationItemRepository donationItemRepository;
 
     @Inject
     public GetDonationItemFSOptionsInteractor(ThreadExecutor threadExecutor, MainThread mainThread,
@@ -31,7 +30,7 @@ public class GetDonationItemFSOptionsInteractor extends UseCase<FirestoreRecycle
 
         private final String locationName;
 
-        public Params(String locatioName) {
+        private Params(String locatioName) {
             this.locationName = locatioName;
         }
 

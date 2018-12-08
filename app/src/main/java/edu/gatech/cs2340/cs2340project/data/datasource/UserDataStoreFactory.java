@@ -1,10 +1,5 @@
 package edu.gatech.cs2340.cs2340project.data.datasource;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-
-import javax.inject.Inject;
-
 public class UserDataStoreFactory {
 
 //    private final Context context;

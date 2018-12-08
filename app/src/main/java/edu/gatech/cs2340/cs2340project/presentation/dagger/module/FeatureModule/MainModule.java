@@ -7,7 +7,6 @@ import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 import edu.gatech.cs2340.cs2340project.domain.model.User;
 import edu.gatech.cs2340.cs2340project.domain.repository.UserRepository;
-import edu.gatech.cs2340.cs2340project.presentation.dagger.module.Scoped.ActivityScoped;
 import edu.gatech.cs2340.cs2340project.presentation.dagger.module.Scoped.FragmentScoped;
 import edu.gatech.cs2340.cs2340project.presentation.view.fragments.DonationItemDetailsFragment;
 import edu.gatech.cs2340.cs2340project.presentation.view.fragments.HomeFragment;

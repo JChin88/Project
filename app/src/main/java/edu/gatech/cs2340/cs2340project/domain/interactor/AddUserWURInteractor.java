@@ -27,9 +27,9 @@ public class AddUserWURInteractor extends UseCase<String, AddUserWURInteractor.P
 
     public static final class Params {
 
-        private UserRights userRights;
+        private final UserRights userRights;
 
-        public Params(UserRights userRights) {
+        private Params(UserRights userRights) {
             this.userRights = userRights;
         }
 

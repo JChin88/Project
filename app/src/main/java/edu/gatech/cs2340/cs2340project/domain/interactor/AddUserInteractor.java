@@ -35,7 +35,7 @@ public class AddUserInteractor extends UseCase<String, AddUserInteractor.Params>
 
         private final UserRights userRights;
 
-        public Params(String name, String email, String password, UserRights userRights) {
+        private Params(String name, String email, String password, UserRights userRights) {
             this.name = name;
             this.email = email;
             this.password = password;

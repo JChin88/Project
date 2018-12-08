@@ -25,7 +25,7 @@ import io.reactivex.Observable;
 @Singleton
 public class DonationItemDataRepository implements DonationItemRepository {
 
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
     private CollectionReference donationItemRef;
 
     @Inject
